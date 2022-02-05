@@ -1,0 +1,31 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@using ru.EmlSoft.WMS.Localization
+
+@inject SignInManager<ru.EmlSoft.WMS.Data.Abstract.Identity.User> SignInManager
+@inject UserManager<ru.EmlSoft.WMS.Data.Abstract.Identity.User> UserManager
+@inject IHtmlLocalizer<SharedResource> _sharedLocalizer
+
+
+<ul class="navbar-nav">
+@if (SignInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a  class="nav-link text-dark" asp-area="" asp-controller="Login" asp-action="Manage" title="Manage">@_sharedLocalizer["HELLO"] @User.Identity?.Name!</a>
+    </li>
+    <li class="nav-item">
+        <form  class="form-inline" asp-area="" asp-controller="Account" asp-action="Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
+            <button  type="submit" class="nav-link btn btn-link text-dark">@_sharedLocalizer["LOGOUT"]</button>
+        </form>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Register">@_sharedLocalizer["REGISTER"]</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+    </li>
+}
+</ul>
