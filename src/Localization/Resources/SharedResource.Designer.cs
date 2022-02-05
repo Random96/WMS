@@ -104,5 +104,14 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
                 return ResourceManager.GetString("REGISTER", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на USER.
+        /// </summary>
+        internal static string USER {
+            get {
+                return ResourceManager.GetString("USER", resourceCulture);
+            }
+        }
     }
 }

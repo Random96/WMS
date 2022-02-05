@@ -2,14 +2,10 @@
 @using ru.EmlSoft.WMS.Localization
 @inject IHtmlLocalizer<SharedResource> _sharedLocalizer
 
-
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
 }
-
     <div id="app">
-        <div class="snow-container">
-        </div>
         <div class="login-box">
             <div class="login-logo">
                 <h3>@Html.Raw(@ViewBag.company)</h3>
@@ -17,7 +13,7 @@
             <div class="login-box-body">
                 <form method="post" onsubmit="return false">
                     <div class="form-group has-feedback">
-                        <input type="text" v-model="UserNickname" id="test" autofocus class="form-control" placeholder="@_sharedLocalizer["LOGIN"]">
+                        <input type="text" v-model="UserNickname" id="test" autofocus class="form-control" placeholder="@_sharedLocalizer["USER"]">
                         <span class="fa fa-user form-control-feedback"></span>
                     </div>
                     <div class="form-group has-feedback">
@@ -26,10 +22,10 @@
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
-                            <button type="submit" :disabled="disabled" class="btn btn-primary btn-block btn-flat" v-bind:class="{ 'btn-grey': isSelected}" v-on:click="checkLogin">{{submit}}</button>
+                            <button type="submit" class="btn btn-primary btn-block btn-flat">@_sharedLocalizer["LOGIN"]</button>
                         </div>
                     </div>
                 </form>
             </div>
         </div>
-    </div>>
+    </div>

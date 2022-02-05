@@ -121,7 +121,7 @@
     <value>Привет</value>
   </data>
   <data name="LOGIN" xml:space="preserve">
-    <value>Имя пользователя</value>
+    <value>Вход в систему</value>
   </data>
   <data name="LOGOUT" xml:space="preserve">
     <value>Выход из системы</value>
@@ -131,5 +131,8 @@
   </data>
   <data name="REGISTER" xml:space="preserve">
     <value>Регистрация</value>
+  </data>
+  <data name="USER" xml:space="preserve">
+    <value>Пользователь</value>
   </data>
 </root>
