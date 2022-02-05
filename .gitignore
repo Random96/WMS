@@ -345,10 +345,10 @@ ASALocalRun/
 *.nvuser
 
 # MFractors (Xamarin productivity tool) working folder
-.mfractor/
+/src/.mfractor/
 
 # Local History for Visual Studio
-.localhistory/
+/src/.localhistory/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
@@ -357,7 +357,8 @@ healthchecksdb
 MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
-.ionide/
+/src/.ionide/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/src/.cr/personal
