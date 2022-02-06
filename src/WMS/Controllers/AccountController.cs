@@ -45,6 +45,21 @@ namespace WMS.Controllers
 
 
         [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult Register(ru.EmlSoft.WMS.Data.Dto.User model)
+        {
+            return View(model);
+        }
+
+
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);

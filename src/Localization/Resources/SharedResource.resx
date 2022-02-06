@@ -129,10 +129,16 @@
   <data name="PASSWORD" xml:space="preserve">
     <value>PASSWORD</value>
   </data>
+  <data name="PASSWORD_CONFIRM" xml:space="preserve">
+    <value>PASSWORD_CONFIRM</value>
+  </data>
   <data name="REGISTER" xml:space="preserve">
     <value>REGISTER</value>
   </data>
   <data name="USER" xml:space="preserve">
     <value>USER</value>
+  </data>
+  <data name="USERNAME" xml:space="preserve">
+    <value>USERNAME</value>
   </data>
 </root>

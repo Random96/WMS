@@ -97,6 +97,15 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на PASSWORD_CONFIRM.
+        /// </summary>
+        internal static string PASSWORD_CONFIRM {
+            get {
+                return ResourceManager.GetString("PASSWORD_CONFIRM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на REGISTER.
         /// </summary>
         internal static string REGISTER {
@@ -111,6 +120,15 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         internal static string USER {
             get {
                 return ResourceManager.GetString("USER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на USERNAME.
+        /// </summary>
+        internal static string USERNAME {
+            get {
+                return ResourceManager.GetString("USERNAME", resourceCulture);
             }
         }
     }

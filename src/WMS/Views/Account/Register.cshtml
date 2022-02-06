@@ -1,8 +1,71 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @using ru.EmlSoft.WMS.Localization
+@using ru.EmlSoft.WMS.Data.Dto
+
 @inject IHtmlLocalizer<SharedResource> _sharedLocalizer
 
 
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
+    @model ru.EmlSoft.WMS.Data.Dto.User
 }
+
+<div id="app" v-cloak>
+    <form class="form-horizontal" method="Post" >
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="c-red">*</span>@_sharedLocalizer["USERNAME"]</label>
+                            <div class="col-sm-10">
+                                <input name="UserName" id="UserName" type="text" class="form-control" value="@Model?.UserName" />
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group" v-if="UserId<=0">
+                            <label class="control-label col-sm-2"><span class="c-red">*</span>@_sharedLocalizer["PASSWORD"]</label>
+                            <div class="col-sm-10">
+                                <input name = "Passwd1" id = "Passwd1" type="password" class="form-control" autocomplete="off" value="" placeholder="@_sharedLocalizer["PASSWORD"]">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group" v-if="UserId<=0">
+                            <label class="control-label col-sm-2"><span class="c-red">*</span>@_sharedLocalizer["PASSWORD_CONFIRM"]</label>
+                            <div class=" col-sm-10">
+                                <input name = "Passwd2" id = "Passwd2" type="password" class="form-control" autocomplete="off" placeholder="@_sharedLocalizer["PASSWORD_CONFIRM"]">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2"><span class="c-red">*</span>@_sharedLocalizer["TELEPHONE"]</label>
+                            <div class="col-sm-10">
+                                <input name = "Phone" id = "Phone" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label"><span class="c-red">*</span>@_sharedLocalizer["EMAIL"]</label>
+                            <div class="col-sm-10">
+                                <input name = "Email" id = "Email" type="text" class="form-control">
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="box-footer">
+                <div class="pull-right box-tools">
+                    <input class="btn btn-primary" type="submit">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
