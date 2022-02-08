@@ -4,13 +4,15 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
-namespace WMS.Controllers
+namespace ru.EmlSoft.WMS.Controllers
 {
     public class AccountController : Controller
     {
-        public AccountController()
-        {
+        private readonly ILogger<AccountController> _logger;
 
+        public AccountController(ILogger<AccountController> logger)
+        {
+            _logger = logger;
         }
 
         //string returnUrl = null
@@ -60,7 +62,16 @@ namespace WMS.Controllers
         [AllowAnonymous]
         public IActionResult Register(ru.EmlSoft.WMS.Data.Dto.UserDto model)
         {
-            return View(model);
+            _logger.LogTrace($"Register user {model?.UserName} begin");
+
+            if(!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            // register new user
+
+            return RedirectToAction("Index", "Home");
         }
 
 

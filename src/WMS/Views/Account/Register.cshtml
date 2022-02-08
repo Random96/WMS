@@ -29,18 +29,18 @@
                 <tr>
                     <td>
                         <div class="form-group" v-if="UserId<=0">
-                            <label class="control-label col-sm-2" asp-for="Phone"></label>
+                            <label class="control-label col-sm-2" asp-for=Passwd1></label>
                             <div class="col-sm-10">
-                                <input name = "Passwd1" id = "Passwd1" type="password" class="form-control" autocomplete="off" value="" placeholder="@_sharedLocalizer["PASSWORD"]">
+                                <input asp-for=Passwd1 type="password" class="form-control" autocomplete="off">
                                 <span asp-validation-for="Passwd1" class="text-danger"></span>
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="form-group" v-if="UserId<=0">
-                            <label class="control-label col-sm-2" asp-for="Phone"></label>
+                            <label class="control-label col-sm-2" asp-for=Passwd2></label>
                             <div class=" col-sm-10">
-                                <input name = "Passwd2" id = "Passwd2" type="password" class="form-control" autocomplete="off" placeholder="@_sharedLocalizer["PASSWORD_CONFIRM"]">
+                                <input asp-for=Passwd2 type="password" class="form-control" autocomplete="off">
                                 <span asp-validation-for="Passwd2" class="text-danger"></span>
                             </div>
                         </div>
