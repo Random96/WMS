@@ -61,6 +61,15 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на EMAIL.
+        /// </summary>
+        internal static string EMAIL {
+            get {
+                return ResourceManager.GetString("EMAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на HELLO.
         /// </summary>
         internal static string HELLO {
@@ -106,6 +115,15 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на PHONE.
+        /// </summary>
+        internal static string PHONE {
+            get {
+                return ResourceManager.GetString("PHONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на REGISTER.
         /// </summary>
         internal static string REGISTER {
@@ -129,6 +147,24 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         internal static string USERNAME {
             get {
                 return ResourceManager.GetString("USERNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на EMAIL.
+        /// </summary>
+        internal static string VALIDATE_EMAIL {
+            get {
+                return ResourceManager.GetString("VALIDATE_EMAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на VALIDATE_PHONE.
+        /// </summary>
+        internal static string VALIDATE_PHONE {
+            get {
+                return ResourceManager.GetString("VALIDATE_PHONE", resourceCulture);
             }
         }
     }

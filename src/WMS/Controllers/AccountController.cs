@@ -8,6 +8,11 @@ namespace WMS.Controllers
 {
     public class AccountController : Controller
     {
+        public AccountController()
+        {
+
+        }
+
         //string returnUrl = null
         [HttpGet]
         [AllowAnonymous]
@@ -26,7 +31,7 @@ namespace WMS.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login([FromBody] ru.EmlSoft.WMS.Data.Dto.User sys)
+        public async Task<IActionResult> Login([FromBody] ru.EmlSoft.WMS.Data.Dto.UserDto sys)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
@@ -53,7 +58,7 @@ namespace WMS.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Register(ru.EmlSoft.WMS.Data.Dto.User model)
+        public IActionResult Register(ru.EmlSoft.WMS.Data.Dto.UserDto model)
         {
             return View(model);
         }

@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="EMAIL" xml:space="preserve">
+    <value>EMAIL</value>
+  </data>
   <data name="HELLO" xml:space="preserve">
     <value>HELLO</value>
   </data>
@@ -132,6 +135,9 @@
   <data name="PASSWORD_CONFIRM" xml:space="preserve">
     <value>PASSWORD_CONFIRM</value>
   </data>
+  <data name="PHONE" xml:space="preserve">
+    <value>PHONE</value>
+  </data>
   <data name="REGISTER" xml:space="preserve">
     <value>REGISTER</value>
   </data>
@@ -140,5 +146,11 @@
   </data>
   <data name="USERNAME" xml:space="preserve">
     <value>USERNAME</value>
+  </data>
+  <data name="VALIDATE_EMAIL" xml:space="preserve">
+    <value>EMAIL</value>
+  </data>
+  <data name="VALIDATE_PHONE" xml:space="preserve">
+    <value>VALIDATE_PHONE</value>
   </data>
 </root>

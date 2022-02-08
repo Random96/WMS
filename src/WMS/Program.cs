@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using ru.EmlSoft.WMS.Entity.Identity;
+using ru.EmlSoft.WMS.Localization;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddLocalization
     {
         options.ResourcesPath = "Resources";
     });
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     CultureInfo[] supportedCultures = new[]
@@ -54,7 +56,12 @@ builder.Services.AddAuthentication(c =>
     //cfg.SlidingExpiration = true;
 });
 
-builder.Services.AddRazorPages().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+builder.Services.AddRazorPages().
+    AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).
+    AddDataAnnotationsLocalization(options => {
+        options.DataAnnotationLocalizerProvider = 
+            (type, factory) => factory.Create(typeof(SharedResource));
+    });
 
 
 var app = builder.Build();
