@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using System.Security.Claims;
+using ru.EmlSoft.Utilities;
 
 namespace ru.EmlSoft.WMS.Controllers
 {
@@ -67,7 +68,7 @@ namespace ru.EmlSoft.WMS.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Register(Data.Dto.UserDto model, CancellationToken cancellationToken)
         {
-            _logger.LogTrace($"Register user {model?.UserName} begin");
+            _logger.LogTrace("Register user begin");
 
             if(!ModelState.IsValid)
             {
@@ -79,16 +80,16 @@ namespace ru.EmlSoft.WMS.Controllers
             {
                 _ = await _userStore.CreateAsync(user: new User()
                 {
-                    LoginName = model.UserName,
-                    PasswordHash = model.Passwd1,
-                    Email = model.Email,
-                    Phone = model.Phone
+                    LoginName = model?.UserName,
+                    PasswordHash = model?.Passwd1?.ToMd5(),
+                    Email = model?.Email,
+                    Phone = model?.Phone
                 },
                 cancellationToken: cancellationToken);
             }
             catch(Exception ex)
             {
-                _logger.LogError($"Error in register user {model?.UserName} {ex.Message}");
+                _logger.LogError(ex, "Error in register user");
                 throw;
             }
 

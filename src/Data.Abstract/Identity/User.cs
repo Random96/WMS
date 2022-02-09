@@ -12,5 +12,7 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Identity
         public string PasswordHash { get; set; }
         public string Email { get; set; }
         public string Phone { get; set; }
+
+        public virtual ICollection<Role> Roles { get; set; }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
+using ru.EmlSoft.WMS.Data.Abstract.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,21 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 {
     public class UserStore : IUserStore
     {
+        private readonly IRepository<User> _repo;
+
+        public UserStore (IRepository<User> repo)
+        {
+            _repo = repo;
+        }
+
         private bool disposedValue;
 
-        public Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            // get exist user
+            await _repo.AddAsync(user);
+
+            return IdentityResult.Success;
         }
 
         public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)

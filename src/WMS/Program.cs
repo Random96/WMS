@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using ru.EmlSoft.WMS.Data.Abstract.Database;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
+using ru.EmlSoft.WMS.Data.EF;
 using ru.EmlSoft.WMS.Entity.Identity;
 using ru.EmlSoft.WMS.Localization;
 using System.Globalization;
@@ -37,14 +39,20 @@ static void RegisterBase(IServiceCollection services, ServiceLifetime injection 
     {
         case ServiceLifetime.Scoped:
             services.AddScoped(typeof(IUserStore), typeof(UserStore));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(Db));
             break;
 
         case ServiceLifetime.Singleton:
             services.AddSingleton(typeof(IUserStore), typeof(UserStore));
+            services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
+            services.AddSingleton(typeof(Db));
             break;
 
         case ServiceLifetime.Transient:
             services.AddTransient(typeof(IUserStore), typeof(UserStore));
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient(typeof(Db));
             break;
     }
 }

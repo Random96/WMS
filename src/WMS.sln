@@ -19,7 +19,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.EmlSoft.WMS.Data.Dto", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{E42BD273-49B2-43F7-9A26-319EB2C7C346}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ru.EmlSoft.WMS.Localization", "Localization\ru.EmlSoft.WMS.Localization.csproj", "{675ACF8D-3854-43EA-ADC4-7B3AFC2372C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.EmlSoft.WMS.Localization", "Localization\ru.EmlSoft.WMS.Localization.csproj", "{675ACF8D-3854-43EA-ADC4-7B3AFC2372C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ru.EmlSoft.Utilities", "Utilities\ru.EmlSoft.Utilities.csproj", "{B9755889-E24E-4A4D-967C-3EE84A11EC4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{675ACF8D-3854-43EA-ADC4-7B3AFC2372C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{675ACF8D-3854-43EA-ADC4-7B3AFC2372C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{675ACF8D-3854-43EA-ADC4-7B3AFC2372C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9755889-E24E-4A4D-967C-3EE84A11EC4A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9755889-E24E-4A4D-967C-3EE84A11EC4A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9755889-E24E-4A4D-967C-3EE84A11EC4A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9755889-E24E-4A4D-967C-3EE84A11EC4A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -61,6 +67,7 @@ Global
 		{B2E8192B-AF58-42C4-AEC3-BA6ACF1D5DC5} = {1C7D9310-54FF-4EA7-AD3A-B8398A7CBD0D}
 		{F16D3E07-86A1-4202-BB4C-A20937088630} = {FA8773A0-CC9F-4F26-8DD6-0F14CF92B495}
 		{675ACF8D-3854-43EA-ADC4-7B3AFC2372C4} = {E42BD273-49B2-43F7-9A26-319EB2C7C346}
+		{B9755889-E24E-4A4D-967C-3EE84A11EC4A} = {E42BD273-49B2-43F7-9A26-319EB2C7C346}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B60F988C-B4CF-489D-ACF2-0314D70C0468}

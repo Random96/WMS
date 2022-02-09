@@ -27,6 +27,7 @@ namespace ru.EmlSoft.WMS.Data.Dto
         [Phone(ErrorMessage = "VALIDATE_PHONE")]
         public string? Phone { get; set; }
 
+        [Required]
         [EmailAddress]
         [Display(Name = "EMAIL")]
         public string? Email { get; set; }
