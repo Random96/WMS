@@ -29,6 +29,25 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
+RegisterBase(builder.Services);
+
+static void RegisterBase(IServiceCollection services, ServiceLifetime injection = ServiceLifetime.Scoped)
+{
+    switch (injection)
+    {
+        case ServiceLifetime.Scoped:
+            services.AddScoped(typeof(IUserStore), typeof(UserStore));
+            break;
+
+        case ServiceLifetime.Singleton:
+            services.AddSingleton(typeof(IUserStore), typeof(UserStore));
+            break;
+
+        case ServiceLifetime.Transient:
+            services.AddTransient(typeof(IUserStore), typeof(UserStore));
+            break;
+    }
+}
 
 
 // Add services to the container.
@@ -92,3 +111,4 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+

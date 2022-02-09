@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
+using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using System.Security.Claims;
 
 namespace ru.EmlSoft.WMS.Controllers
@@ -9,10 +11,13 @@ namespace ru.EmlSoft.WMS.Controllers
     public class AccountController : Controller
     {
         private readonly ILogger<AccountController> _logger;
+        private readonly IUserStore _userStore;
+        // private readonly CancellationTokenSource _cancellationTokenSource;
 
-        public AccountController(ILogger<AccountController> logger)
+        public AccountController(ILogger<AccountController> logger, IUserStore userStore)
         {
             _logger = logger;
+            _userStore = userStore;
         }
 
         //string returnUrl = null
@@ -60,7 +65,7 @@ namespace ru.EmlSoft.WMS.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public IActionResult Register(ru.EmlSoft.WMS.Data.Dto.UserDto model)
+        public async Task<IActionResult> Register(Data.Dto.UserDto model, CancellationToken cancellationToken)
         {
             _logger.LogTrace($"Register user {model?.UserName} begin");
 
@@ -70,6 +75,22 @@ namespace ru.EmlSoft.WMS.Controllers
             }
 
             // register new user
+            try
+            {
+                _ = await _userStore.CreateAsync(user: new User()
+                {
+                    LoginName = model.UserName,
+                    PasswordHash = model.Passwd1,
+                    Email = model.Email,
+                    Phone = model.Phone
+                },
+                cancellationToken: cancellationToken);
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError($"Error in register user {model?.UserName} {ex.Message}");
+                throw;
+            }
 
             return RedirectToAction("Index", "Home");
         }
