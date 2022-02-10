@@ -70,6 +70,15 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_USER_ALREDY_EXIST.
+        /// </summary>
+        internal static string ERROR_USER_ALREDY_EXIST {
+            get {
+                return ResourceManager.GetString("ERROR_USER_ALREDY_EXIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на HELLO.
         /// </summary>
         internal static string HELLO {

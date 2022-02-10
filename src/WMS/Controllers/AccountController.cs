@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using System.Security.Claims;
 using ru.EmlSoft.Utilities;
+using ru.EmlSoft.WMS.Localization;
+using Microsoft.AspNetCore.Mvc.Localization;
 
 namespace ru.EmlSoft.WMS.Controllers
 {
@@ -13,12 +15,13 @@ namespace ru.EmlSoft.WMS.Controllers
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IUserStore _userStore;
-        // private readonly CancellationTokenSource _cancellationTokenSource;
+        private readonly IHtmlLocalizer<SharedResource> _localizer;
 
-        public AccountController(ILogger<AccountController> logger, IUserStore userStore)
+        public AccountController(IHtmlLocalizer<SharedResource> localizer, ILogger<AccountController> logger, IUserStore userStore)
         {
             _logger = logger;
             _userStore = userStore;
+            _localizer = localizer;
         }
 
         //string returnUrl = null
@@ -78,7 +81,7 @@ namespace ru.EmlSoft.WMS.Controllers
             // register new user
             try
             {
-                _ = await _userStore.CreateAsync(user: new User()
+                var ret = await _userStore.CreateAsync(user: new User()
                 {
                     LoginName = model?.UserName,
                     PasswordHash = model?.Passwd1?.ToMd5(),
@@ -86,14 +89,20 @@ namespace ru.EmlSoft.WMS.Controllers
                     Phone = model?.Phone
                 },
                 cancellationToken: cancellationToken);
+
+                if(ret.Succeeded)
+                    return RedirectToAction("Index", "Home");
+
+                foreach (var err in ret.Errors)
+                    ModelState.AddModelError(string.Empty, _localizer[err.Description].Value );
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in register user");
-                throw;
+                ModelState.AddModelError(string.Empty, ex.Message);
             }
 
-            return RedirectToAction("Index", "Home");
+            return View(model);
         }
 
 

@@ -120,6 +120,9 @@
   <data name="EMAIL" xml:space="preserve">
     <value>EMAIL</value>
   </data>
+  <data name="ERROR_USER_ALREDY_EXIST" xml:space="preserve">
+    <value>ERROR_USER_ALREDY_EXIST</value>
+  </data>
   <data name="HELLO" xml:space="preserve">
     <value>HELLO</value>
   </data>

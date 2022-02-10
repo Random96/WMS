@@ -14,9 +14,18 @@
 
     public class FilterObject
     {
-        public string PropertyName { get; set; }
-        public FilterOption Operation { get; set; }
-        public object Value { get; set; }
+        private readonly string _propertyName;
+        private readonly FilterOption _option;
+        private readonly object _value;
 
+        public FilterObject(string propertyName, FilterOption option, object value)
+        {
+            _propertyName = propertyName;
+            _option = option;
+            _value = value;
+        }
+        public string PropertyName => _propertyName;
+        public FilterOption Operation => _option;
+        public object Value => _value;
     }
 }

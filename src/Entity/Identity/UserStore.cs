@@ -22,10 +22,22 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
         public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
         {
-            // get exist user
-            await _repo.AddAsync(user);
+            try
+            {
+                // get exist user
+                var exist = await _repo.AnyAsync(new FilterObject[] { new FilterObject(nameof(User.LoginName), FilterOption.Equals, user.LoginName)}, cancellationToken);
+                if (exist)
+                    return IdentityResult.Failed(new IdentityError[] { new IdentityError() { Description = "ERROR_USER_ALREDY_EXIST" } });
 
-            return IdentityResult.Success;
+                // 
+                await _repo.AddAsync(user, cancellationToken);
+
+                return IdentityResult.Success;
+            }
+            catch(Exception ex)
+            {
+                return IdentityResult.Failed(new IdentityError[] { new IdentityError() { Description = ex.Message } });
+            }
         }
 
         public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
