@@ -11,5 +11,6 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Identity
         public string Name { get; set; }
         public string Description { get; set; }
 
+        public virtual ICollection<User> Users { get; set; }
     }
 }

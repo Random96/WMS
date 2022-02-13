@@ -2,8 +2,11 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using ru.EmlSoft.WMS.Data.Abstract.Database;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
+using ru.EmlSoft.WMS.Data.EF;
 using ru.EmlSoft.WMS.Entity.Identity;
+using ru.EmlSoft.WMS.Localization;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +16,7 @@ builder.Services.AddLocalization
     {
         options.ResourcesPath = "Resources";
     });
+
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
     CultureInfo[] supportedCultures = new[]
@@ -27,6 +31,31 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
+RegisterBase(builder.Services);
+
+static void RegisterBase(IServiceCollection services, ServiceLifetime injection = ServiceLifetime.Scoped)
+{
+    switch (injection)
+    {
+        case ServiceLifetime.Scoped:
+            services.AddScoped(typeof(IUserStore), typeof(UserStore));
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(Db));
+            break;
+
+        case ServiceLifetime.Singleton:
+            services.AddSingleton(typeof(IUserStore), typeof(UserStore));
+            services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
+            services.AddSingleton(typeof(Db));
+            break;
+
+        case ServiceLifetime.Transient:
+            services.AddTransient(typeof(IUserStore), typeof(UserStore));
+            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient(typeof(Db));
+            break;
+    }
+}
 
 
 // Add services to the container.
@@ -35,7 +64,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddUserStore<UserStore>();
-builder.Services.AddIdentity<User, Role>().AddUserStore<UserStore>().AddRoleStore<RoleStore>().AddUserManager<Microsoft.AspNetCore.Identity.UserManager<User>>();
+builder.Services.AddIdentity<User, Role>().AddUserStore<UserStore>().AddRoleStore<RoleStore>()
+    .AddUserManager<Microsoft.AspNetCore.Identity.UserManager<User>>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(c =>
@@ -54,7 +84,12 @@ builder.Services.AddAuthentication(c =>
     //cfg.SlidingExpiration = true;
 });
 
-builder.Services.AddRazorPages().AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix);
+builder.Services.AddRazorPages().
+    AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).
+    AddDataAnnotationsLocalization(options => {
+        options.DataAnnotationLocalizerProvider = 
+            (type, factory) => factory.Create(typeof(SharedResource));
+    });
 
 
 var app = builder.Build();
@@ -85,3 +120,4 @@ app.MapControllerRoute(
 app.MapRazorPages();
 
 app.Run();
+

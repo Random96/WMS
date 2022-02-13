@@ -1,0 +1,82 @@
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using ru.EmlSoft.WMS.Localization
+@using ru.EmlSoft.WMS.Data.Dto
+
+@inject IHtmlLocalizer<SharedResource> _sharedLocalizer
+
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    @model ru.EmlSoft.WMS.Data.Dto.UserDto
+}
+
+<div id="app"v>
+    <form class="form-horizontal" method="Post" >
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=UserName></label>
+                            <div class="col-sm-10">
+                                <input asp-for=UserName type="text" class="form-control" />
+                                <span asp-validation-for=UserName class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Passwd1></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Passwd1 type="password" class="form-control" autocomplete="off">
+                                <span asp-validation-for="Passwd1" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Passwd2></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Passwd2 type="password" class="form-control" autocomplete="off">
+                                <span asp-validation-for="Passwd2" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for="Phone"></label>
+                            <div class="col-sm-10">
+                                <input name = "Phone" id = "Phone" type="text" class="form-control">
+                                <span asp-validation-for="Phone" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for="Email"></label>
+                            <div class="col-sm-10">
+                                <input name = "Email" id = "Email" type="text" class="form-control">
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="box-footer">
+                <div class="pull-right box-tools">
+                    <input class="btn btn-primary" type="submit">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts{ 
+<script src="~/lib/jquery-validate/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

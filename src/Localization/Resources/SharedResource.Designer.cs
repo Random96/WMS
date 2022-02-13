@@ -61,6 +61,24 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на EMAIL.
+        /// </summary>
+        internal static string EMAIL {
+            get {
+                return ResourceManager.GetString("EMAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_USER_ALREDY_EXIST.
+        /// </summary>
+        internal static string ERROR_USER_ALREDY_EXIST {
+            get {
+                return ResourceManager.GetString("ERROR_USER_ALREDY_EXIST", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на HELLO.
         /// </summary>
         internal static string HELLO {
@@ -97,11 +115,65 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на PASSWORD_CONFIRM.
+        /// </summary>
+        internal static string PASSWORD_CONFIRM {
+            get {
+                return ResourceManager.GetString("PASSWORD_CONFIRM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PHONE.
+        /// </summary>
+        internal static string PHONE {
+            get {
+                return ResourceManager.GetString("PHONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на REGISTER.
         /// </summary>
         internal static string REGISTER {
             get {
                 return ResourceManager.GetString("REGISTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на USER.
+        /// </summary>
+        internal static string USER {
+            get {
+                return ResourceManager.GetString("USER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на USERNAME.
+        /// </summary>
+        internal static string USERNAME {
+            get {
+                return ResourceManager.GetString("USERNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на EMAIL.
+        /// </summary>
+        internal static string VALIDATE_EMAIL {
+            get {
+                return ResourceManager.GetString("VALIDATE_EMAIL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на VALIDATE_PHONE.
+        /// </summary>
+        internal static string VALIDATE_PHONE {
+            get {
+                return ResourceManager.GetString("VALIDATE_PHONE", resourceCulture);
             }
         }
     }
