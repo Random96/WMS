@@ -32,10 +32,16 @@ namespace ru.EmlSoft.WMS.Data.EF
             modelBuilder.Entity<User>().Property(x => x.Phone).HasMaxLength(80);
             modelBuilder.Entity<User>().Property(x => x.PasswordHash).HasMaxLength(32);
 
+            modelBuilder.Entity<Logins>().HasOne(x => x.User).WithMany(x => x.Logins).HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<Logins>().Property(x => x.PasswordHash).HasMaxLength(32).IsRequired();
+            modelBuilder.Entity<Logins>().HasIndex(x => new { x.UserId, x.PasswordHash, x.Date });
+
             base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<User> Users => Set<User>();
         public DbSet<Role> Roles => Set<Role>();
+
+        public DbSet<Logins> Logins => Set<Logins>();
     }
 }

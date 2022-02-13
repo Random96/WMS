@@ -18,7 +18,8 @@ namespace ru.EmlSoft.WMS.Controllers
 
         public IActionResult Index()
         {
-            var cnt = _repo.GetList().Count();
+            // var cnt = _repo.GetList( new FilterObject[] { new FilterObject("LoginName", FilterOption.Equals, "AAA", StringComparison.CurrentCultureIgnoreCase ) } );
+
             return View();
         }
 

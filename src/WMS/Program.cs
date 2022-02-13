@@ -64,7 +64,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddUserStore<UserStore>();
-builder.Services.AddIdentity<User, Role>().AddUserStore<UserStore>().AddRoleStore<RoleStore>().AddUserManager<Microsoft.AspNetCore.Identity.UserManager<User>>();
+builder.Services.AddIdentity<User, Role>().AddUserStore<UserStore>().AddRoleStore<RoleStore>()
+    .AddUserManager<Microsoft.AspNetCore.Identity.UserManager<User>>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(c =>
