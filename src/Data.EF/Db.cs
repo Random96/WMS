@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Oracle.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using System;
 using System.Collections.Generic;
@@ -18,7 +19,7 @@ namespace ru.EmlSoft.WMS.Data.EF
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Server=(localdb)\mssqllocaldb;Database=WMS;Trusted_Connection=True;");
+            optionsBuilder.UseOracle(@"User Id=WMS;Password=WMS;Data Source=OCI");
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
