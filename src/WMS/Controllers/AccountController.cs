@@ -205,7 +205,7 @@ namespace ru.EmlSoft.WMS.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            // await _signInManager.Context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _signInManager.Context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
 
             return RedirectToAction("Index", "Home");
         }
