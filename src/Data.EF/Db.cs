@@ -12,17 +12,18 @@ using Microsoft.EntityFrameworkCore.Metadata;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
+using ru.EmlSoft.WMS.Data.Abstract.Database;
 
 namespace ru.EmlSoft.WMS.Data.EF
 {
-    public class Db : DbContext
+    public class Db : DbContext, IWMSDataProvider
     {
         private readonly string _connectionString;
         public Db(string connectionString)
         {
             _connectionString = connectionString;
 
-            Database.EnsureDeleted();
+            // Database.EnsureDeleted();
             Database.EnsureCreated();
         }
 
@@ -136,6 +137,48 @@ namespace ru.EmlSoft.WMS.Data.EF
                 return true;
 
             return IsChildOfEntity(entitytype.BaseType, entytyType);
+        }
+
+        public async Task<User> CreateCompanyAsync(int sid, string companyName, CancellationToken cancellationToken)
+        {
+            var user = Users.Find(sid);
+
+            if (user == null)
+                throw new Exception("ERROR_USER_NOT_FOUND");
+
+            if (user.CompanyId != null)
+                throw new Exception("ERROR_USER_ASSIGNED_TO_COMPANY");
+
+            var isExists = await Companies.AnyAsync(x => x.Name == companyName);
+
+            if (isExists)
+                throw new Exception("ERROR_COMPANY_ALREDY_EXIST");
+
+            var newCompany = new Company() { Name = companyName };
+
+            await Companies.AddAsync(newCompany);
+
+            user.Company = newCompany;
+
+            var newAdmin = new Position() { Name = "Admin", Company = newCompany, IsAdmin = true };
+
+            var adminRights = await EntityLists.AsNoTracking().Select(x => new AccessRight()
+            {
+                Company = newCompany,
+                Position = newAdmin,
+                CanDelete = true,
+                CanRead = true,
+                CanWrite = true,
+                EntityListId = x.Id
+            }).ToListAsync();
+
+            await AccessRights.AddRangeAsync(adminRights);
+
+            Appointments.Add(new Appointment() { Position = newAdmin, UserId = sid, Company = newCompany, FromDate = DateTime.Now });
+
+            await SaveChangesAsync();
+
+            return Users.AsNoTracking().Single(x=>x.Id == sid);
         }
     }
 }

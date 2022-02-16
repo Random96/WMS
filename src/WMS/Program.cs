@@ -45,18 +45,23 @@ static void RegisterBase(IServiceCollection services, string connectionString, S
         case ServiceLifetime.Scoped:
             services.AddScoped(typeof(IUserStore), typeof(UserStore));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IWMSDataProvider), (x) => new Db(connectionString));
+
+            //TODO: написать регистрацию сервиса для доступа к данным
             services.AddScoped(typeof(Db), (x) => new Db(connectionString) );
             break;
 
         case ServiceLifetime.Singleton:
             services.AddSingleton(typeof(IUserStore), typeof(UserStore));
             services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
+            services.AddSingleton(typeof(IWMSDataProvider), (x) => new Db(connectionString));
             services.AddSingleton(typeof(Db), (x) => new Db(connectionString));
             break;
 
         case ServiceLifetime.Transient:
             services.AddTransient(typeof(IUserStore), typeof(UserStore));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+            services.AddTransient(typeof(IWMSDataProvider), (x) => new Db(connectionString));
             services.AddTransient(typeof(Db), (x) => new Db(connectionString));
             break;
     }

@@ -14,8 +14,8 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 {
     public class UserStore : IUserStore// , IUserPasswordStore<User>
     {
-        private IRepository<User> ? _repo;
-        private IRepository<Position> ? _positionRepo;
+        private IRepository<User>? _repo;
+        private IRepository<Position>? _positionRepo;
         private IRepository<Appointment>? _appointmentRepo;
         private readonly ILogger<UserStore> _logger;
 
@@ -37,8 +37,8 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             try
             {
                 // get exist user
-                var exist = await _repo.AnyAsync(new FilterObject[] { new FilterObject(nameof(User.LoginName), 
-                    FilterOption.Equals, user.LoginName, 
+                var exist = await _repo.AnyAsync(new FilterObject[] { new FilterObject(nameof(User.LoginName),
+                    FilterOption.Equals, user.LoginName,
                     StringComparison.CurrentCultureIgnoreCase)}, cancellationToken);
 
                 if (exist)
@@ -57,7 +57,7 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
                 return IdentityResult.Success;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 return IdentityResult.Failed(new IdentityError[] { new IdentityError() { Description = ex.Message } });
             }
@@ -160,10 +160,10 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
                 return IdentityResult.Success;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "ERROR_FIND_BY_NAME_ASYNC");
-                return IdentityResult.Failed( new IdentityError[] { new IdentityError() { Description = "Error od update" } });
+                return IdentityResult.Failed(new IdentityError[] { new IdentityError() { Description = "Error od update" } });
             }
         }
 
@@ -300,13 +300,13 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             {
                 var ret = await _repo.GetByIdAsync(user.Id, cancellationToken);
 
-                var appoints = await _appointmentRepo.GetListAsync(new [] { new FilterObject(nameof(Appointment.UserId),
+                var appoints = await _appointmentRepo.GetListAsync(new[] { new FilterObject(nameof(Appointment.UserId),
                     FilterOption.Equals, user.Id)}, cancellationToken);
 
                 var positionIds = appoints.Where(x => x.FromDate >= DateTime.Now && (x.ToDate == null || x.ToDate <= DateTime.Now))
-                    .Select(x=>x.PositionId).Distinct().ToArray();
+                    .Select(x => x.PositionId).Distinct().ToArray();
 
-                var positionId = await _positionRepo.GetListAsync(new [] { new FilterObject(nameof(Appointment.UserId), FilterOption.In, positionIds) }, cancellationToken);
+                var positionId = await _positionRepo.GetListAsync(new[] { new FilterObject(nameof(Appointment.UserId), FilterOption.In, positionIds) }, cancellationToken);
 
                 return positionId.Select(x => x.Name).ToArray();
             }
@@ -337,16 +337,33 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             if (_repo == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
+            if (user == null)
+                return Array.Empty<Claim>();
+
             try
             {
-                var ret = await _repo.GetByIdAsync(user.Id, cancellationToken);
+                var userDb = await GetUserByIdAsync(user.Id, cancellationToken);
 
-                return new Claim[]
+                var ret = new List<Claim>()
                     {
-                        new Claim(ClaimTypes.Name, ret.LoginName),
-                        new Claim(ClaimTypes.Sid, ret.Id.ToString()),
-                        new Claim(ClaimTypes.Surname, ret.LoginName)
+                        new Claim(ClaimTypes.Name, userDb.LoginName),
+                        new Claim(ClaimTypes.Sid, userDb.Id.ToString()),
+                        new Claim(ClaimTypes.Surname, userDb.LoginName)
                     };
+
+                if (userDb.CompanyId != null)
+                {
+                    var companyIdstr = userDb.CompanyId.ToString();
+                    
+                    if (companyIdstr != null)
+                        ret.Add(new Claim("CompanyId", companyIdstr));
+                }
+
+                var roles = await GetRolesAsync(user, cancellationToken);
+                if (roles != null)
+                    ret.AddRange(roles.Select(x => new Claim(ClaimTypes.Role, x)));
+
+                return ret;
             }
             catch (Exception ex)
             {
@@ -373,6 +390,24 @@ namespace ru.EmlSoft.WMS.Entity.Identity
         public Task<IList<User>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<User> GetUserByIdAsync(int sid, CancellationToken cancellationToken = default)
+        {
+            if (_repo == null || disposedValue)
+                throw new ObjectDisposedException(nameof(UserStore));
+
+            try
+            {
+                var ret = await _repo.GetByIdAsync(sid, cancellationToken);
+
+                return ret;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ERROR_FIND_BY_ID_ASYNC");
+                throw;
+            }
         }
     }
 }

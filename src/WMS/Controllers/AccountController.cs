@@ -9,6 +9,8 @@ using ru.EmlSoft.Utilities;
 using ru.EmlSoft.WMS.Localization;
 using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Identity;
+using ru.EmlSoft.WMS.Data.Abstract.Database;
+using WMS.Tools;
 
 namespace ru.EmlSoft.WMS.Controllers
 {
@@ -18,13 +20,15 @@ namespace ru.EmlSoft.WMS.Controllers
         private readonly IUserStore _userStore;
         private readonly IHtmlLocalizer<SharedResource> _localizer;
         private readonly SignInManager<User> _signInManager;
+        private IWMSDataProvider _db;
 
-        public AccountController(SignInManager<User> signInManager, IHtmlLocalizer<SharedResource> localizer, ILogger<AccountController> logger, IUserStore userStore)
+        public AccountController(IWMSDataProvider db, SignInManager<User> signInManager, IHtmlLocalizer<SharedResource> localizer, ILogger<AccountController> logger, IUserStore userStore)
         {
             _logger = logger;
             _userStore = userStore;
             _localizer = localizer;
             _signInManager = signInManager;
+            _db = db;
         }
 
         //string returnUrl = null
@@ -200,6 +204,38 @@ namespace ru.EmlSoft.WMS.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult CreateCompany()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateCompany(Data.Dto.CompanyDto model, CancellationToken cancellationToken = default)
+        {
+            _logger.LogTrace("Create Company begin");
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                var user = await _userStore.GetUserAsync(_signInManager, cancellationToken);
+
+                var ret = await _db.CreateCompanyAsync(user.Id, model.Name, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in register user");
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+
+            return RedirectToAction("Index", "Home");
+        }
 
         [HttpPost]
         public async Task<IActionResult> Logout()
