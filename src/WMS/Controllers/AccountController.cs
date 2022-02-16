@@ -45,7 +45,7 @@ namespace ru.EmlSoft.WMS.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(Data.Dto.UserDto model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Login(Data.Dto.UserDto model, CancellationToken cancellationToken = default)
         {
             _logger.LogTrace("Login start");
 
@@ -171,7 +171,7 @@ namespace ru.EmlSoft.WMS.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(Data.Dto.UserDto model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register(Data.Dto.UserDto model, CancellationToken cancellationToken = default)
         {
             _logger.LogTrace("Register user begin");
 

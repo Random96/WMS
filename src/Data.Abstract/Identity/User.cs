@@ -17,8 +17,7 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Identity
         public bool IsLocked { get; set; }
         public DateTime ? Expired { get; set; }
         public DateTime? LockedTo { get; set; }
-
-        public virtual ICollection<Role> Roles { get; set; }
         public virtual ICollection<Logins> Logins { get; set; }
+        public virtual Company Company { get; set; }
     }
 }

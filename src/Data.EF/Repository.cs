@@ -32,7 +32,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             throw new NotImplementedException();
         }
 
-        public async Task<T> AddAsync(T item, CancellationToken cancellationToken)
+        public async Task<T> AddAsync(T item, CancellationToken cancellationToken = default)
         {
             _logger.LogTrace("Add async of item");
             if (_db == null || disposedValue)
@@ -69,7 +69,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             }
         }
 
-        public async Task<IEnumerable<T>> GetListAsync(FilterObject[] filterObjects, CancellationToken cancellationToken)
+        public async Task<IEnumerable<T>> GetListAsync(FilterObject[] filterObjects, CancellationToken cancellationToken = default)
         {
             _logger.LogTrace("Get list of items async");
             if (_db == null || disposedValue)
@@ -117,7 +117,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             }
         }
 
-        public async Task<bool> AnyAsync(IEnumerable<FilterObject> filters, CancellationToken cancellationToken)
+        public async Task<bool> AnyAsync(IEnumerable<FilterObject> filters, CancellationToken cancellationToken = default)
         {
             if (_db == null || disposedValue)
                 throw new Exception("Is disposed");
@@ -142,7 +142,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             }
         }
 
-        public async Task UpdateAsync(T item, CancellationToken cancellationToken)
+        public async Task UpdateAsync(T item, CancellationToken cancellationToken = default)
         {
             if (_db == null || disposedValue)
                 throw new Exception("Is disposed");
@@ -176,7 +176,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             }
         }
 
-        public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             if (_db == null || disposedValue)
                 throw new Exception("Is disposed");

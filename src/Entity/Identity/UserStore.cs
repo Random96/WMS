@@ -8,23 +8,28 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using System.Security.Claims;
+using ru.EmlSoft.WMS.Data.Abstract.Access;
 
 namespace ru.EmlSoft.WMS.Entity.Identity
 {
     public class UserStore : IUserStore// , IUserPasswordStore<User>
     {
         private IRepository<User> ? _repo;
+        private IRepository<Position> ? _positionRepo;
+        private IRepository<Appointment>? _appointmentRepo;
         private readonly ILogger<UserStore> _logger;
 
-        public UserStore(ILogger<UserStore> logger, IRepository<User> repo)
+        public UserStore(ILogger<UserStore> logger, IRepository<User> repo, IRepository<Position> positionRepo, IRepository<Appointment> appointmentRepo)
         {
             _repo = repo ?? throw new ArgumentNullException(nameof(repo));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _positionRepo = positionRepo ?? throw new ArgumentNullException(nameof(positionRepo));
+            _appointmentRepo = appointmentRepo ?? throw new ArgumentNullException(nameof(appointmentRepo));
         }
 
         private bool disposedValue;
 
-        public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken = default)
         {
             if (_repo == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
@@ -58,17 +63,17 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             }
         }
 
-        public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken)
+        public Task<IdentityResult> DeleteAsync(User user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken)
+        public Task<User> FindByIdAsync(string userId, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<User?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken)
+        public async Task<User?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default)
         {
             if (_repo == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
@@ -93,12 +98,12 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             return null;
         }
 
-        public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken = default)
         {
             return await Task.FromResult(user.LoginName.ToUpper());
         }
 
-        public async Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default)
         {
             if (_repo == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
@@ -116,7 +121,7 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             }
         }
 
-        public async Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken = default)
         {
             if (_repo == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
@@ -134,17 +139,17 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             }
         }
 
-        public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken)
+        public Task SetNormalizedUserNameAsync(User user, string normalizedName, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+        public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken)
+        public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken = default)
         {
             if (_repo == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
@@ -193,27 +198,27 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             GC.SuppressFinalize(this);
         }
 
-        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken)
+        public Task SetPasswordHashAsync(User user, string passwordHash, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken)
+        public Task<string> GetPasswordHashAsync(User user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken)
+        public Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken)
+        public Task SetEmailAsync(User user, string email, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<string> GetEmailAsync(User user, CancellationToken cancellationToken)
+        public async Task<string> GetEmailAsync(User user, CancellationToken cancellationToken = default)
         {
             if (_repo == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
@@ -231,74 +236,79 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             }
         }
 
-        public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken)
+        public Task<bool> GetEmailConfirmedAsync(User user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
+        public Task SetEmailConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken)
+        public Task<User> FindByEmailAsync(string normalizedEmail, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken)
+        public Task<string> GetNormalizedEmailAsync(User user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken)
+        public Task SetNormalizedEmailAsync(User user, string normalizedEmail, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetPhoneNumberAsync(User user, string phoneNumber, CancellationToken cancellationToken)
+        public Task SetPhoneNumberAsync(User user, string phoneNumber, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<string> GetPhoneNumberAsync(User user, CancellationToken cancellationToken)
+        public Task<string> GetPhoneNumberAsync(User user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<bool> GetPhoneNumberConfirmedAsync(User user, CancellationToken cancellationToken)
+        public Task<bool> GetPhoneNumberConfirmedAsync(User user, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task SetPhoneNumberConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken)
+        public Task SetPhoneNumberConfirmedAsync(User user, bool confirmed, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken)
+        public Task AddToRoleAsync(User user, string roleName, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken)
+        public Task RemoveFromRoleAsync(User user, string roleName, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken)
+        public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || disposedValue)
+            if (_repo == null || _appointmentRepo == null || _positionRepo == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
             try
             {
                 var ret = await _repo.GetByIdAsync(user.Id, cancellationToken);
 
-                if (ret.Roles == null)
-                    return Array.Empty<string>();
+                var appoints = await _appointmentRepo.GetListAsync(new [] { new FilterObject(nameof(Appointment.UserId),
+                    FilterOption.Equals, user.Id)}, cancellationToken);
 
-                return ret.Roles.Select(x => x.Name).ToArray();
+                var positionIds = appoints.Where(x => x.FromDate >= DateTime.Now && (x.ToDate == null || x.ToDate <= DateTime.Now))
+                    .Select(x=>x.PositionId).Distinct().ToArray();
+
+                var positionId = await _positionRepo.GetListAsync(new [] { new FilterObject(nameof(Appointment.UserId), FilterOption.In, positionIds) }, cancellationToken);
+
+                return positionId.Select(x => x.Name).ToArray();
             }
             catch (Exception ex)
             {
@@ -307,12 +317,12 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             }
         }
 
-        public Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken)
+        public Task<bool> IsInRoleAsync(User user, string roleName, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken)
+        public Task<IList<User>> GetUsersInRoleAsync(string roleName, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
@@ -322,7 +332,7 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             throw new NotImplementedException();
         }
 
-        public async Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken)
+        public async Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken = default)
         {
             if (_repo == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
@@ -345,22 +355,22 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             }
         }
 
-        public Task AddClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        public Task AddClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task ReplaceClaimAsync(User user, Claim claim, Claim newClaim, CancellationToken cancellationToken)
+        public Task ReplaceClaimAsync(User user, Claim claim, Claim newClaim, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task RemoveClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken)
+        public Task RemoveClaimsAsync(User user, IEnumerable<Claim> claims, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<User>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken)
+        public Task<IList<User>> GetUsersForClaimAsync(Claim claim, CancellationToken cancellationToken = default)
         {
             throw new NotImplementedException();
         }

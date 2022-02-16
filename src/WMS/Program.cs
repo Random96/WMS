@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
+using ru.EmlSoft.WMS.Data.Abstract.Access;
 using ru.EmlSoft.WMS.Data.Abstract.Database;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using ru.EmlSoft.WMS.Data.EF;
@@ -31,40 +32,43 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
     options.SupportedUICultures = supportedCultures;
 });
 
-RegisterBase(builder.Services);
+// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 
-static void RegisterBase(IServiceCollection services, ServiceLifetime injection = ServiceLifetime.Scoped)
+RegisterBase(builder.Services, connectionString);
+
+static void RegisterBase(IServiceCollection services, string connectionString, ServiceLifetime injection = ServiceLifetime.Scoped)
 {
+    Func<IServiceProvider, object> ss = (x)=> new object();
     switch (injection)
     {
         case ServiceLifetime.Scoped:
             services.AddScoped(typeof(IUserStore), typeof(UserStore));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped(typeof(Db));
+            services.AddScoped(typeof(Db), (x) => new Db(connectionString) );
             break;
 
         case ServiceLifetime.Singleton:
             services.AddSingleton(typeof(IUserStore), typeof(UserStore));
             services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
-            services.AddSingleton(typeof(Db));
+            services.AddSingleton(typeof(Db), (x) => new Db(connectionString));
             break;
 
         case ServiceLifetime.Transient:
             services.AddTransient(typeof(IUserStore), typeof(UserStore));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient(typeof(Db));
+            services.AddTransient(typeof(Db), (x) => new Db(connectionString));
             break;
     }
 }
 
 
-// Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-// builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
+// builder.Services.AddDbContext<db>(options => options.UseSqlServer(connectionString));
+
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddUserStore<UserStore>();
-builder.Services.AddIdentity<User, Role>().AddUserStore<UserStore>().AddRoleStore<RoleStore>()
+builder.Services.AddIdentity<User, Position>().AddUserStore<UserStore>().AddRoleStore<RoleStore>()
     .AddUserManager<Microsoft.AspNetCore.Identity.UserManager<User>>();
 builder.Services.AddControllersWithViews();
 
