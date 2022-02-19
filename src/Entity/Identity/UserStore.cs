@@ -83,7 +83,7 @@ namespace ru.EmlSoft.WMS.Entity.Identity
                 // get exist user
                 var exist = await _repo.GetListAsync(new FilterObject[] { new FilterObject(nameof(User.LoginName),
                     FilterOption.Equals, normalizedUserName,
-                    StringComparison.CurrentCultureIgnoreCase)}, cancellationToken);
+                    StringComparison.CurrentCultureIgnoreCase)}, cancellationToken, true);
 
                 if (exist.Any())
                 {

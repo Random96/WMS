@@ -105,10 +105,7 @@ namespace ru.EmlSoft.WMS.Controllers
                             dbUser.LockedTo = DateTime.Now.AddHours(1);
                         }
                     }
-                    else
-                    {
-                        dbUser.Logins = new List<Logins>();
-                    }
+
 
                     // save false login
                     dbUser.Logins.Add(new Logins() { PasswordHash = dbUser.PasswordHash, Date = DateTime.Now, Result = 1 });

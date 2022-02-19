@@ -15,7 +15,6 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Identity
         Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<User>,
         Microsoft.AspNetCore.Identity.IUserClaimStore<User>
     {
-        // Microsoft.AspNetCore.Identity.IdentityResult CheckUser(User userName);
         Task<User> GetUserByIdAsync(int sid, CancellationToken cancellationToken);
     }
 }

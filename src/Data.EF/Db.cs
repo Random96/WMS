@@ -69,6 +69,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             modelBuilder.Entity<User>().Property(x => x.LoginName).HasMaxLength(60).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.Phone).HasMaxLength(80);
             modelBuilder.Entity<User>().Property(x => x.PasswordHash).HasMaxLength(32);
+            modelBuilder.Entity<User>().HasMany(x=>x.Logins).WithOne(x => x.User).HasForeignKey(x => x.UserId);
 
             modelBuilder.Entity<Logins>().ToTable(nameof(Logins).ToUpper());
             modelBuilder.Entity<Logins>().HasOne(x => x.User).WithMany(x => x.Logins).HasForeignKey(x => x.UserId);
@@ -98,7 +99,7 @@ namespace ru.EmlSoft.WMS.Data.EF
 
             var arr = modelBuilder.Model.GetEntityTypes().Select(x => new EntityList() { Name = x.GetTableName(), Label = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).Where(x => x != null).FirstOrDefault()?.Description }).
                   Where(x => !string.IsNullOrWhiteSpace(x.Label)).ToArray();
-            
+
             for (int i = 0; i < arr.Length; ++i)
                 arr[i].Id = i + 1;
 
@@ -178,7 +179,26 @@ namespace ru.EmlSoft.WMS.Data.EF
 
             await SaveChangesAsync();
 
-            return Users.AsNoTracking().Single(x=>x.Id == sid);
+            if (user.CompanyId == null)
+            {
+                user.CompanyId = newCompany.Id;
+
+                await SaveChangesAsync();
+            }
+
+            return Users.AsNoTracking().Single(x => x.Id == sid);
+        }
+        public async Task<IEnumerable<EntityList>> GetEntityListAsync(int sid, CancellationToken cancellationToken)
+        {
+            var user = Users.Find(sid);
+
+            if (user == null)
+                throw new Exception("ERROR_USER_NOT_FOUND");
+
+            var ret = await Appointments.Where(x => x.UserId == sid && DateTime.Now >= x.FromDate && ( x.ToDate == null || x.ToDate >= DateTime.Now ))
+                .Select(x => x.Position).SelectMany(x=>x.Rights).Where(x=>x.CanRead).Select(x=>x.Entity).Distinct().AsNoTracking().ToArrayAsync();
+
+            return ret;
         }
     }
 }

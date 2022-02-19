@@ -16,7 +16,7 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Database
         public bool Any(IEnumerable<FilterObject> filters);
         public Task<bool> AnyAsync(IEnumerable<FilterObject> filters, CancellationToken cancellationToken = default);
         IEnumerable<T> GetList(IEnumerable<FilterObject> filters);
-        Task<IEnumerable<T>> GetListAsync(FilterObject[] filterObjects, CancellationToken cancellationToken = default);
+        Task<IEnumerable<T>> GetListAsync(FilterObject[] filterObjects, CancellationToken cancellationToken = default, bool includeProperties = false);
         Task UpdateAsync(T item, CancellationToken cancellationToken = default);
         Task<T> GetByIdAsync(int id, CancellationToken cancellationToken = default);
     }
