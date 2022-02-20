@@ -1,13 +1,13 @@
 {
   "dependencies": {
     "secrets1": {
-      "secretStore": null,
-      "resourceId": null,
-      "type": "secrets.user",
-      "connectionId": null
+      "secretStore": "AzureAppSettings",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.KeyVault/vaults/emlWMSvault",
+      "type": "secrets.keyVault",
+      "connectionId": "VaultUri"
     },
     "appInsights1": {
-      "secretStore": "LocalSecretsFile",
+      "secretStore": "AzureAppSettings",
       "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/microsoft.insights/components/emlwms",
       "type": "appInsights.azure",
       "connectionId": "APPINSIGHTS_CONNECTIONSTRING"

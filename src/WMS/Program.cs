@@ -9,8 +9,18 @@ using ru.EmlSoft.WMS.Data.EF;
 using ru.EmlSoft.WMS.Entity.Identity;
 using ru.EmlSoft.WMS.Localization;
 using System.Globalization;
+using Azure.Identity;
+using System.Linq;
+using System;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var VaultUri = Environment.GetEnvironmentVariable("VaultUri");
+if (VaultUri != null)
+{
+    var keyVaultEndpoint = new Uri(VaultUri);
+    builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+}
 
 builder.Services.AddLocalization
     (options =>
@@ -34,35 +44,43 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 RegisterBase(builder.Services, connectionString);
 
 static void RegisterBase(IServiceCollection services, string connectionString, ServiceLifetime injection = ServiceLifetime.Scoped)
 {
-    Func<IServiceProvider, object> ss = (x)=> new object();
+    Func<IServiceProvider, Db> factoryDb = serviceProvider =>
+    {
+        var log = serviceProvider.GetRequiredService<ILogger<Db>>();
+
+        var db = new Db(connectionString, log);
+        return db;
+    };
+
+    Func<IServiceProvider, object> factory = serviceProvider => factoryDb(serviceProvider);
+
     switch (injection)
     {
         case ServiceLifetime.Scoped:
             services.AddScoped(typeof(IUserStore), typeof(UserStore));
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped(typeof(IWMSDataProvider), (x) => new Db(connectionString));
-
+            services.AddScoped(typeof(IWMSDataProvider), factory);
             //TODO: написать регистрацию сервиса для доступа к данным
-            services.AddScoped(typeof(Db), (x) => new Db(connectionString) );
+            services.AddScoped(typeof(Db), factory);
             break;
 
         case ServiceLifetime.Singleton:
             services.AddSingleton(typeof(IUserStore), typeof(UserStore));
             services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
-            services.AddSingleton(typeof(IWMSDataProvider), (x) => new Db(connectionString));
-            services.AddSingleton(typeof(Db), (x) => new Db(connectionString));
+            services.AddSingleton(typeof(IWMSDataProvider), factory);
+            services.AddSingleton(typeof(Db), factoryDb);
+
             break;
 
         case ServiceLifetime.Transient:
             services.AddTransient(typeof(IUserStore), typeof(UserStore));
             services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient(typeof(IWMSDataProvider), (x) => new Db(connectionString));
-            services.AddTransient(typeof(Db), (x) => new Db(connectionString));
+            services.AddTransient(typeof(IWMSDataProvider), factory);
+            services.AddTransient(typeof(Db), factoryDb);
             break;
     }
 }
@@ -83,10 +101,8 @@ builder.Services.AddAuthentication(c =>
     c.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 }).AddCookie(cfg =>
 {
-    cfg.LoginPath = "/Login/Index";
-    cfg.LogoutPath = "/Login/Logout";
-    //cfg.ExpireTimeSpan = TimeSpan.FromDays(1);
-    //cfg.Cookie.Expiration = TimeSpan.FromDays(1);
+    cfg.LoginPath = "/Account/Login";
+    cfg.LogoutPath = "/Account/Logout";
     cfg.Cookie.Name = CookieAuthenticationDefaults.AuthenticationScheme;
     cfg.Cookie.Path = "/";
     cfg.Cookie.HttpOnly = true;
@@ -99,6 +115,7 @@ builder.Services.AddRazorPages().
         options.DataAnnotationLocalizerProvider = 
             (type, factory) => factory.Create(typeof(SharedResource));
     });
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
 
 
 var app = builder.Build();

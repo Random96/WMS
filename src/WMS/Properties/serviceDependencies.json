@@ -2,7 +2,11 @@
   "dependencies": {
     "secrets1": {
       "type": "secrets",
-      "connectionId": null
+      "connectionId": "VaultUri"
+    },
+    "appInsights1": {
+      "type": "appInsights",
+      "connectionId": "APPINSIGHTS_CONNECTIONSTRING"
     }
   }
 }

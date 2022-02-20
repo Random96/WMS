@@ -5,7 +5,23 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-ru.EmlSoft.WMS-3DFE4F9C-9269-477D-9D87-DD4440322AFE</UserSecretsId>
+    <ApplicationInsightsResourceId>/subscriptions/09877b03-e059-4388-9f3d-73ddfe3ce5a0/resourceGroups/emlwms_group/providers/microsoft.insights/components/emlwms</ApplicationInsightsResourceId>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Content Include="cwallet.sso">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ewallet.p12">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="keystore.jks">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="truststore.jks">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 
   <ItemGroup>
     <None Include="wwwroot\js\pages\dashboard.js" />
@@ -14,7 +30,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Azure.Extensions.AspNetCore.Configuration.Secrets" Version="1.2.1" />
+    <PackageReference Include="Azure.Identity" Version="1.5.0" />
     <PackageReference Include="jQuery" Version="3.6.0" />
+    <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.2" />
@@ -22,7 +41,9 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="6.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
+    <PackageReference Include="Oracle.EntityFrameworkCore" Version="6.21.5" />
     <PackageReference Include="popper.js" Version="1.16.1" />
   </ItemGroup>
 
@@ -33,6 +54,12 @@
     <ProjectReference Include="..\Entity\ru.EmlSoft.WMS.Entity.csproj" />
     <ProjectReference Include="..\Localization\ru.EmlSoft.WMS.Localization.csproj" />
     <ProjectReference Include="..\Utilities\ru.EmlSoft.Utilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="sqlnet.ora">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

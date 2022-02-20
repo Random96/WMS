@@ -13,24 +13,36 @@ using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using ru.EmlSoft.WMS.Data.Abstract.Database;
+using Microsoft.Extensions.Logging;
 
 namespace ru.EmlSoft.WMS.Data.EF
 {
     public class Db : DbContext, IWMSDataProvider
     {
+        private readonly ILogger<Db> _logger;
         private readonly string _connectionString;
-        public Db(string connectionString)
+        public Db(string connectionString, ILogger<Db> logger)
         {
             _connectionString = connectionString;
+            _logger = logger;
 
-            // Database.EnsureDeleted();
-            Database.EnsureCreated();
+            try
+            {
+                // Database.EnsureDeleted();
+                Database.EnsureCreated();
+            }
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error creating data {0}", new[] {this.Database.GetConnectionString()});
+                throw new Exception($"Connect string = {_connectionString}, error={ex.Message}");
+            }
         }
-
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseOracle(_connectionString);
         }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
