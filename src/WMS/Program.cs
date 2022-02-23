@@ -11,6 +11,7 @@ using System.Globalization;
 using Azure.Identity;
 using System.Linq;
 using System;
+using Microsoft.AspNetCore.HttpOverrides;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -77,6 +78,11 @@ builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIG
 
 
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
 app.UseRequestLocalization(new RequestLocalizationOptions
 {
