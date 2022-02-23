@@ -14,7 +14,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Data.Abstract\ru.EmlSoft.WMS.Data.Abstract.csproj" />
-    <ProjectReference Include="..\Entity\ru.EmlSoft.WMS.Entity.csproj" />
+    <ProjectReference Include="..\Localization\ru.EmlSoft.WMS.Localization.csproj" />
   </ItemGroup>
 
 </Project>

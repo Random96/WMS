@@ -1,47 +1,43 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
-using ru.EmlSoft.WMS.Data.Abstract.Database;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Logging;
-using System.Security.Claims;
-using ru.EmlSoft.WMS.Data.Abstract.Access;
 
-namespace ru.EmlSoft.WMS.Entity.Identity
+namespace ru.EmlSoft.WMS.Data.EF.Identity
 {
-    public class UserStore : IUserStore// , IUserPasswordStore<User>
+    internal class UserStore : IUserStore// , IUserPasswordStore<User>
     {
-        private IRepository<User>? _repo;
-        private IRepository<Position>? _positionRepo;
-        private IRepository<Appointment>? _appointmentRepo;
+        private Db? _db;
         private readonly ILogger<UserStore> _logger;
+        private static AutoMapper.MapperConfiguration _mapper_config = new AutoMapper.MapperConfiguration(cfg => { });
 
-        public UserStore(ILogger<UserStore> logger, IRepository<User> repo, IRepository<Position> positionRepo, IRepository<Appointment> appointmentRepo)
+        public UserStore(ILogger<UserStore> logger, Db db)
         {
-            _repo = repo ?? throw new ArgumentNullException(nameof(repo));
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _positionRepo = positionRepo ?? throw new ArgumentNullException(nameof(positionRepo));
-            _appointmentRepo = appointmentRepo ?? throw new ArgumentNullException(nameof(appointmentRepo));
+            _db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
         private bool disposedValue;
 
         public async Task<IdentityResult> CreateAsync(User user, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || disposedValue)
+            if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
             try
             {
-                // get exist user
-                var exist = await _repo.AnyAsync(new FilterObject[] { new FilterObject(nameof(User.LoginName),
-                    FilterOption.Equals, user.LoginName,
-                    StringComparison.CurrentCultureIgnoreCase)}, cancellationToken);
+                var normaldy = await GetNormalizedUserNameAsync(user, cancellationToken);
 
-                if (exist)
+                // get exist user
+                var exist = await FindByNameAsync(normaldy, cancellationToken);
+
+                if (exist != null)
                 {
                     return IdentityResult.Failed(new IdentityError[]
                     {
@@ -53,7 +49,9 @@ namespace ru.EmlSoft.WMS.Entity.Identity
                 }
 
                 // create user
-                await _repo.AddAsync(user, cancellationToken);
+                await _db.Users.AddAsync(user, cancellationToken);
+
+                await _db.SaveChangesAsync(cancellationToken);
 
                 return IdentityResult.Success;
             }
@@ -75,24 +73,23 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
         public async Task<User?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || disposedValue)
+            if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
             try
             {
                 // get exist user
-                var exist = await _repo.GetListAsync(new FilterObject[] { new FilterObject(nameof(User.LoginName),
-                    FilterOption.Equals, normalizedUserName,
-                    StringComparison.CurrentCultureIgnoreCase)}, cancellationToken, true);
+                var existedUsers = _db.Users.Where(x => x.LoginName.ToUpper() == normalizedUserName );
 
-                if (exist.Any())
-                {
-                    return exist.Single();
-                }
+                var exists = await existedUsers.AnyAsync(cancellationToken);
+
+                if (exists)
+                    return existedUsers.Single();
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "ERROR_FIND_BY_NAME_ASYNC");
+                throw;
             }
 
             return null;
@@ -105,14 +102,14 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
         public async Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || disposedValue)
+            if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
             try
             {
-                var ret = await _repo.GetByIdAsync(user.Id, cancellationToken);
+                var ret = await _db.Users.AnyAsync(x => x.Id == user.Id, cancellationToken);
 
-                return ret.Id.ToString();
+                return user.Id.ToString();
             }
             catch (Exception ex)
             {
@@ -123,14 +120,17 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
         public async Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || disposedValue)
+            if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
             try
             {
-                var ret = await _repo.GetByIdAsync(user.Id, cancellationToken);
+                var ret = await _db.Users.FindAsync(new object?[] { user.Id }, cancellationToken);
 
-                return ret.LoginName;
+                if (ret != null)
+                    return ret.LoginName;
+
+                throw new Exception("USER_NOT_FOUND");
             }
             catch (Exception ex)
             {
@@ -151,12 +151,16 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
         public async Task<IdentityResult> UpdateAsync(User user, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || disposedValue)
+            if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
             try
             {
-                await _repo.UpdateAsync(user, cancellationToken);
+                var exsistUser = await _db.Users.Where(x => x.Id == user.Id).Include(x => x.Logins).SingleAsync(default);
+
+                exsistUser = _mapper_config.CreateMapper().Map(user, exsistUser);
+
+                await _db.SaveChangesAsync(cancellationToken);
 
                 return IdentityResult.Success;
             }
@@ -181,7 +185,7 @@ namespace ru.EmlSoft.WMS.Entity.Identity
                 disposedValue = true;
             }
 
-            _repo = null;
+            _db = null;
         }
 
         // // TODO: переопределить метод завершения, только если "Dispose(bool disposing)" содержит код для освобождения неуправляемых ресурсов
@@ -220,14 +224,14 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
         public async Task<string> GetEmailAsync(User user, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || disposedValue)
+            if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
             try
             {
-                var ret = await _repo.GetByIdAsync(user.Id, cancellationToken);
+                var ret = await _db.Users.FindAsync(new object?[] { user.Id }, cancellationToken);
 
-                return ret.Email;
+                return ret?.Email ?? string.Empty;
             }
             catch (Exception ex)
             {
@@ -293,22 +297,22 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
         public async Task<IList<string>> GetRolesAsync(User user, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || _appointmentRepo == null || _positionRepo == null || disposedValue)
+            if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
+            var ret = new List<string>();
             try
             {
-                var ret = await _repo.GetByIdAsync(user.Id, cancellationToken);
+                var userDb = await _db.Users.FindAsync(new object?[] { user.Id }, cancellationToken);
 
-                var appoints = await _appointmentRepo.GetListAsync(new[] { new FilterObject(nameof(Appointment.UserId),
-                    FilterOption.Equals, user.Id)}, cancellationToken);
+                if (userDb == null || userDb.PersonId == null)
+                    return ret;
 
-                var positionIds = appoints.Where(x => x.FromDate >= DateTime.Now && (x.ToDate == null || x.ToDate <= DateTime.Now))
-                    .Select(x => x.PositionId).Distinct().ToArray();
+                ret = await _db.Appointments.Where(x => x.PersonId == userDb.PersonId &&
+                            x.FromDate >= DateTime.Now && (x.ToDate == null || x.ToDate <= DateTime.Now))
+                    .Select(x => x.Position.Name).Distinct().ToListAsync(cancellationToken);
 
-                var positionId = await _positionRepo.GetListAsync(new[] { new FilterObject(nameof(Appointment.UserId), FilterOption.In, positionIds) }, cancellationToken);
-
-                return positionId.Select(x => x.Name).ToArray();
+                return ret;
             }
             catch (Exception ex)
             {
@@ -334,7 +338,7 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
         public async Task<IList<Claim>> GetClaimsAsync(User user, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || disposedValue)
+            if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
             if (user == null)
@@ -354,7 +358,7 @@ namespace ru.EmlSoft.WMS.Entity.Identity
                 if (userDb.CompanyId != null)
                 {
                     var companyIdstr = userDb.CompanyId.ToString();
-                    
+
                     if (companyIdstr != null)
                         ret.Add(new Claim("CompanyId", companyIdstr));
                 }
@@ -394,12 +398,12 @@ namespace ru.EmlSoft.WMS.Entity.Identity
 
         public async Task<User> GetUserByIdAsync(int sid, CancellationToken cancellationToken = default)
         {
-            if (_repo == null || disposedValue)
+            if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
 
             try
             {
-                var ret = await _repo.GetByIdAsync(sid, cancellationToken);
+                var ret = await _db.Users.FindAsync(new object?[] { sid }, cancellationToken);
 
                 return ret;
             }

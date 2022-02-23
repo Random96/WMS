@@ -13,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace ru.EmlSoft.WMS.Data.EF
 {
-    public class Repository<T> : IRepository<T> where T : class, IHaveId
+    internal class Repository<T> : IRepository<T> where T : class, IHaveId
     {
         private bool disposedValue;
-        private Db ? _db;
+        private Db? _db;
         private ILogger<Repository<T>> _logger;
         private static AutoMapper.MapperConfiguration _mapper_config = new AutoMapper.MapperConfiguration(cfg => { });
 
@@ -156,7 +156,7 @@ namespace ru.EmlSoft.WMS.Data.EF
                 else
                 {
                     var oldItem = _db.Set<T>().Find(item.Id);
-                    
+
                     if (oldItem == null)
                         throw new Exception();
 
@@ -187,7 +187,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             {
 
 
-                var ret = await _db.Set<T>().FindAsync( new object[] { id },  cancellationToken : cancellationToken);
+                var ret = await _db.Set<T>().FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
 
                 return ret;
             }
@@ -201,7 +201,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             }
 
             return null;
-    }
+        }
 
 
         private IQueryable<T> GetQuerable(IQueryable<T> source, IEnumerable<FilterObject>? filters, bool includePropertyes = false)
@@ -334,7 +334,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             return source;
         }
 
-        private static Tuple<Type, Type> ? GetArrayType(object value)
+        private static Tuple<Type, Type>? GetArrayType(object value)
         {
             TypeInfo type = (TypeInfo)value.GetType();
             foreach (var interfaces in type.ImplementedInterfaces)
@@ -347,14 +347,14 @@ namespace ru.EmlSoft.WMS.Data.EF
             return null;
         }
 
-        private static MethodInfo ? GetGenericMethod(Type type, string name, Type[] genericTypeArgs, Type[] paramTypes)
+        private static MethodInfo? GetGenericMethod(Type type, string name, Type[] genericTypeArgs, Type[] paramTypes)
         {
             //выбираем у типа все методы
             var abstractGenericMethod = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-            
+
             //фильтруем по имени
             abstractGenericMethod = abstractGenericMethod.Where(x => x.Name == name).ToArray();
-            
+
             //интересуют только generic-методы
             abstractGenericMethod = abstractGenericMethod.Where(x => x.IsGenericMethod).ToArray();
 
@@ -518,4 +518,3 @@ namespace ru.EmlSoft.WMS.Data.EF
     }
 
 }
-

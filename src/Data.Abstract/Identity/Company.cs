@@ -15,5 +15,6 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Identity
         public virtual ICollection<Appointment> Appointments { get; set; }
         public virtual ICollection<AccessRight> Rights { get; set; }
         public virtual ICollection<Position> Positions { get; set; }
+        public virtual ICollection<Personnel.Person> Persons { get; set; }
     }
 }

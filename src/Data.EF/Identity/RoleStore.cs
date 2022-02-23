@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using ru.EmlSoft.WMS.Data.Abstract.Access;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using System;
@@ -8,12 +10,21 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ru.EmlSoft.WMS.Entity.Identity
+namespace ru.EmlSoft.WMS.Data.EF.Identity
 {
-    public class RoleStore : IRoleStore
+    internal class RoleStore : IRoleStore
     {
         private bool disposedValue;
+        private Db? _db;
+        private readonly ILogger<RoleStore> _logger;
 
+        public RoleStore(ILogger<RoleStore> logger, Db db)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _db = db ?? throw new ArgumentNullException(nameof(db));
+        }
+
+        public SignInManager<User> ? SignInManager { get; set; }
 
         protected virtual void Dispose(bool disposing)
         {
@@ -104,9 +115,34 @@ namespace ru.EmlSoft.WMS.Entity.Identity
             throw new NotImplementedException();
         }
 
-        public Task<Position> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
+        public async Task<Position> FindByNameAsync(string normalizedRoleName, CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
+            if (_db == null || disposedValue)
+                throw new ObjectDisposedException(nameof(RoleStore));
+            if (SignInManager != null)
+            {
+                var user = SignInManager.Context.User;
+
+                if (user != null)
+                {
+                    // get current db user
+                    if (int.TryParse(user.FindFirst(ClaimTypes.Sid)?.Value, out int sid))
+                    {
+
+                        var dbUser = await _db.Users.FindAsync(new object[] { sid }, cancellationToken);
+
+                        if (dbUser != null)
+                        {
+                            var ret = await _db.Positions.AsNoTracking().SingleAsync(x => x.CompanyId == dbUser.CompanyId &&
+                                x.Name.ToUpper() == normalizedRoleName, cancellationToken);
+
+                            return ret;
+                        }
+                    }
+                }
+            }
+
+            return null;
         }
 
         public Task<IdentityResult> ValidateAsync(RoleManager<Position> manager, Position role)

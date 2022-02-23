@@ -1,4 +1,5 @@
 ﻿using ru.EmlSoft.WMS.Data.Abstract.Database;
+using ru.EmlSoft.WMS.Data.Abstract.Personnel;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -9,6 +10,7 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Identity
     {
         public int Id { get; set; }
         public int ? CompanyId { get; set; }
+        public int ? PersonId { get; set; }
         public string LoginName { get; set; }
         public string PasswordHash { get; set; }
         public string Email { get; set; }
@@ -19,5 +21,6 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Identity
         public DateTime? LockedTo { get; set; }
         public virtual ICollection<Logins> Logins { get; set; }
         public virtual Company Company { get; set; }
+        public virtual Person Person { get; set; }
     }
 }

@@ -6,7 +6,6 @@ using ru.EmlSoft.WMS.Data.Abstract.Access;
 using ru.EmlSoft.WMS.Data.Abstract.Database;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using ru.EmlSoft.WMS.Data.EF;
-using ru.EmlSoft.WMS.Entity.Identity;
 using ru.EmlSoft.WMS.Localization;
 using System.Globalization;
 using Azure.Identity;
@@ -44,46 +43,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-RegisterBase(builder.Services, connectionString);
-
-static void RegisterBase(IServiceCollection services, string connectionString, ServiceLifetime injection = ServiceLifetime.Scoped)
-{
-    Func<IServiceProvider, Db> factoryDb = serviceProvider =>
-    {
-        var log = serviceProvider.GetRequiredService<ILogger<Db>>();
-
-        var db = new Db(connectionString, log);
-        return db;
-    };
-
-    Func<IServiceProvider, object> factory = serviceProvider => factoryDb(serviceProvider);
-
-    switch (injection)
-    {
-        case ServiceLifetime.Scoped:
-            services.AddScoped(typeof(IUserStore), typeof(UserStore));
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped(typeof(IWMSDataProvider), factory);
-            //TODO: написать регистрацию сервиса для доступа к данным
-            services.AddScoped(typeof(Db), factory);
-            break;
-
-        case ServiceLifetime.Singleton:
-            services.AddSingleton(typeof(IUserStore), typeof(UserStore));
-            services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
-            services.AddSingleton(typeof(IWMSDataProvider), factory);
-            services.AddSingleton(typeof(Db), factoryDb);
-
-            break;
-
-        case ServiceLifetime.Transient:
-            services.AddTransient(typeof(IUserStore), typeof(UserStore));
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient(typeof(IWMSDataProvider), factory);
-            services.AddTransient(typeof(Db), factoryDb);
-            break;
-    }
-}
+ru.EmlSoft.WMS.Data.EF.Register.RegisterBase(builder.Services, connectionString);
 
 
 // builder.Services.AddDbContext<db>(options => options.UseSqlServer(connectionString));
@@ -91,8 +51,6 @@ static void RegisterBase(IServiceCollection services, string connectionString, S
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 // builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddUserStore<UserStore>();
-builder.Services.AddIdentity<User, Position>().AddUserStore<UserStore>().AddRoleStore<RoleStore>()
-    .AddUserManager<Microsoft.AspNetCore.Identity.UserManager<User>>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(c =>
@@ -120,6 +78,11 @@ builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIG
 
 var app = builder.Build();
 
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    ApplyCurrentCultureToResponseHeaders = true
+});
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -131,6 +94,7 @@ else
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

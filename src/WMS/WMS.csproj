@@ -9,21 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="cwallet.sso">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="ewallet.p12">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="keystore.jks">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="truststore.jks">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="wwwroot\js\pages\dashboard.js" />
     <None Include="wwwroot\js\pages\dashboard2.js" />
     <None Include="wwwroot\js\pages\dashboard3.js" />
@@ -51,13 +36,24 @@
     <ProjectReference Include="..\Data.Abstract\ru.EmlSoft.WMS.Data.Abstract.csproj" />
     <ProjectReference Include="..\Data.EF\ru.EmlSoft.WMS.Data.EF.csproj" />
     <ProjectReference Include="..\Dto\ru.EmlSoft.WMS.Data.Dto.csproj" />
-    <ProjectReference Include="..\Entity\ru.EmlSoft.WMS.Entity.csproj" />
     <ProjectReference Include="..\Localization\ru.EmlSoft.WMS.Localization.csproj" />
     <ProjectReference Include="..\Utilities\ru.EmlSoft.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="cwallet.sso">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="ewallet.p12">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="keystore.jks">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="sqlnet.ora">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="truststore.jks">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

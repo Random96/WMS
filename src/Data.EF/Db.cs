@@ -14,13 +14,17 @@ using System.Configuration;
 using Microsoft.Extensions.Configuration;
 using ru.EmlSoft.WMS.Data.Abstract.Database;
 using Microsoft.Extensions.Logging;
+using ru.EmlSoft.WMS.Data.Abstract.Personnel;
+using ru.EmlSoft.WMS.Data.EF.Exceptions;
 
 namespace ru.EmlSoft.WMS.Data.EF
 {
-    public class Db : DbContext, IWMSDataProvider
+    internal class Db : DbContext, IWMSDataProvider
     {
         private readonly ILogger<Db> _logger;
         private readonly string _connectionString;
+        private bool _inited = false;
+        private string? _error;
         public Db(string connectionString, ILogger<Db> logger)
         {
             _connectionString = connectionString;
@@ -28,13 +32,14 @@ namespace ru.EmlSoft.WMS.Data.EF
 
             try
             {
-                // Database.EnsureDeleted();
+                //Database.EnsureDeleted();
                 Database.EnsureCreated();
+                _inited = true;
             }
             catch(Exception ex)
             {
+                _error = ex.Message;
                 _logger.LogError(ex, "Error creating data {0}", new[] {this.Database.GetConnectionString()});
-                throw new Exception($"Connect string = {_connectionString}, error={ex.Message}");
             }
         }
         
@@ -53,6 +58,7 @@ namespace ru.EmlSoft.WMS.Data.EF
 
             modelBuilder.Entity<Appointment>().ToTable(nameof(Appointment).ToUpper());
             modelBuilder.Entity<Appointment>().HasOne(x => x.Position).WithMany(x => x.Appointments).HasForeignKey(x => x.PositionId);
+            modelBuilder.Entity<Appointment>().HasOne(x => x.Person).WithMany(x => x.Appointments).HasForeignKey(x => x.PersonId);
 
             modelBuilder.Entity<Abstract.Access.Entity>().ToTable(nameof(Abstract.Access.Entity).ToUpper());
             modelBuilder.Entity<Abstract.Access.Entity>().HasMany(x => x.Entities).WithOne(x => x.ParentEntity).HasForeignKey(x => x.ParentId).IsRequired(false);
@@ -82,6 +88,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             modelBuilder.Entity<User>().Property(x => x.Phone).HasMaxLength(80);
             modelBuilder.Entity<User>().Property(x => x.PasswordHash).HasMaxLength(32);
             modelBuilder.Entity<User>().HasMany(x=>x.Logins).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<User>().HasOne(x => x.Person).WithOne(x => x.User).HasForeignKey<User>(x=>x.PersonId);
 
             modelBuilder.Entity<Logins>().ToTable(nameof(Logins).ToUpper());
             modelBuilder.Entity<Logins>().HasOne(x => x.User).WithMany(x => x.Logins).HasForeignKey(x => x.UserId);
@@ -108,6 +115,11 @@ namespace ru.EmlSoft.WMS.Data.EF
             modelBuilder.Entity<Storage>().Property(x => x.Name).HasMaxLength(30).IsRequired();
             modelBuilder.Entity<Storage>().HasMany(x => x.Cells).WithOne(x => x.Storage).HasForeignKey(x => x.StorageId);
 
+            modelBuilder.Entity<Person>().ToTable(nameof(Person).ToUpper());
+            modelBuilder.Entity<Person>().Property(x => x.FirstName).HasMaxLength(200);
+            modelBuilder.Entity<Person>().Property(x => x.MiddleName).HasMaxLength(200);
+            modelBuilder.Entity<Person>().Property(x => x.LastName).HasMaxLength(200);
+            modelBuilder.Entity<Person>().HasOne(x => x.Company).WithMany(x => x.Persons).HasForeignKey(x => x.CompanyId);
 
             var arr = modelBuilder.Model.GetEntityTypes().Select(x => new EntityList() { Name = x.GetTableName(), Label = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).Where(x => x != null).FirstOrDefault()?.Description }).
                   Where(x => !string.IsNullOrWhiteSpace(x.Label)).ToArray();
@@ -121,26 +133,26 @@ namespace ru.EmlSoft.WMS.Data.EF
         }
 
         // Access
-        public DbSet<AccessRight> AccessRights => Set<AccessRight>();
-        public DbSet<Appointment> Appointments => Set<Appointment>();
-        public DbSet<Abstract.Access.Entity> Entities => Set<Abstract.Access.Entity>();
-        public DbSet<EntityList> EntityLists => Set<EntityList>();
-        public DbSet<Position> Positions => Set<Position>();
+        public DbSet<AccessRight> AccessRights => _inited ? Set<AccessRight>() : throw new DatabaseNotInitException(Error);
+        public DbSet<Appointment> Appointments => _inited ? Set<Appointment>() : throw new DatabaseNotInitException(Error);
+        public DbSet<Abstract.Access.Entity> Entities => _inited ? Set<Abstract.Access.Entity>() : throw new DatabaseNotInitException(Error);
+        public DbSet<EntityList> EntityLists => _inited ? Set<EntityList>() : throw new DatabaseNotInitException(Error);
+        public DbSet<Position> Positions => _inited ? Set<Position>() : throw new DatabaseNotInitException(Error);
 
         // identity
-        public DbSet<Company> Companies => Set<Company>();
-        public DbSet<User> Users => Set<User>();
-        public DbSet<Logins> Logins => Set<Logins>();
+        public DbSet<Company> Companies => _inited ? Set<Company>() : throw new DatabaseNotInitException(Error);
+        public DbSet<User> Users => _inited ? Set<User>() : throw new DatabaseNotInitException(Error);
+        public DbSet<Logins> Logins => _inited ? Set<Logins>() : throw new DatabaseNotInitException(Error);
 
         // Storage
-        public DbSet<Cell> Cells => Set<Cell>();
-        public DbSet<Good> Goods => Set<Good>();
-        public DbSet<Pack> Packs => Set<Pack>();
-        public DbSet<Pallet> Pallets => Set<Pallet>();
-        public DbSet<ScanCode> ScanCodes => Set<ScanCode>();
-        public DbSet<Storage> Storages => Set<Storage>();
-        // public DbSet<>  => Set<>();
-        // public DbSet<>  => Set<>();
+        public DbSet<Cell> Cells => _inited ? Set<Cell>() : throw new DatabaseNotInitException(Error);
+        public DbSet<Good> Goods => _inited ? Set<Good>() : throw new DatabaseNotInitException(Error);
+        public DbSet<Pack> Packs => _inited ? Set<Pack>() : throw new DatabaseNotInitException(Error);
+        public DbSet<Pallet> Pallets => _inited ? Set<Pallet>() : throw new DatabaseNotInitException(Error);
+        public DbSet<ScanCode> ScanCodes => _inited ? Set<ScanCode>() : throw new DatabaseNotInitException(Error);
+        public DbSet<Storage> Storages => _inited ? Set<Storage>() : throw new DatabaseNotInitException(Error);
+
+        public string? Error => _error;
 
         private bool IsChildOfEntity(IMutableEntityType entitytype, IMutableEntityType entytyType)
         {
@@ -187,7 +199,16 @@ namespace ru.EmlSoft.WMS.Data.EF
 
             await AccessRights.AddRangeAsync(adminRights);
 
-            Appointments.Add(new Appointment() { Position = newAdmin, UserId = sid, Company = newCompany, FromDate = DateTime.Now });
+            var newPerson = new Person()
+            {
+                Company = newCompany,
+                FirstName = user.LoginName,
+                User = user
+            };
+
+            user.Person = newPerson;
+
+            Appointments.Add(new Appointment() { Position = newAdmin, Person = newPerson, Company = newCompany, FromDate = DateTime.Now });
 
             await SaveChangesAsync();
 
@@ -207,7 +228,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             if (user == null)
                 throw new Exception("ERROR_USER_NOT_FOUND");
 
-            var ret = await Appointments.Where(x => x.UserId == sid && DateTime.Now >= x.FromDate && ( x.ToDate == null || x.ToDate >= DateTime.Now ))
+            var ret = await Appointments.Where(x => x.Person.User.Id == sid && DateTime.Now >= x.FromDate && ( x.ToDate == null || x.ToDate >= DateTime.Now ))
                 .Select(x => x.Position).SelectMany(x=>x.Rights).Where(x=>x.CanRead).Select(x=>x.Entity).Distinct().AsNoTracking().ToArrayAsync();
 
             return ret;

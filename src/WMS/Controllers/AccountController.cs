@@ -11,6 +11,7 @@ using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Identity;
 using ru.EmlSoft.WMS.Data.Abstract.Database;
 using WMS.Tools;
+using Microsoft.Extensions.Localization;
 
 namespace ru.EmlSoft.WMS.Controllers
 {
@@ -18,11 +19,11 @@ namespace ru.EmlSoft.WMS.Controllers
     {
         private readonly ILogger<AccountController> _logger;
         private readonly IUserStore _userStore;
-        private readonly IHtmlLocalizer<SharedResource> _localizer;
+        private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly SignInManager<User> _signInManager;
         private IWMSDataProvider _db;
 
-        public AccountController(IWMSDataProvider db, SignInManager<User> signInManager, IHtmlLocalizer<SharedResource> localizer, ILogger<AccountController> logger, IUserStore userStore)
+        public AccountController(IWMSDataProvider db, SignInManager<User> signInManager, IStringLocalizer<SharedResource> localizer, ILogger<AccountController> logger, IUserStore userStore)
         {
             _logger = logger;
             _userStore = userStore;
@@ -157,7 +158,7 @@ namespace ru.EmlSoft.WMS.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in register user");
-                ModelState.AddModelError(string.Empty, ex.Message);
+                ModelState.AddModelError(string.Empty, $"User Ip:{UserExtension.GetAddr()}, Message='{ex.Message}'");
                 return View(model);
             }
         }
@@ -195,7 +196,7 @@ namespace ru.EmlSoft.WMS.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in register user");
-                ModelState.AddModelError(string.Empty, ex.Message);
+                ModelState.AddModelError(string.Empty, $"User Ip:{UserExtension.GetAddr()}, Message='{ex.Message}'");
             }
 
             return View(model);

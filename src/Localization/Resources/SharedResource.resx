@@ -120,6 +120,9 @@
   <data name="EMAIL" xml:space="preserve">
     <value>EMAIL</value>
   </data>
+  <data name="ERROR_DB_NOT_INIT" xml:space="preserve">
+    <value>The database was not be initialized</value>
+  </data>
   <data name="ERROR_USER_ALREDY_EXIST" xml:space="preserve">
     <value>ERROR_USER_ALREDY_EXIST</value>
   </data>

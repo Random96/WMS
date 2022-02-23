@@ -1,9 +1,11 @@
 ﻿@using Microsoft.AspNetCore.Identity
 @using Microsoft.AspNetCore.Mvc.Localization
 @using ru.EmlSoft.WMS.Localization
+@using Microsoft.Extensions.Localization;
+
 
 @inject SignInManager<ru.EmlSoft.WMS.Data.Abstract.Identity.User> SignInManager
-@inject IHtmlLocalizer<SharedResource> _sharedLocalizer
+@inject IStringLocalizer<SharedResource> _sharedLocalizer
 
 
 <ul class="navbar-nav">

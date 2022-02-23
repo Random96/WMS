@@ -4,6 +4,7 @@ using ru.EmlSoft.WMS.Data.Abstract.Database;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using ru.EmlSoft.WMS.Models;
 using System.Diagnostics;
+using System.Net;
 using System.Security.Claims;
 using WMS.Tools;
 
@@ -15,6 +16,7 @@ namespace ru.EmlSoft.WMS.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly IUserStore _userStore;
         private readonly IWMSDataProvider _db;
+
 
         public HomeController(IWMSDataProvider db, IUserStore userStore, SignInManager<User> signInManager, ILogger<HomeController> logger)
         {
@@ -32,16 +34,19 @@ namespace ru.EmlSoft.WMS.Controllers
 
         public async Task<IActionResult> Index(CancellationToken cancellationToken)
         {
-            _logger.LogTrace("home/index begin");
-
-            // get current user 
-            var user = await _userStore.GetUserAsync(_signInManager, cancellationToken);
-            
-            if (user.Id != 0)
+            try
             {
+                _logger.LogTrace("home/index begin");
+
+                // get current user 
+                var user = await _userStore.GetUserAsync(_signInManager, cancellationToken);
+
+                if (user == null || user.Id == 0)
+                    return View();
+
                 // get current db user
                 var companyId = user.CompanyId;
-                
+
                 if (companyId == null)
                     return RedirectToAction("CreateCompany", "Account");
 
@@ -52,10 +57,13 @@ namespace ru.EmlSoft.WMS.Controllers
 
                 ViewData["menu"] = menus;
                 return View();
-
             }
-
-            return View();
+            catch(Exception ex)
+            {
+                _logger.LogError(ex, "Error in Home/index");
+                ViewBag.Error = $"Client Ip={UserExtension.GetAddr()}, ErrorMsg='{ex.Message}'";
+                return View();
+            }
         }
 
         public IActionResult Privacy()

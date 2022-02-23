@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using ru.EmlSoft.WMS.Controllers;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
+using System.Net;
 using System.Security.Claims;
 
 namespace WMS.Tools
@@ -23,6 +24,33 @@ namespace WMS.Tools
             }
 
             return new User();
+        }
+
+
+        public static string GetAddr()
+        {
+            // Create a request for the URL. 		
+            WebRequest request = WebRequest.Create("http://www.eml-soft.ru/addr.php");
+            // If required by the server, set the credentials.
+            request.Credentials = CredentialCache.DefaultCredentials;
+            // Get the response.
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            {
+                // Display the status.
+                Console.WriteLine(response.StatusDescription);
+                // Get the stream containing content returned by the server.
+                using (Stream dataStream = response.GetResponseStream())
+                {
+                    // Open the stream using a StreamReader for easy access.
+                    using (StreamReader reader = new StreamReader(dataStream))
+                    {
+                        // Read the content.
+                        string responseFromServer = reader.ReadToEnd();
+                        // Display the content.
+                        return responseFromServer;
+                    }
+                }
+            }
         }
     }
 }
