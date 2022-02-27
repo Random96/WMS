@@ -11,14 +11,14 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Personnel
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
-        public string FirstName { get; set; }
-        public string MiddleName { get; set; }
-        public string LastName { get; set; }
+        public string ? FirstName { get; set; }
+        public string ? MiddleName { get; set; }
+        public string ? LastName { get; set; }
         public bool Gender { get; set; }
         public DateTime ? BirthDay { get; set; }
 
-        public virtual ICollection<Appointment> Appointments { get; set; }
-        public virtual User User { get; set; }
-        public Company Company { get; set; }
+        public virtual ICollection<Appointment> ? Appointments { get; set; }
+        public virtual User ? User { get; set; }
+        public Company ? Company { get; set; }
     }
 }

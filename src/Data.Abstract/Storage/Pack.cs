@@ -6,11 +6,11 @@ using System.Text;
 
 namespace ru.EmlSoft.WMS.Data.Abstract.Storage
 {
-    [Display(Description = "Упакрвки")]
+    [Display(Name = "Товары", Description = "Упакрвки")]
     public class Pack : Entity
     {
         public int Qty { get; set; }
         public int CodeId { get; set; }
-        public virtual ScanCode Code { get; set; }
+        public virtual ScanCode ? Code { get; set; }
     }
 }

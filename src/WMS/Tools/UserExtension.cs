@@ -27,29 +27,27 @@ namespace WMS.Tools
         }
 
 
-        public static string GetAddr()
+        public static async Task<string> GetAddrAsync()
         {
-            // Create a request for the URL. 		
-            WebRequest request = WebRequest.Create("http://www.eml-soft.ru/addr.php");
-            // If required by the server, set the credentials.
-            request.Credentials = CredentialCache.DefaultCredentials;
-            // Get the response.
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            HttpClient client = new HttpClient();
+
+            try
             {
-                // Display the status.
-                Console.WriteLine(response.StatusDescription);
-                // Get the stream containing content returned by the server.
-                using (Stream dataStream = response.GetResponseStream())
+                // Create a request for the URL. 		
+                using (var response = await client.GetAsync("http://www.eml-soft.ru/addr.php"))
                 {
-                    // Open the stream using a StreamReader for easy access.
-                    using (StreamReader reader = new StreamReader(dataStream))
-                    {
-                        // Read the content.
-                        string responseFromServer = reader.ReadToEnd();
-                        // Display the content.
-                        return responseFromServer;
-                    }
+
+                    response.EnsureSuccessStatusCode();
+
+                    // Get the response.
+                    var responseBody = await response.Content.ReadAsStringAsync();
+
+                    return responseBody;
                 }
+            }
+            catch (Exception)
+            {
+                return String.Empty;
             }
         }
     }

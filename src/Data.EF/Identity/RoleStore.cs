@@ -133,7 +133,7 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
 
                         if (dbUser != null)
                         {
-                            var ret = await _db.Positions.AsNoTracking().SingleAsync(x => x.CompanyId == dbUser.CompanyId &&
+                            var ret = await _db.Positions.AsNoTracking().SingleAsync(x => x.CompanyId == dbUser.CompanyId && x.Name != null &&
                                 x.Name.ToUpper() == normalizedRoleName, cancellationToken);
 
                             return ret;
@@ -142,7 +142,7 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
                 }
             }
 
-            return null;
+            return new Position();
         }
 
         public Task<IdentityResult> ValidateAsync(RoleManager<Position> manager, Position role)

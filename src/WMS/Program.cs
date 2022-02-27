@@ -44,7 +44,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 // Add services to the container.
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-ru.EmlSoft.WMS.Data.EF.Register.RegisterBase(builder.Services, connectionString);
+Register.RegisterBase(builder.Services, builder.Configuration);
 
 
 // builder.Services.AddDbContext<db>(options => options.UseSqlServer(connectionString));

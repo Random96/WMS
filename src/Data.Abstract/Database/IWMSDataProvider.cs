@@ -1,4 +1,4 @@
-﻿using ru.EmlSoft.WMS.Data.Abstract.Access;
+﻿using ru.EmlSoft.WMS.Data.Dto;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using System;
 using System.Collections.Generic;
@@ -12,6 +12,6 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Database
     {
         Task<User> CreateCompanyAsync(int sid, string companyName, CancellationToken cancellationToken);
 
-        Task<IEnumerable<EntityList>> GetEntityListAsync(int sid, CancellationToken cancellationToken);
+        Task<IEnumerable<MenuDto>> GetEntityListAsync(int sid, CancellationToken cancellationToken);
     }
 }

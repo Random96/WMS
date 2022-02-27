@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace ru.EmlSoft.WMS.Data.EF
 {
-    internal class Repository<T> : IRepository<T> where T : class, IHaveId
+    internal class Repository<T> : IRepository<T> where T : class, IHaveId, new()
     {
         private bool disposedValue;
         private Db? _db;
@@ -189,7 +189,7 @@ namespace ru.EmlSoft.WMS.Data.EF
 
                 var ret = await _db.Set<T>().FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
 
-                return ret;
+                return ret ?? new T();
             }
             catch (Exception ex)
             {
@@ -200,7 +200,7 @@ namespace ru.EmlSoft.WMS.Data.EF
                 _logger.LogTrace("Method 'UpdateAsync' finished");
             }
 
-            return null;
+            return new T();
         }
 
 

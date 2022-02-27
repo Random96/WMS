@@ -37,7 +37,7 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
                 // get exist user
                 var exist = await FindByNameAsync(normaldy, cancellationToken);
 
-                if (exist != null)
+                if (exist.Id != 0)
                 {
                     return IdentityResult.Failed(new IdentityError[]
                     {
@@ -71,7 +71,7 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
             throw new NotImplementedException();
         }
 
-        public async Task<User?> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default)
+        public async Task<User> FindByNameAsync(string normalizedUserName, CancellationToken cancellationToken = default)
         {
             if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
@@ -79,7 +79,7 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
             try
             {
                 // get exist user
-                var existedUsers = _db.Users.Where(x => x.LoginName.ToUpper() == normalizedUserName );
+                var existedUsers = _db.Users.Where(x => x.LoginName != null && x.LoginName.ToUpper() == normalizedUserName );
 
                 var exists = await existedUsers.AnyAsync(cancellationToken);
 
@@ -92,12 +92,15 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
                 throw;
             }
 
-            return null;
+            return new User();
         }
 
         public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken = default)
         {
-            return await Task.FromResult(user.LoginName.ToUpper());
+            if(user.LoginName != null)
+                return await Task.FromResult(user.LoginName.ToUpper());
+
+            return String.Empty;
         }
 
         public async Task<string> GetUserIdAsync(User user, CancellationToken cancellationToken = default)
@@ -127,7 +130,7 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
             {
                 var ret = await _db.Users.FindAsync(new object?[] { user.Id }, cancellationToken);
 
-                if (ret != null)
+                if (ret != null && ret.LoginName != null)
                     return ret.LoginName;
 
                 throw new Exception("USER_NOT_FOUND");
@@ -309,8 +312,8 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
                     return ret;
 
                 ret = await _db.Appointments.Where(x => x.PersonId == userDb.PersonId &&
-                            x.FromDate >= DateTime.Now && (x.ToDate == null || x.ToDate <= DateTime.Now))
-                    .Select(x => x.Position.Name).Distinct().ToListAsync(cancellationToken);
+                            x.FromDate >= DateTime.UtcNow && (x.ToDate == null || x.ToDate <= DateTime.UtcNow))
+                    .Select(x => x.Position.Name).Where(x=>x!= null).Distinct().ToListAsync(cancellationToken);
 
                 return ret;
             }
@@ -347,6 +350,9 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
             try
             {
                 var userDb = await GetUserByIdAsync(user.Id, cancellationToken);
+
+                if( userDb == null || userDb.LoginName == null)
+                    return Array.Empty<Claim>();
 
                 var ret = new List<Claim>()
                     {
@@ -405,7 +411,7 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
             {
                 var ret = await _db.Users.FindAsync(new object?[] { sid }, cancellationToken);
 
-                return ret;
+                return ret ?? new User();
             }
             catch (Exception ex)
             {

@@ -12,7 +12,7 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Identity
         public int UserId { get; set; }
         public DateTime Date { get; set; }
         public int Result { get; set; }
-        public string PasswordHash { get; set; }
-        public virtual User User { get; set; }
+        public string ? PasswordHash { get; set; }
+        public virtual User ? User { get; set; }
     }
 }

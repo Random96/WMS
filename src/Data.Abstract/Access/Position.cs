@@ -15,10 +15,10 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Access
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
-        public string Name { get; set; }
+        public string ? Name { get; set; }
         public bool IsAdmin { get; set; }
-        public virtual ICollection<AccessRight> Rights { get; set; }
-        public virtual ICollection<Appointment> Appointments { get; set; }
-        public virtual Company Company { get; set; }
+        public virtual ICollection<AccessRight> ? Rights { get; set; }
+        public virtual ICollection<Appointment> ? Appointments { get; set; }
+        public virtual Company ? Company { get; set; }
     }
 }

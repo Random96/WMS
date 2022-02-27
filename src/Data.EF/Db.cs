@@ -16,13 +16,14 @@ using ru.EmlSoft.WMS.Data.Abstract.Database;
 using Microsoft.Extensions.Logging;
 using ru.EmlSoft.WMS.Data.Abstract.Personnel;
 using ru.EmlSoft.WMS.Data.EF.Exceptions;
+using ru.EmlSoft.WMS.Data.Dto;
 
 namespace ru.EmlSoft.WMS.Data.EF
 {
     internal class Db : DbContext, IWMSDataProvider
     {
         private readonly ILogger<Db> _logger;
-        private readonly string _connectionString;
+        protected readonly string _connectionString;
         private bool _inited = false;
         private string? _error;
         public Db(string connectionString, ILogger<Db> logger)
@@ -34,6 +35,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             {
                 //Database.EnsureDeleted();
                 Database.EnsureCreated();
+
                 _inited = true;
             }
             catch(Exception ex)
@@ -41,29 +43,24 @@ namespace ru.EmlSoft.WMS.Data.EF
                 _error = ex.Message;
                 _logger.LogError(ex, "Error creating data {0}", new[] {this.Database.GetConnectionString()});
             }
-        }
-        
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseOracle(_connectionString);
-        }
-        
+        }        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // Access
             modelBuilder.Entity<AccessRight>().ToTable(nameof(AccessRight).ToUpper());
             modelBuilder.Entity<AccessRight>().HasOne(x => x.Entity).WithMany(x => x.Rights).HasForeignKey(x => x.EntityListId);
-            modelBuilder.Entity<AccessRight>().HasOne(x => x.Position).WithMany(x => x.Rights).HasForeignKey(x => x.PositionId);
+            modelBuilder.Entity<AccessRight>().HasOne(x => x.Position).WithMany(x => x.Rights).HasForeignKey(x => x.PositionId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Appointment>().ToTable(nameof(Appointment).ToUpper());
-            modelBuilder.Entity<Appointment>().HasOne(x => x.Position).WithMany(x => x.Appointments).HasForeignKey(x => x.PositionId);
-            modelBuilder.Entity<Appointment>().HasOne(x => x.Person).WithMany(x => x.Appointments).HasForeignKey(x => x.PersonId);
+            modelBuilder.Entity<Appointment>().HasOne(x => x.Position).WithMany(x => x.Appointments).HasForeignKey(x => x.PositionId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Appointment>().HasOne(x => x.Person).WithMany(x => x.Appointments).HasForeignKey(x => x.PersonId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Abstract.Access.Entity>().ToTable(nameof(Abstract.Access.Entity).ToUpper());
             modelBuilder.Entity<Abstract.Access.Entity>().HasMany(x => x.Entities).WithOne(x => x.ParentEntity).HasForeignKey(x => x.ParentId).IsRequired(false);
 
             modelBuilder.Entity<EntityList>().ToTable(nameof(EntityList).ToUpper());
+            modelBuilder.Entity<EntityList>().Property(x => x.GroupLabel).HasMaxLength(30);
             modelBuilder.Entity<EntityList>().Property(x => x.Name).HasMaxLength(30).IsRequired();
             modelBuilder.Entity<EntityList>().Property(x => x.Label).HasMaxLength(200);
             modelBuilder.Entity<EntityList>().HasIndex(x => x.Name).IsUnique();
@@ -76,7 +73,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             modelBuilder.Entity<Company>().HasMany(x => x.Appointments).WithOne(x => x.Company).HasForeignKey(x => x.CompanyId);
             modelBuilder.Entity<Company>().HasMany(x => x.Rights).WithOne(x => x.Company).HasForeignKey(x => x.CompanyId);
             modelBuilder.Entity<Company>().HasMany(x => x.Positions).WithOne(x => x.Company).HasForeignKey(x => x.CompanyId);
-            modelBuilder.Entity<Company>().HasMany(x => x.Users).WithOne(x => x.Company).HasForeignKey(x => x.CompanyId);
+            modelBuilder.Entity<Company>().HasMany(x => x.Users).WithOne(x => x.Company).HasForeignKey(x => x.CompanyId).IsRequired(false);
             modelBuilder.Entity<Company>().HasMany(x => x.Entities).WithOne(x => x.Company).HasForeignKey(x => x.CompanyId);
             modelBuilder.Entity<Company>().Property(x => x.Name).HasMaxLength(30).IsRequired();
             modelBuilder.Entity<Company>().HasIndex(x => x.Name).IsUnique();
@@ -88,7 +85,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             modelBuilder.Entity<User>().Property(x => x.Phone).HasMaxLength(80);
             modelBuilder.Entity<User>().Property(x => x.PasswordHash).HasMaxLength(32);
             modelBuilder.Entity<User>().HasMany(x=>x.Logins).WithOne(x => x.User).HasForeignKey(x => x.UserId);
-            modelBuilder.Entity<User>().HasOne(x => x.Person).WithOne(x => x.User).HasForeignKey<User>(x=>x.PersonId);
+            modelBuilder.Entity<User>().HasOne(x => x.Person).WithOne(x => x.User).HasForeignKey<User>(x=>x.PersonId).IsRequired(false);
 
             modelBuilder.Entity<Logins>().ToTable(nameof(Logins).ToUpper());
             modelBuilder.Entity<Logins>().HasOne(x => x.User).WithMany(x => x.Logins).HasForeignKey(x => x.UserId);
@@ -121,8 +118,10 @@ namespace ru.EmlSoft.WMS.Data.EF
             modelBuilder.Entity<Person>().Property(x => x.LastName).HasMaxLength(200);
             modelBuilder.Entity<Person>().HasOne(x => x.Company).WithMany(x => x.Persons).HasForeignKey(x => x.CompanyId);
 
-            var arr = modelBuilder.Model.GetEntityTypes().Select(x => new EntityList() { Name = x.GetTableName(), Label = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).Where(x => x != null).FirstOrDefault()?.Description }).
-                  Where(x => !string.IsNullOrWhiteSpace(x.Label)).ToArray();
+            var arr = modelBuilder.Model.GetEntityTypes().Select(x => new EntityList() { Name = x.GetTableName(), 
+                    Label = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Description,
+                    GroupLabel = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Name}).
+                Where(x => !string.IsNullOrWhiteSpace(x.Label)).ToArray();
 
             for (int i = 0; i < arr.Length; ++i)
                 arr[i].Id = i + 1;
@@ -158,6 +157,7 @@ namespace ru.EmlSoft.WMS.Data.EF
         {
             if (entitytype.BaseType == null)
                 return false;
+
             if (entitytype.BaseType == entytyType)
                 return true;
 
@@ -208,7 +208,7 @@ namespace ru.EmlSoft.WMS.Data.EF
 
             user.Person = newPerson;
 
-            Appointments.Add(new Appointment() { Position = newAdmin, Person = newPerson, Company = newCompany, FromDate = DateTime.Now });
+            Appointments.Add(new Appointment() { Position = newAdmin, Person = newPerson, Company = newCompany, FromDate = DateTime.UtcNow });
 
             await SaveChangesAsync();
 
@@ -221,17 +221,20 @@ namespace ru.EmlSoft.WMS.Data.EF
 
             return Users.AsNoTracking().Single(x => x.Id == sid);
         }
-        public async Task<IEnumerable<EntityList>> GetEntityListAsync(int sid, CancellationToken cancellationToken)
+        public async Task<IEnumerable<MenuDto>> GetEntityListAsync(int sid, CancellationToken cancellationToken)
         {
             var user = Users.Find(sid);
 
-            if (user == null)
-                throw new Exception("ERROR_USER_NOT_FOUND");
+            if (user == null || user.PersonId == null)
+                return Enumerable.Empty<MenuDto>();
 
-            var ret = await Appointments.Where(x => x.Person.User.Id == sid && DateTime.Now >= x.FromDate && ( x.ToDate == null || x.ToDate >= DateTime.Now ))
-                .Select(x => x.Position).SelectMany(x=>x.Rights).Where(x=>x.CanRead).Select(x=>x.Entity).Distinct().AsNoTracking().ToArrayAsync();
+            var ret = await Appointments.Where(x => x.PersonId == user.PersonId && DateTime.UtcNow >= x.FromDate && (x.ToDate == null || x.ToDate >= DateTime.UtcNow))
+                .Select(x => x.Position).SelectMany(x => x.Rights).Where(x => x.CanRead).Select(x => x.Entity).Distinct().AsNoTracking().
+                GroupBy(x => x.GroupLabel, x => new { x.Name, x.Label })
+                .Select(x => new MenuDto( x.Key, x.Select(x=> new MenuItemDto(x.Name, x.Label)))).ToArrayAsync(cancellationToken);
 
             return ret;
+
         }
     }
 }

@@ -19,8 +19,8 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Personnel
         public int Id { get; set; }
         public int CompanyId { get; set; }
         public DocumentType DocumentType { get; set; }
-        public string Number { get; set; }
+        public string ? Number { get; set; }
         public DateTime Date { get; set; }
-        public Company Company { get; set; }
+        public Company ? Company { get; set; }
     }
 }

@@ -76,13 +76,13 @@ namespace ru.EmlSoft.WMS.Controllers
                     return View(model);
                 }
 
-                if (dbUser.Expired > DateTime.Now)
+                if (dbUser.Expired > DateTime.UtcNow)
                 {
                     ModelState.AddModelError(string.Empty, _localizer["ERROR_USER_IS_EXPRIRED"].Value);
                     return View(model);
                 }
 
-                if (dbUser.LockedTo < DateTime.Now)
+                if (dbUser.LockedTo < DateTime.UtcNow)
                 {
                     ModelState.AddModelError(string.Empty, _localizer["ERROR_USER_IS_TEMPORARY_LOCKED"].Value);
                     return View(model);
@@ -93,7 +93,7 @@ namespace ru.EmlSoft.WMS.Controllers
                     if (dbUser.Logins != null)
                     {
                         // check to lock
-                        var lastLogins = dbUser.Logins.Where(x => x.Date >= DateTime.Now.AddMinutes(-15) 
+                        var lastLogins = dbUser.Logins.Where(x => x.Date >= DateTime.UtcNow.AddMinutes(-15) 
                             && x.PasswordHash == dbUser.PasswordHash);
 
                         if(lastLogins.Count() > 10 )
@@ -103,13 +103,15 @@ namespace ru.EmlSoft.WMS.Controllers
 
                         if(!lastLogins.Any(x=>x.Result == 0))
                         {
-                            dbUser.LockedTo = DateTime.Now.AddHours(1);
+                            dbUser.LockedTo = DateTime.UtcNow.AddHours(1);
                         }
                     }
 
+                    if(dbUser.Logins == null) 
+                        dbUser.Logins = new List<Logins>();
 
                     // save false login
-                    dbUser.Logins.Add(new Logins() { PasswordHash = dbUser.PasswordHash, Date = DateTime.Now, Result = 1 });
+                    dbUser.Logins.Add(new Logins() { PasswordHash = dbUser.PasswordHash, Date = DateTime.UtcNow, Result = 1 });
                     await _userStore.UpdateAsync(dbUser, cancellationToken);
                     return View(model);
                 }
@@ -119,7 +121,7 @@ namespace ru.EmlSoft.WMS.Controllers
                 if (dbUser.Logins == null)
                     dbUser.Logins = new List<Logins>();
 
-                dbUser.Logins.Add(new Logins() { PasswordHash = dbUser.PasswordHash, Date = DateTime.Now, Result = 0 });
+                dbUser.Logins.Add(new Logins() { PasswordHash = dbUser.PasswordHash, Date = DateTime.UtcNow, Result = 0 });
                 await _userStore.UpdateAsync(dbUser, cancellationToken);
 
                 await _signInManager.SignOutAsync();
@@ -127,9 +129,9 @@ namespace ru.EmlSoft.WMS.Controllers
 
                 var prop = new AuthenticationProperties
                 {
-                    IssuedUtc = DateTime.Now,
+                    IssuedUtc = DateTime.UtcNow,
                     IsPersistent = true, 
-                    ExpiresUtc = DateTime.Now.AddDays(1),
+                    ExpiresUtc = DateTime.UtcNow.AddDays(1),
                 };
                 var claimsPrincipal = await _signInManager.ClaimsFactory.CreateAsync(dbUser);
                 await _signInManager.Context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, prop);
@@ -158,7 +160,7 @@ namespace ru.EmlSoft.WMS.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in register user");
-                ModelState.AddModelError(string.Empty, $"User Ip:{UserExtension.GetAddr()}, Message='{ex.Message}'");
+                ModelState.AddModelError(string.Empty, $"User Ip:{await UserExtension.GetAddrAsync()}, Message='{ex.Message}'");
                 return View(model);
             }
         }
@@ -185,18 +187,30 @@ namespace ru.EmlSoft.WMS.Controllers
             // register new user
             try
             {
-                var ret = await _userStore.CreateAsync(user: GetUser(model), cancellationToken: cancellationToken);
+                var user = GetUser(model);
+                var ret = await _userStore.CreateAsync(user: user, cancellationToken: cancellationToken);
 
-                if(ret.Succeeded)
-                    return RedirectToAction("Index", "Home");
+                if (!ret.Succeeded)
+                {
+                    foreach (var err in ret.Errors)
+                        ModelState.AddModelError(string.Empty, _localizer[err.Description].Value);
+                }
 
-                foreach (var err in ret.Errors)
-                    ModelState.AddModelError(string.Empty, _localizer[err.Description].Value );
+                if (model.Company != null)
+                {
+                    var userName = await _userStore.GetNormalizedUserNameAsync(user, cancellationToken);
+                    
+                    user = await _userStore.FindByNameAsync(userName, cancellationToken);
+
+                    await _db.CreateCompanyAsync(user.Id, model.Company, cancellationToken);
+                }
+                return RedirectToAction("Index", "Home");
+
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in register user");
-                ModelState.AddModelError(string.Empty, $"User Ip:{UserExtension.GetAddr()}, Message='{ex.Message}'");
+                ModelState.AddModelError(string.Empty, $"User Ip:{await UserExtension.GetAddrAsync()}, Message='{ex.Message}'");
             }
 
             return View(model);
@@ -224,7 +238,8 @@ namespace ru.EmlSoft.WMS.Controllers
             {
                 var user = await _userStore.GetUserAsync(_signInManager, cancellationToken);
 
-                var ret = await _db.CreateCompanyAsync(user.Id, model.Name, cancellationToken);
+                if (model.Name != null)
+                    await _db.CreateCompanyAsync(user.Id, model.Name, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -246,12 +261,15 @@ namespace ru.EmlSoft.WMS.Controllers
 
         private User GetUser(Data.Dto.UserDto model)
         {
+            if (model == null) 
+                return new User();
+
             return new User()
             {
-                LoginName = model?.UserName,
-                PasswordHash = model?.Passwd1?.ToMd5(),
-                Email = model?.Email,
-                Phone = model?.Phone
+                LoginName = model.UserName,
+                PasswordHash = model.Passwd1?.ToMd5(),
+                Email = model.Email,
+                Phone = model.Phone
             };
         }
     }

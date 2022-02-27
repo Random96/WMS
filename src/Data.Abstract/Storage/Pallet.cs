@@ -13,7 +13,7 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Storage
     }
 
 
-    [Display(Description = "Палеты")]
+    [Display(Name = "Хранение", Description = "Палеты")]
     public class Pallet : Entity
     {
         public PalletType PalletType { get; set; }
@@ -22,6 +22,6 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Storage
         public int Depth { get; set; }
 
         public int ? CodeId { get; set; }
-        public virtual ScanCode Code {get; set; }
+        public virtual ScanCode ? Code {get; set; }
     }
 }

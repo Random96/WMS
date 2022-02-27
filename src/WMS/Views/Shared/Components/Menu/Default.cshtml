@@ -1,0 +1,32 @@
+﻿@using ru.EmlSoft.WMS.Data.Abstract.Access
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Localization
+@using ru.EmlSoft.WMS.Data.Dto
+@using ru.EmlSoft.WMS.Localization
+@using Microsoft.Extensions.Localization;
+
+@model IEnumerable<MenuDto>
+
+@{
+    if (Model?.Any()??false)
+    {
+        @foreach (var menu in Model)
+        {
+            <li class="treeview">
+                <a href="javascript:;">
+                    <i class="fa fa-pie-chart"></i>
+                    <span>@menu.Name</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
+                    @foreach (var item in menu.Items)
+                    {
+                        <li ref="@item.Description"><a href="@item.Name"><i class="fa fa-circle-o"></i>@item.Description</a></li>
+                    }
+                </ul>
+            </li>
+        }
+    }
+}
