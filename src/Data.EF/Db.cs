@@ -33,17 +33,17 @@ namespace ru.EmlSoft.WMS.Data.EF
 
             try
             {
-                //Database.EnsureDeleted();
+                // Database.EnsureDeleted();
                 Database.EnsureCreated();
 
                 _inited = true;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _error = ex.Message;
-                _logger.LogError(ex, "Error creating data {0}", new[] {this.Database.GetConnectionString()});
+                _logger.LogError(ex, "Error creating data {0}", new[] { this.Database.GetConnectionString() });
             }
-        }        
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -84,8 +84,8 @@ namespace ru.EmlSoft.WMS.Data.EF
             modelBuilder.Entity<User>().Property(x => x.LoginName).HasMaxLength(60).IsRequired();
             modelBuilder.Entity<User>().Property(x => x.Phone).HasMaxLength(80);
             modelBuilder.Entity<User>().Property(x => x.PasswordHash).HasMaxLength(32);
-            modelBuilder.Entity<User>().HasMany(x=>x.Logins).WithOne(x => x.User).HasForeignKey(x => x.UserId);
-            modelBuilder.Entity<User>().HasOne(x => x.Person).WithOne(x => x.User).HasForeignKey<User>(x=>x.PersonId).IsRequired(false);
+            modelBuilder.Entity<User>().HasMany(x => x.Logins).WithOne(x => x.User).HasForeignKey(x => x.UserId);
+            modelBuilder.Entity<User>().HasOne(x => x.Person).WithOne(x => x.User).HasForeignKey<User>(x => x.PersonId).IsRequired(false);
 
             modelBuilder.Entity<Logins>().ToTable(nameof(Logins).ToUpper());
             modelBuilder.Entity<Logins>().HasOne(x => x.User).WithMany(x => x.Logins).HasForeignKey(x => x.UserId);
@@ -118,9 +118,12 @@ namespace ru.EmlSoft.WMS.Data.EF
             modelBuilder.Entity<Person>().Property(x => x.LastName).HasMaxLength(200);
             modelBuilder.Entity<Person>().HasOne(x => x.Company).WithMany(x => x.Persons).HasForeignKey(x => x.CompanyId);
 
-            var arr = modelBuilder.Model.GetEntityTypes().Select(x => new EntityList() { Name = x.GetTableName(), 
-                    Label = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Description,
-                    GroupLabel = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Name}).
+            var arr = modelBuilder.Model.GetEntityTypes().Select(x => new EntityList()
+            {
+                Name = x.GetTableName(),
+                Label = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Description,
+                GroupLabel = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Name
+            }).
                 Where(x => !string.IsNullOrWhiteSpace(x.Label)).ToArray();
 
             for (int i = 0; i < arr.Length; ++i)
@@ -231,7 +234,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             var ret = await Appointments.Where(x => x.PersonId == user.PersonId && DateTime.UtcNow >= x.FromDate && (x.ToDate == null || x.ToDate >= DateTime.UtcNow))
                 .Select(x => x.Position).SelectMany(x => x.Rights).Where(x => x.CanRead).Select(x => x.Entity).Distinct().AsNoTracking().
                 GroupBy(x => x.GroupLabel, x => new { x.Name, x.Label })
-                .Select(x => new MenuDto( x.Key, x.Select(x=> new MenuItemDto(x.Name, x.Label)))).ToArrayAsync(cancellationToken);
+                .Select(x => new MenuDto(x.Key, x.Select(x => new MenuItemDto(x.Name, x.Label)))).ToArrayAsync(cancellationToken);
 
             return ret;
 

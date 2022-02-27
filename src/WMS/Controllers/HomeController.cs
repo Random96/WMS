@@ -40,7 +40,7 @@ namespace ru.EmlSoft.WMS.Controllers
 
                 return ret ?? View();
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in Home/index");
                 ViewBag.Error = $"Client Ip={await UserExtension.GetAddrAsync()}, ErrorMsg='{ex.Message}'";
@@ -75,7 +75,5 @@ namespace ru.EmlSoft.WMS.Controllers
         {
             return View();
         }
-
-
     }
 }

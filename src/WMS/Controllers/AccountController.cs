@@ -54,23 +54,23 @@ namespace ru.EmlSoft.WMS.Controllers
         {
             _logger.LogTrace("Login start");
 
-            if(model == null)
+            if (model == null)
                 return View();
 
             try
             {
                 // get user by name
                 var userName = await _userStore.GetNormalizedUserNameAsync(GetUser(model), cancellationToken);
-                var dbUser =  await _userStore.FindByNameAsync(userName, cancellationToken);
+                var dbUser = await _userStore.FindByNameAsync(userName, cancellationToken);
 
-                if (dbUser == null)
+                if (dbUser == null || dbUser.Id == 0)
                 {
-                    _logger.LogTrace( "User not found");
+                    _logger.LogTrace("User not found");
                     ModelState.AddModelError(string.Empty, _localizer["ERROR_USER_NOT_FOUND"].Value);
                     return View(model);
                 }
 
-                if( dbUser.IsLocked)
+                if (dbUser.IsLocked)
                 {
                     ModelState.AddModelError(string.Empty, _localizer["ERROR_USER_IS_LOCKED"].Value);
                     return View(model);
@@ -88,26 +88,26 @@ namespace ru.EmlSoft.WMS.Controllers
                     return View(model);
                 }
 
-                if( dbUser.PasswordHash != model?.Passwd1?.ToMd5())
+                if (dbUser.PasswordHash != model?.Passwd1?.ToMd5())
                 {
                     if (dbUser.Logins != null)
                     {
                         // check to lock
-                        var lastLogins = dbUser.Logins.Where(x => x.Date >= DateTime.UtcNow.AddMinutes(-15) 
+                        var lastLogins = dbUser.Logins.Where(x => x.Date >= DateTime.UtcNow.AddMinutes(-15)
                             && x.PasswordHash == dbUser.PasswordHash);
 
-                        if(lastLogins.Count() > 10 )
+                        if (lastLogins.Count() > 10)
                         {
                             lastLogins = lastLogins.OrderByDescending(x => x.Date).Take(10);
                         }
 
-                        if(!lastLogins.Any(x=>x.Result == 0))
+                        if (!lastLogins.Any(x => x.Result == 0))
                         {
                             dbUser.LockedTo = DateTime.UtcNow.AddHours(1);
                         }
                     }
 
-                    if(dbUser.Logins == null) 
+                    if (dbUser.Logins == null)
                         dbUser.Logins = new List<Logins>();
 
                     // save false login
@@ -130,7 +130,7 @@ namespace ru.EmlSoft.WMS.Controllers
                 var prop = new AuthenticationProperties
                 {
                     IssuedUtc = DateTime.UtcNow,
-                    IsPersistent = true, 
+                    IsPersistent = true,
                     ExpiresUtc = DateTime.UtcNow.AddDays(1),
                 };
                 var claimsPrincipal = await _signInManager.ClaimsFactory.CreateAsync(dbUser);
@@ -179,7 +179,7 @@ namespace ru.EmlSoft.WMS.Controllers
         {
             _logger.LogTrace("Register user begin");
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -199,7 +199,7 @@ namespace ru.EmlSoft.WMS.Controllers
                 if (model.Company != null)
                 {
                     var userName = await _userStore.GetNormalizedUserNameAsync(user, cancellationToken);
-                    
+
                     user = await _userStore.FindByNameAsync(userName, cancellationToken);
 
                     await _db.CreateCompanyAsync(user.Id, model.Company, cancellationToken);
@@ -261,7 +261,7 @@ namespace ru.EmlSoft.WMS.Controllers
 
         private User GetUser(Data.Dto.UserDto model)
         {
-            if (model == null) 
+            if (model == null)
                 return new User();
 
             return new User()

@@ -169,7 +169,7 @@ namespace ru.EmlSoft.WMS.Data.EF.Identity
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "ERROR_FIND_BY_NAME_ASYNC");
+                _logger.LogError(ex, "ERROR_UPDATE_USER_ASYNC");
                 return IdentityResult.Failed(new IdentityError[] { new IdentityError() { Description = "Error od update" } });
             }
         }
