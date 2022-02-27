@@ -62,7 +62,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             {
                 var log = serviceProvider.GetRequiredService<ILogger<Db>>();
 
-                var db = new OracleDb(configuration.GetConnectionString("MsSqlLocalConnection"), log);
+                var db = new OracleDb(configuration.GetConnectionString("OracleConnection"), log);
 
                 return db;
             };
