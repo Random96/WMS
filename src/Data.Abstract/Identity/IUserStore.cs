@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 
 namespace ru.EmlSoft.WMS.Data.Abstract.Identity
 {
-    public interface IUserStore : 
-        Microsoft.AspNetCore.Identity.IUserStore<User>, 
+    public interface IUserStore :
+        Microsoft.AspNetCore.Identity.IUserStore<User>,
         Microsoft.AspNetCore.Identity.IUserPasswordStore<User>,
         Microsoft.AspNetCore.Identity.IUserEmailStore<User>,
         Microsoft.AspNetCore.Identity.IUserPhoneNumberStore<User>,
@@ -13,6 +15,6 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Identity
         Microsoft.AspNetCore.Identity.IUserClaimsPrincipalFactory<User>,
         Microsoft.AspNetCore.Identity.IUserClaimStore<User>
     {
-        // Microsoft.AspNetCore.Identity.IdentityResult CheckUser(User userName);
+        Task<User> GetUserByIdAsync(int sid, CancellationToken cancellationToken);
     }
 }

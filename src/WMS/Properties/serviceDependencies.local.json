@@ -1,13 +1,16 @@
 {
   "dependencies": {
     "secrets1": {
-      "type": "secrets.user"
-    },
-    "mssql1": {
       "secretStore": null,
       "resourceId": null,
-      "type": "mssql.local",
-      "connectionId": "ConnectionStrings:DefaultConnection"
+      "type": "secrets.user",
+      "connectionId": null
+    },
+    "appInsights1": {
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/microsoft.insights/components/emlwms",
+      "type": "appInsights.azure",
+      "connectionId": "APPINSIGHTS_CONNECTIONSTRING"
     }
   }
 }

@@ -22,7 +22,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SharedResource {
+    public class SharedResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,7 +36,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
                     global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ru.EmlSoft.WMS.Localization.Resources.SharedResource", typeof(SharedResource).Assembly);
@@ -51,7 +51,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -63,16 +63,25 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на EMAIL.
         /// </summary>
-        internal static string EMAIL {
+        public static string EMAIL {
             get {
                 return ResourceManager.GetString("EMAIL", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на The database was not be initialized.
+        /// </summary>
+        public static string ERROR_DB_NOT_INIT {
+            get {
+                return ResourceManager.GetString("ERROR_DB_NOT_INIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ERROR_USER_ALREDY_EXIST.
         /// </summary>
-        internal static string ERROR_USER_ALREDY_EXIST {
+        public static string ERROR_USER_ALREDY_EXIST {
             get {
                 return ResourceManager.GetString("ERROR_USER_ALREDY_EXIST", resourceCulture);
             }
@@ -81,7 +90,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на HELLO.
         /// </summary>
-        internal static string HELLO {
+        public static string HELLO {
             get {
                 return ResourceManager.GetString("HELLO", resourceCulture);
             }
@@ -90,7 +99,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на LOGIN.
         /// </summary>
-        internal static string LOGIN {
+        public static string LOGIN {
             get {
                 return ResourceManager.GetString("LOGIN", resourceCulture);
             }
@@ -99,7 +108,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на LOGOUT.
         /// </summary>
-        internal static string LOGOUT {
+        public static string LOGOUT {
             get {
                 return ResourceManager.GetString("LOGOUT", resourceCulture);
             }
@@ -108,7 +117,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на PASSWORD.
         /// </summary>
-        internal static string PASSWORD {
+        public static string PASSWORD {
             get {
                 return ResourceManager.GetString("PASSWORD", resourceCulture);
             }
@@ -117,7 +126,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на PASSWORD_CONFIRM.
         /// </summary>
-        internal static string PASSWORD_CONFIRM {
+        public static string PASSWORD_CONFIRM {
             get {
                 return ResourceManager.GetString("PASSWORD_CONFIRM", resourceCulture);
             }
@@ -126,7 +135,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на PHONE.
         /// </summary>
-        internal static string PHONE {
+        public static string PHONE {
             get {
                 return ResourceManager.GetString("PHONE", resourceCulture);
             }
@@ -135,7 +144,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на REGISTER.
         /// </summary>
-        internal static string REGISTER {
+        public static string REGISTER {
             get {
                 return ResourceManager.GetString("REGISTER", resourceCulture);
             }
@@ -144,7 +153,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на USER.
         /// </summary>
-        internal static string USER {
+        public static string USER {
             get {
                 return ResourceManager.GetString("USER", resourceCulture);
             }
@@ -153,7 +162,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на USERNAME.
         /// </summary>
-        internal static string USERNAME {
+        public static string USERNAME {
             get {
                 return ResourceManager.GetString("USERNAME", resourceCulture);
             }
@@ -162,7 +171,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на EMAIL.
         /// </summary>
-        internal static string VALIDATE_EMAIL {
+        public static string VALIDATE_EMAIL {
             get {
                 return ResourceManager.GetString("VALIDATE_EMAIL", resourceCulture);
             }
@@ -171,7 +180,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на VALIDATE_PHONE.
         /// </summary>
-        internal static string VALIDATE_PHONE {
+        public static string VALIDATE_PHONE {
             get {
                 return ResourceManager.GetString("VALIDATE_PHONE", resourceCulture);
             }

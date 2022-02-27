@@ -4,7 +4,9 @@ using System.Text;
 
 namespace ru.EmlSoft.WMS.Data.Abstract.Identity
 {
-    //public interface IUserManager : Microsoft.AspNetCore.Identity.UserManager<User>
-    //{
-    //}
+    public interface ICompany
+    {
+        int CompanyId { get; set; }
+        Company Company { get; set; }
+    }
 }

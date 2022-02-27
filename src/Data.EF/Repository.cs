@@ -3,6 +3,7 @@ using Microsoft.Extensions.Logging;
 using ru.EmlSoft.WMS.Data.Abstract.Database;
 using ru.EmlSoft.WMS.Data.Abstract.Identity;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -12,10 +13,10 @@ using System.Threading.Tasks;
 
 namespace ru.EmlSoft.WMS.Data.EF
 {
-    public class Repository<T> : IRepository<T> where T : class, IHaveId
+    internal class Repository<T> : IRepository<T> where T : class, IHaveId, new()
     {
         private bool disposedValue;
-        private Db ? _db;
+        private Db? _db;
         private ILogger<Repository<T>> _logger;
         private static AutoMapper.MapperConfiguration _mapper_config = new AutoMapper.MapperConfiguration(cfg => { });
 
@@ -32,7 +33,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             throw new NotImplementedException();
         }
 
-        public async Task<T> AddAsync(T item, CancellationToken cancellationToken)
+        public async Task<T> AddAsync(T item, CancellationToken cancellationToken = default)
         {
             _logger.LogTrace("Add async of item");
             if (_db == null || disposedValue)
@@ -69,7 +70,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             }
         }
 
-        public async Task<IEnumerable<T>> GetListAsync(FilterObject[] filterObjects, CancellationToken cancellationToken)
+        public async Task<IEnumerable<T>> GetListAsync(FilterObject[] filterObjects, CancellationToken cancellationToken = default, bool includeProperties = false)
         {
             _logger.LogTrace("Get list of items async");
             if (_db == null || disposedValue)
@@ -77,7 +78,7 @@ namespace ru.EmlSoft.WMS.Data.EF
 
             try
             {
-                IQueryable<T> query = GetQuerable(_db.Set<T>().AsNoTracking(), filterObjects);
+                IQueryable<T> query = GetQuerable(_db.Set<T>().AsNoTracking(), filterObjects, includeProperties);
 
                 var ret = await query.ToArrayAsync(cancellationToken);
 
@@ -117,7 +118,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             }
         }
 
-        public async Task<bool> AnyAsync(IEnumerable<FilterObject> filters, CancellationToken cancellationToken)
+        public async Task<bool> AnyAsync(IEnumerable<FilterObject> filters, CancellationToken cancellationToken = default)
         {
             if (_db == null || disposedValue)
                 throw new Exception("Is disposed");
@@ -142,7 +143,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             }
         }
 
-        public async Task UpdateAsync(T item, CancellationToken cancellationToken)
+        public async Task UpdateAsync(T item, CancellationToken cancellationToken = default)
         {
             if (_db == null || disposedValue)
                 throw new Exception("Is disposed");
@@ -155,7 +156,7 @@ namespace ru.EmlSoft.WMS.Data.EF
                 else
                 {
                     var oldItem = _db.Set<T>().Find(item.Id);
-                    
+
                     if (oldItem == null)
                         throw new Exception();
 
@@ -176,7 +177,7 @@ namespace ru.EmlSoft.WMS.Data.EF
             }
         }
 
-        public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken)
+        public async Task<T> GetByIdAsync(int id, CancellationToken cancellationToken = default)
         {
             if (_db == null || disposedValue)
                 throw new Exception("Is disposed");
@@ -186,9 +187,9 @@ namespace ru.EmlSoft.WMS.Data.EF
             {
 
 
-                var ret = await _db.Set<T>().FindAsync( new object[] { id },  cancellationToken : cancellationToken);
+                var ret = await _db.Set<T>().FindAsync(new object?[] { id }, cancellationToken: cancellationToken);
 
-                return ret;
+                return ret ?? new T();
             }
             catch (Exception ex)
             {
@@ -199,18 +200,18 @@ namespace ru.EmlSoft.WMS.Data.EF
                 _logger.LogTrace("Method 'UpdateAsync' finished");
             }
 
-            return null;
+            return new T();
         }
 
 
-        private IQueryable<T> GetQuerable(IQueryable<T> source, IEnumerable<FilterObject> ? filters)
+        private IQueryable<T> GetQuerable(IQueryable<T> source, IEnumerable<FilterObject>? filters, bool includePropertyes = false)
         {
             var actualFilters = filters?.ToArray() ?? Array.Empty<FilterObject>();
 
             var item = Expression.Parameter(typeof(T), "item");
 
-            Expression<Func<T, bool>> ? filterExp = null;
-            Expression<Func<T, bool>> ? lambda;
+            Expression<Func<T, bool>>? filterExp = null;
+            Expression<Func<T, bool>>? lambda;
 
             foreach (var filter in actualFilters)
             {
@@ -220,7 +221,7 @@ namespace ru.EmlSoft.WMS.Data.EF
                 switch (filter.Operation)
                 {
                     case FilterOption.Equals:
-                        {                          
+                        {
                             if (filter.Comparation == StringComparison.CurrentCultureIgnoreCase && filter.Value is string strVal)
                             {
                                 var value = Expression.Constant(strVal.ToUpper(), property.Type);
@@ -257,7 +258,7 @@ namespace ru.EmlSoft.WMS.Data.EF
                                 var method = GetGenericMethod(typeof(Enumerable), "Contains",
                                     new[] { arrayType.Item2 },
                                     new[] { arrayType.Item1, arrayType.Item2 });
-                                
+
                                 if (method == null)
                                     throw new Exception("illegal method");
 
@@ -311,12 +312,29 @@ namespace ru.EmlSoft.WMS.Data.EF
                     }
                 }
             }
-            //var spisok = source.Where(filterExp).ToList();
-            //return source.Where(filterExp);
-            return filterExp != null ? source.Where(filterExp) : source;
+
+            if (filterExp != null)
+                source = source.Where(filterExp);
+
+            if (includePropertyes)
+            {
+                // .Where(x => x.PropertyType.IsClass && x.PropertyType != typeof(string)
+                foreach (var prop in typeof(T).GetProperties())
+                {
+                    if (prop.PropertyType == typeof(string))
+                        continue;
+
+
+                    if (prop.PropertyType.IsClass || typeof(IEnumerable).IsAssignableFrom(prop.PropertyType))
+                    {
+                        source = source.Include(prop.Name);
+                    }
+                };
+            }
+            return source;
         }
 
-        private static Tuple<Type, Type> ? GetArrayType(object value)
+        private static Tuple<Type, Type>? GetArrayType(object value)
         {
             TypeInfo type = (TypeInfo)value.GetType();
             foreach (var interfaces in type.ImplementedInterfaces)
@@ -329,14 +347,14 @@ namespace ru.EmlSoft.WMS.Data.EF
             return null;
         }
 
-        private static MethodInfo ? GetGenericMethod(Type type, string name, Type[] genericTypeArgs, Type[] paramTypes)
+        private static MethodInfo? GetGenericMethod(Type type, string name, Type[] genericTypeArgs, Type[] paramTypes)
         {
             //выбираем у типа все методы
             var abstractGenericMethod = type.GetMethods(BindingFlags.Public | BindingFlags.Instance | BindingFlags.Static);
-            
+
             //фильтруем по имени
             abstractGenericMethod = abstractGenericMethod.Where(x => x.Name == name).ToArray();
-            
+
             //интересуют только generic-методы
             abstractGenericMethod = abstractGenericMethod.Where(x => x.IsGenericMethod).ToArray();
 
@@ -500,4 +518,3 @@ namespace ru.EmlSoft.WMS.Data.EF
     }
 
 }
-

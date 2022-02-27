@@ -1,8 +1,9 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
+@using Microsoft.Extensions.Localization;
 @using ru.EmlSoft.WMS.Localization
 @using ru.EmlSoft.WMS.Data.Dto
 
-@inject IHtmlLocalizer<SharedResource> _sharedLocalizer
+@inject IStringLocalizer<SharedResource> _sharedLocalizer
 
 
 @{

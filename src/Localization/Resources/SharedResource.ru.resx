@@ -120,6 +120,9 @@
   <data name="EMAIL" xml:space="preserve">
     <value>Электронная почта</value>
   </data>
+  <data name="ERROR_DB_NOT_INIT" xml:space="preserve">
+    <value>база данных не инициализирована</value>
+  </data>
   <data name="ERROR_USER_ALREDY_EXIST" xml:space="preserve">
     <value>Пользователь с таким именем уже существует</value>
   </data>

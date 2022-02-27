@@ -31,5 +31,9 @@ namespace ru.EmlSoft.WMS.Data.Dto
         [EmailAddress]
         [Display(Name = "EMAIL")]
         public string? Email { get; set; }
+
+        [Display(Name = "COMPANY")]
+        [StringLength(200, MinimumLength = 3)]
+        public string? Company { get; set; }
     }
 }
