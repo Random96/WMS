@@ -1,17 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using ru.EmlSoft.WMS.Localization.Resources;
+using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace ru.EmlSoft.WMS.Data.Dto
+namespace ru.emlsoft.WMS.Data.Dto
 {
     public class CompanyDto
     {
-        [Display(Name = "COMPANYNAME")]
+        [Display(Name = "COMPANYNAME", ResourceType = typeof(SharedResource))]
         [StringLength(60, MinimumLength = 3)]
         [Required]
-        public string ? Name { get; set; }
+        public string? Name { get; set; }
     }
 }

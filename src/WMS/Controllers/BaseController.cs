@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ru.EmlSoft.WMS.Data.Abstract.Database;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
-using ru.EmlSoft.WMS.Data.Dto;
-using WMS.Tools;
+using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
+using ru.emlsoft.WMS.Data.Dto;
+using ru.emlsoft.WMS.Tools;
 
-namespace ru.EmlSoft.WMS.Controllers
+namespace ru.emlsoft.WMS.Controllers
 {
     public abstract class BaseController : Controller
     {
@@ -35,5 +35,15 @@ namespace ru.EmlSoft.WMS.Controllers
             return null;
         }
 
+        internal async Task<int> GetUserIdAsync(CancellationToken cancellationToken)
+        {
+            // get current user 
+            var user = await _userStore.GetUserAsync(_signInManager, cancellationToken);
+
+            if (user == null || user.Id == 0)
+                throw new Exception("Bad user");
+
+            return user.Id;
+        }
     }
 }

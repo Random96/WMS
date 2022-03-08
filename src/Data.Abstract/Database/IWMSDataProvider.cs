@@ -1,12 +1,12 @@
-﻿using ru.EmlSoft.WMS.Data.Dto;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
+﻿using ru.emlsoft.WMS.Data.Dto;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ru.EmlSoft.WMS.Data.Abstract.Database
+namespace ru.emlsoft.WMS.Data.Abstract.Database
 {
     public interface IWMSDataProvider
     {

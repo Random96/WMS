@@ -61,6 +61,24 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANY.
+        /// </summary>
+        public static string COMPANY {
+            get {
+                return ResourceManager.GetString("COMPANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANYNAME.
+        /// </summary>
+        public static string COMPANYNAME {
+            get {
+                return ResourceManager.GetString("COMPANYNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на EMAIL.
         /// </summary>
         public static string EMAIL {
@@ -147,6 +165,51 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         public static string REGISTER {
             get {
                 return ResourceManager.GetString("REGISTER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORAGECELLS.
+        /// </summary>
+        public static string STORAGECELLS {
+            get {
+                return ResourceManager.GetString("STORAGECELLS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORAGENAME.
+        /// </summary>
+        public static string STORAGENAME {
+            get {
+                return ResourceManager.GetString("STORAGENAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORAGEROWS.
+        /// </summary>
+        public static string STORAGEROWS {
+            get {
+                return ResourceManager.GetString("STORAGEROWS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORAGETIERS.
+        /// </summary>
+        public static string STORAGETIERS {
+            get {
+                return ResourceManager.GetString("STORAGETIERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORENAME.
+        /// </summary>
+        public static string STORENAME {
+            get {
+                return ResourceManager.GetString("STORENAME", resourceCulture);
             }
         }
         

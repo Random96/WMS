@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
-namespace ru.EmlSoft.WMS.Data.Abstract.Identity
+namespace ru.emlsoft.WMS.Data.Abstract.Identity
 {
     public interface ICompany
     {

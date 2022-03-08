@@ -4,7 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-ru.EmlSoft.WMS-3DFE4F9C-9269-477D-9D87-DD4440322AFE</UserSecretsId>
+    <UserSecretsId>aspnet-ru.emlsoft.WMS-3DFE4F9C-9269-477D-9D87-DD4440322AFE</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/09877b03-e059-4388-9f3d-73ddfe3ce5a0/resourceGroups/emlwms_group/providers/microsoft.insights/components/emlwms</ApplicationInsightsResourceId>
   </PropertyGroup>
 
@@ -19,26 +19,18 @@
     <PackageReference Include="Azure.Identity" Version="1.5.0" />
     <PackageReference Include="jQuery" Version="3.6.0" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.20.0" />
-    <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="6.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="6.0.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.2">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="6.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="6.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging.AzureAppServices" Version="6.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.2" />
-    <PackageReference Include="Oracle.EntityFrameworkCore" Version="6.21.5" />
     <PackageReference Include="popper.js" Version="1.16.1" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Data.Abstract\ru.EmlSoft.WMS.Data.Abstract.csproj" />
-    <ProjectReference Include="..\Data.EF\ru.EmlSoft.WMS.Data.EF.csproj" />
-    <ProjectReference Include="..\Dto\ru.EmlSoft.WMS.Data.Dto.csproj" />
-    <ProjectReference Include="..\Localization\ru.EmlSoft.WMS.Localization.csproj" />
-    <ProjectReference Include="..\Utilities\ru.EmlSoft.Utilities.csproj" />
+    <ProjectReference Include="..\Data.Abstract\ru.emlsoft.WMS.Data.Abstract.csproj" />
+    <ProjectReference Include="..\Data.EF\ru.emlsoft.WMS.Data.EF.csproj" />
+    <ProjectReference Include="..\Dto\ru.emlsoft.WMS.Data.Dto.csproj" />
+    <ProjectReference Include="..\Localization\ru.emlsoft.WMS.Localization.csproj" />
+    <ProjectReference Include="..\Utilities\ru.emlsoft.Utilities.csproj" />
   </ItemGroup>
 
   <ItemGroup>

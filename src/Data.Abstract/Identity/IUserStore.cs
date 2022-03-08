@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ru.EmlSoft.WMS.Data.Abstract.Identity
+namespace ru.emlsoft.WMS.Data.Abstract.Identity
 {
     public interface IUserStore :
         Microsoft.AspNetCore.Identity.IUserStore<User>,

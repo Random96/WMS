@@ -1,17 +1,17 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ru.EmlSoft.WMS.Data.Abstract.Database;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
-using ru.EmlSoft.WMS.Data.Dto;
-using ru.EmlSoft.WMS.Models;
+using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
+using ru.emlsoft.WMS.Data.Dto;
+using ru.emlsoft.WMS.Models;
 using System.Diagnostics;
 using System.Net;
 using System.Security.Claims;
-using WMS.Controllers;
-using WMS.Tools;
+using ru.emlsoft.WMS.Controllers;
+using ru.emlsoft.WMS.Tools;
 
 
-namespace ru.EmlSoft.WMS.Controllers
+namespace ru.emlsoft.WMS.Controllers
 {
     public class HomeController : BaseController
     {
@@ -43,7 +43,7 @@ namespace ru.EmlSoft.WMS.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in Home/index");
-                ViewBag.Error = $"Client Ip={await UserExtension.GetAddrAsync()}, ErrorMsg='{ex.Message}'";
+                ViewBag.Error = $"Client Ip={await UserExtension.GetAddressAsync()}, ErrorMsg='{ex.Message}'";
                 return View();
             }
         }

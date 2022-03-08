@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ru.EmlSoft.WMS.Data.Abstract.Database;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
-using ru.EmlSoft.WMS.Data.Dto;
-using WMS.Tools;
+using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
+using ru.emlsoft.WMS.Data.Dto;
+using ru.emlsoft.WMS.Tools;
 
 namespace WMS.Components
 {

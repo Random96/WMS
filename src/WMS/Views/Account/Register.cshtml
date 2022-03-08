@@ -1,14 +1,14 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
 @using Microsoft.Extensions.Localization;
-@using ru.EmlSoft.WMS.Localization
-@using ru.EmlSoft.WMS.Data.Dto
+@using ru.emlsoft.WMS.Localization
+@using ru.emlsoft.WMS.Data.Dto
 
 @inject IStringLocalizer<SharedResource> _sharedLocalizer
 
 
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    @model ru.EmlSoft.WMS.Data.Dto.UserDto
+    @model ru.emlsoft.WMS.Data.Dto.UserDto
 }
 
 <div id="app"v>
@@ -30,19 +30,19 @@
                 <tr>
                     <td>
                         <div class="form-group">
-                            <label class="control-label col-sm-6" asp-for=Passwd1></label>
+                            <label class="control-label col-sm-6" asp-for=Password1></label>
                             <div class="col-sm-10">
-                                <input asp-for=Passwd1 type="password" class="form-control" autocomplete="off">
-                                <span asp-validation-for="Passwd1" class="text-danger"></span>
+                                <input asp-for=Password1 type="password" class="form-control" autocomplete="off">
+                                <span asp-validation-for="Password1" class="text-danger"></span>
                             </div>
                         </div>
                     </td>
                     <td>
                         <div class="form-group">
-                            <label class="control-label col-sm-6" asp-for=Passwd2></label>
+                            <label class="control-label col-sm-6" asp-for=Password2></label>
                             <div class="col-sm-10">
-                                <input asp-for=Passwd2 type="password" class="form-control" autocomplete="off">
-                                <span asp-validation-for="Passwd2" class="text-danger"></span>
+                                <input asp-for=Password2 type="password" class="form-control" autocomplete="off">
+                                <span asp-validation-for="Password2" class="text-danger"></span>
                             </div>
                         </div>
                     </td>

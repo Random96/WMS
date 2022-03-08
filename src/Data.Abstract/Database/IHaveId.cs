@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ru.EmlSoft.WMS.Data.Abstract.Database
+namespace ru.emlsoft.WMS.Data.Abstract.Database
 {
     public interface IHaveId<T>
     { 

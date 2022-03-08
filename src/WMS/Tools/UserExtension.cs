@@ -1,14 +1,33 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using ru.EmlSoft.WMS.Controllers;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
-using System.Net;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
 using System.Security.Claims;
 
-namespace WMS.Tools
+namespace ru.emlsoft.WMS.Tools
 {
     public static class UserExtension
     {
+
+
+        public static async Task<string> GetAddressAsync()
+        {
+            using var client = new HttpClient();
+            try
+            {
+                // Create a request for the URL. 		
+                using var response = await client.GetAsync("http://www.eml-soft.ru/addr.php");
+
+                response.EnsureSuccessStatusCode();
+
+                // Get the response.
+                var responseBody = await response.Content.ReadAsStringAsync();
+
+                return responseBody;
+            }
+            catch (Exception)
+            {
+                return String.Empty;
+            }
+        }
         public static async Task<User> GetUserAsync(this IUserStore userStore, SignInManager<User> signInManager, CancellationToken cancellationToken = default)
         {
             var user = signInManager.Context.User;
@@ -24,31 +43,6 @@ namespace WMS.Tools
             }
 
             return new User();
-        }
-
-
-        public static async Task<string> GetAddrAsync()
-        {
-            HttpClient client = new HttpClient();
-
-            try
-            {
-                // Create a request for the URL. 		
-                using (var response = await client.GetAsync("http://www.eml-soft.ru/addr.php"))
-                {
-
-                    response.EnsureSuccessStatusCode();
-
-                    // Get the response.
-                    var responseBody = await response.Content.ReadAsStringAsync();
-
-                    return responseBody;
-                }
-            }
-            catch (Exception)
-            {
-                return String.Empty;
-            }
         }
     }
 }

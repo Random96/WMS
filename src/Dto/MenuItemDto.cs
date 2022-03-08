@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ru.EmlSoft.WMS.Data.Dto
+namespace ru.emlsoft.WMS.Data.Dto
 {
     public class MenuItemDto
     {

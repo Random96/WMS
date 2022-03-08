@@ -5,4 +5,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Localization\ru.EmlSoft.WMS.Localization.csproj" />
+  </ItemGroup>
+
 </Project>

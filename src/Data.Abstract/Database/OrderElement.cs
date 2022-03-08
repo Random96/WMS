@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ru.EmlSoft.WMS.Data.Abstract.Database
+namespace ru.emlsoft.WMS.Data.Abstract.Database
 {
     public enum Ordering
     {
@@ -12,7 +12,7 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Database
     public class OrderElement
     {
         private readonly Ordering _order;
-        private string _name;
+        readonly string _name;
 
         public OrderElement(Ordering order, string name)
         {

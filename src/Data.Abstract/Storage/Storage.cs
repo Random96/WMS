@@ -1,15 +1,20 @@
-﻿using ru.EmlSoft.WMS.Data.Abstract.Access;
+﻿using ru.emlsoft.WMS.Data.Abstract.Access;
+using ru.EmlSoft.WMS.Localization.Resources;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
 
-namespace ru.EmlSoft.WMS.Data.Abstract.Storage
+namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
-    [Display(Name = "Хранение", Description = "Склад")]
+    [Display(Name = "Хранение", Description = "Склад", ResourceType = typeof(SharedResource))]
     public class Storage : Entity
     {
-        public string ? Name { get; set; }
-        public virtual ICollection<Cell> ? Cells { get; set; }
+        public Storage() : base(EntityType.Storage)
+        {
+            Rows = new List<Row>();
+        }
+
+        public string Name { get; set; } = String.Empty;
+
+        public virtual ICollection<Row> Rows { get; set; } = new List<Row>();
     }
 }

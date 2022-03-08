@@ -1,10 +1,10 @@
-﻿using ru.EmlSoft.WMS.Data.Abstract.Access;
-using ru.EmlSoft.WMS.Data.Abstract.Database;
+﻿using ru.emlsoft.WMS.Data.Abstract.Access;
+using ru.emlsoft.WMS.Data.Abstract.Database;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ru.EmlSoft.WMS.Data.Abstract.Identity
+namespace ru.emlsoft.WMS.Data.Abstract.Identity
 {
     public class Company : IHaveId
     {

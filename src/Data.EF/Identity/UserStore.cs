@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,13 +9,13 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ru.EmlSoft.WMS.Data.EF.Identity
+namespace ru.emlsoft.WMS.Data.EF.Identity
 {
     internal class UserStore : IUserStore// , IUserPasswordStore<User>
     {
         private Db? _db;
         private readonly ILogger<UserStore> _logger;
-        private static AutoMapper.MapperConfiguration _mapper_config = new AutoMapper.MapperConfiguration(cfg => { });
+        private readonly static AutoMapper.MapperConfiguration _mapper_config = new (cfg => { });
 
         public UserStore(ILogger<UserStore> logger, Db db)
         {

@@ -1,4 +1,4 @@
-namespace ru.EmlSoft.WMS.Models
+namespace ru.emlsoft.WMS.Models
 {
     public class ErrorViewModel
     {

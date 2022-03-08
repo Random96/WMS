@@ -117,6 +117,12 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="COMPANY" xml:space="preserve">
+    <value>Предприятие</value>
+  </data>
+  <data name="COMPANYNAME" xml:space="preserve">
+    <value>Наименование предприятия</value>
+  </data>
   <data name="EMAIL" xml:space="preserve">
     <value>Электронная почта</value>
   </data>
@@ -146,6 +152,21 @@
   </data>
   <data name="REGISTER" xml:space="preserve">
     <value>Регистрация</value>
+  </data>
+  <data name="STORAGECELLS" xml:space="preserve">
+    <value>Количество ячеек на ярусе</value>
+  </data>
+  <data name="STORAGENAME" xml:space="preserve">
+    <value>Наименование склада</value>
+  </data>
+  <data name="STORAGEROWS" xml:space="preserve">
+    <value>Количество рядов в складе</value>
+  </data>
+  <data name="STORAGETIERS" xml:space="preserve">
+    <value>Количество ярусов в ряду</value>
+  </data>
+  <data name="STORENAME" xml:space="preserve">
+    <value>Наименование склада</value>
   </data>
   <data name="USER" xml:space="preserve">
     <value>Пользователь</value>

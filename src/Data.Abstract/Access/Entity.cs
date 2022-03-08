@@ -1,15 +1,24 @@
-﻿using ru.EmlSoft.WMS.Data.Abstract.Database;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
+﻿using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace ru.EmlSoft.WMS.Data.Abstract.Access
+namespace ru.emlsoft.WMS.Data.Abstract.Access
 {
+    public enum EntityType
+    {
+        Cell = 1, Good, Pack,Pallet,Row, Storage,Tier
+    }
     public abstract class Entity : IHaveId, ICompany
     {
+        public Entity(EntityType type)
+        {
+            EntityType = type;
+        }
+
         public int Id { get; set; }
-        public int EntityType { get; set; }
+        public EntityType EntityType { get; }
         public int ? ParentId { get; set; }
         public int CompanyId { get; set; }
         public virtual Entity ? ParentEntity { get; set; }

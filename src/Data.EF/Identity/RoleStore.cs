@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using ru.EmlSoft.WMS.Data.Abstract.Access;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
+using ru.emlsoft.WMS.Data.Abstract.Access;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,12 +10,12 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ru.EmlSoft.WMS.Data.EF.Identity
+namespace ru.emlsoft.WMS.Data.EF.Identity
 {
     internal class RoleStore : IRoleStore
     {
         private bool disposedValue;
-        private Db? _db;
+        private readonly Db? _db;
         private readonly ILogger<RoleStore> _logger;
 
         public RoleStore(ILogger<RoleStore> logger, Db db)

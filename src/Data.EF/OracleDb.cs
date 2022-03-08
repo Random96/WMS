@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ru.EmlSoft.WMS.Data.EF
+namespace ru.emlsoft.WMS.Data.EF
 {
     internal class OracleDb : Db
     {

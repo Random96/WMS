@@ -1,11 +1,12 @@
-﻿using ru.EmlSoft.WMS.Data.Abstract.Access;
-using ru.EmlSoft.WMS.Data.Abstract.Database;
+﻿using ru.emlsoft.WMS.Data.Abstract.Access;
+using ru.emlsoft.WMS.Data.Abstract.Database;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
+using ru.EmlSoft.WMS.Localization.Resources;
 
-namespace ru.EmlSoft.WMS.Data.Abstract.Storage
+namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
     public enum PalletType {
         Euro,
@@ -13,9 +14,11 @@ namespace ru.EmlSoft.WMS.Data.Abstract.Storage
     }
 
 
-    [Display(Name = "Хранение", Description = "Палеты")]
+    [Display(Name = "Хранение", Description = "Палеты", ResourceType=typeof(SharedResource))]
     public class Pallet : Entity
     {
+        public Pallet() : base(EntityType.Pallet) { }
+
         public PalletType PalletType { get; set; }
         public int Height { get; set; }
         public int Width { get; set; }

@@ -1,7 +1,55 @@
-﻿
+﻿@using ru.EmlSoft.WMS.Data.Dto.Storage;
+
+@model ru.EmlSoft.WMS.Data.Dto.PageDto<StorageDto>;
+
 @{
+    Layout = "/Views/Shared/_Layout.cshtml";
     ViewData["Title"] = "Index";
 }
+<section class="content-header">
+    <h1>Склады</h1>
+</section>
 
-<h1>Склады</h1>
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@if (Model?.Items?.Any() ?? false)
+{
+    <table class="table">
+        <tr>
+            <td>
+                 @Html.DisplayNameFor(model => model.Items.First().StorageName)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Rows)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Tiers)
+            </td>
+            <td>
+            </td>
+        </tr>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.StorageName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Rows)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Tiers)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
 
