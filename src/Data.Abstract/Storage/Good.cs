@@ -1,9 +1,7 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Access;
-using System.ComponentModel.DataAnnotations;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using ru.EmlSoft.WMS.Localization.Resources;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
@@ -13,7 +11,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Storage
         public Good() : base(EntityType.Good) { }
 
         public int CodeId { get; set; }
-        public virtual ScanCode ? Code { get; set; }
-        public string ? Article { get; set; }
+        public virtual ScanCode? Code { get; set; }
+        public string? Article { get; set; }
     }
 }

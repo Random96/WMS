@@ -1,17 +1,14 @@
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
-using ru.emlsoft.WMS.Data.Abstract.Access;
-using ru.emlsoft.WMS.Data.Abstract.Database;
-using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.EF;
 using ru.emlsoft.WMS.Localization;
-using System.Globalization;
-using Azure.Identity;
-using System.Linq;
 using System;
-using Microsoft.AspNetCore.HttpOverrides;
+using System.Globalization;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -68,8 +65,9 @@ builder.Services.AddAuthentication(c =>
 
 builder.Services.AddRazorPages().
     AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).
-    AddDataAnnotationsLocalization(options => {
-        options.DataAnnotationLocalizerProvider = 
+    AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider =
             (type, factory) => factory.Create(typeof(SharedResource));
     });
 builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
@@ -87,9 +85,9 @@ app.UseRequestLocalization(new RequestLocalizationOptions
     ApplyCurrentCultureToResponseHeaders = true
 });
 
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+app.UseExceptionHandler("/Home/Error");
+// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+app.UseHsts();
 
 
 app.UseHttpsRedirection();

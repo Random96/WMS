@@ -1,9 +1,7 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.EmlSoft.WMS.Localization.Resources;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
@@ -14,6 +12,6 @@ namespace ru.emlsoft.WMS.Data.Abstract.Storage
 
         public int Qty { get; set; }
         public int CodeId { get; set; }
-        public virtual ScanCode ? Code { get; set; }
+        public virtual ScanCode? Code { get; set; }
     }
 }

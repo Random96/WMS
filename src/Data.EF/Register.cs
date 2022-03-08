@@ -1,16 +1,13 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.EF.Identity;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ru.emlsoft.WMS.Data.Abstract.Identity;
-using ru.emlsoft.WMS.Data.Abstract.Access;
-using Microsoft.Extensions.Configuration;
 
 namespace ru.emlsoft.WMS.Data.EF
 {
@@ -56,43 +53,43 @@ namespace ru.emlsoft.WMS.Data.EF
                     services.AddTransient(typeof(Db), (Func<IServiceProvider, Db>)factoryDb);
                     break;
             }
-/*
-            Func<IServiceProvider, Db> factoryDb = serviceProvider =>
-            {
-                var log = serviceProvider.GetRequiredService<ILogger<Db>>();
+            /*
+                        Func<IServiceProvider, Db> factoryDb = serviceProvider =>
+                        {
+                            var log = serviceProvider.GetRequiredService<ILogger<Db>>();
 
-                var db = new OracleDb(configuration.GetConnectionString("OracleConnection"), log);
+                            var db = new OracleDb(configuration.GetConnectionString("OracleConnection"), log);
 
-                return db;
-            };
+                            return db;
+                        };
 
-            Func<IServiceProvider, object> factory = serviceProvider => factoryDb(serviceProvider);
+                        Func<IServiceProvider, object> factory = serviceProvider => factoryDb(serviceProvider);
 
-            switch (injection)
-            {
-                case ServiceLifetime.Scoped:
-                    services.AddScoped(typeof(IUserStore), typeof(UserStore));
-                    services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-                    services.AddScoped(typeof(IWMSDataProvider), factory);
-                    services.AddScoped(typeof(Db), factory);
-                    break;
+                        switch (injection)
+                        {
+                            case ServiceLifetime.Scoped:
+                                services.AddScoped(typeof(IUserStore), typeof(UserStore));
+                                services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+                                services.AddScoped(typeof(IWMSDataProvider), factory);
+                                services.AddScoped(typeof(Db), factory);
+                                break;
 
-                case ServiceLifetime.Singleton:
-                    services.AddSingleton(typeof(IUserStore), typeof(UserStore));
-                    services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
-                    services.AddSingleton(typeof(IWMSDataProvider), factory);
-                    services.AddSingleton(typeof(Db), factoryDb);
+                            case ServiceLifetime.Singleton:
+                                services.AddSingleton(typeof(IUserStore), typeof(UserStore));
+                                services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
+                                services.AddSingleton(typeof(IWMSDataProvider), factory);
+                                services.AddSingleton(typeof(Db), factoryDb);
 
-                    break;
+                                break;
 
-                case ServiceLifetime.Transient:
-                    services.AddTransient(typeof(IUserStore), typeof(UserStore));
-                    services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-                    services.AddTransient(typeof(IWMSDataProvider), factory);
-                    services.AddTransient(typeof(Db), factoryDb);
-                    break;
-            }
-*/
+                            case ServiceLifetime.Transient:
+                                services.AddTransient(typeof(IUserStore), typeof(UserStore));
+                                services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+                                services.AddTransient(typeof(IWMSDataProvider), factory);
+                                services.AddTransient(typeof(Db), factoryDb);
+                                break;
+                        }
+            */
         }
 
     }
