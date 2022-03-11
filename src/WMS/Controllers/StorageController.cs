@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.Abstract.Storage;
-using ru.EmlSoft.WMS.Data.Dto;
-using ru.EmlSoft.WMS.Data.Dto.Storage;
+using ru.emlsoft.WMS.Data.Dto;
+using ru.emlsoft.WMS.Data.Dto.Storage;
 
 namespace ru.emlsoft.WMS.Controllers
 {
@@ -29,8 +29,6 @@ namespace ru.emlsoft.WMS.Controllers
             var companyId = await GetUserIdAsync(cancellationToken);
 
             _repoStorage.UserId = companyId;
-            // _repoRow.CompanyId = companyId;
-            // _repoTier.CompanyId = companyId;
 
             var items = await _repoStorage.GetPageAsync(pageNum, pageSize, filters, null, cancellationToken, true);
 
@@ -135,15 +133,21 @@ namespace ru.emlsoft.WMS.Controllers
         }
 
         // GET: StorageController/Edit/5
-        public ActionResult Edit(int _)
+        public async Task<ActionResult> Edit(int id)
         {
+            var companyId = await GetUserIdAsync(cancellationToken);
+
+            _repoStorage.UserId = companyId;
+
+            var items = await _repoStorage.GetPageAsync(pageNum, pageSize, filters, null, cancellationToken, true);
+
             return View();
         }
 
         // POST: StorageController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, StorageDto model, CancellationToken cancellationToken = default)
         {
             try
             {
