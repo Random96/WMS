@@ -218,8 +218,9 @@ namespace ru.emlsoft.WMS.Data.EF
                 return Enumerable.Empty<MenuDto>();
 
             var ret = await Appointments.Where(x => x.PersonId == user.PersonId && DateTime.UtcNow >= x.FromDate && (x.ToDate == null || x.ToDate >= DateTime.UtcNow))
-                .Select(x => x.Position).SelectMany(x => x.Rights).Where(x => x.CanRead).Select(x => x.Entity).Distinct().AsNoTracking().
-                GroupBy(x => x.GroupLabel, x => new { x.Name, x.Label })
+                .Select(x => x.Position).SelectMany(x => x.Rights).Where(x => x.CanRead)
+                .Select(x => x.Entity).Distinct().AsNoTracking()
+                .GroupBy(x => x.GroupLabel, x => new { x.Name, x.Label })
                 .Select(x => new MenuDto(x.Key, x.Select(x => new MenuItemDto(x.Name, x.Label)))).ToArrayAsync(cancellationToken);
 
             return ret;

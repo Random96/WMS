@@ -34,8 +34,6 @@ namespace ru.emlsoft.WMS.Controllers
 
             var items = await _repoStorage.GetPageAsync(pageNum, pageSize, filters, null, cancellationToken, true);
 
-            var qq = items.First().Rows.Select(y => y.Tiers.Count).ToArray();
-
             var storages = items.Select(x => new StorageDto()
             {
                 Id = x.Id,
