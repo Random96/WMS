@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ru.EmlSoft.WMS.Data.EF.Exceptions
+namespace ru.emlsoft.WMS.Data.EF.Exceptions
 {
     internal class CompanyNotDefinedException : Exception
     {

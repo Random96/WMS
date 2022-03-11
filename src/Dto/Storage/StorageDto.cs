@@ -1,9 +1,9 @@
-﻿using ru.EmlSoft.WMS.Localization.Resources;
+﻿using ru.emlsoft.WMS.Localization.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace ru.EmlSoft.WMS.Data.Dto.Storage
+namespace ru.emlsoft.WMS.Data.Dto.Storage
 {
     public class StorageDto
     {

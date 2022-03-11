@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ru.EmlSoft.Utilities;
+using ru.emlsoft.Utilities;
 using ru.emlsoft.WMS.Data.Abstract.Database;
 using System;
 using System.Collections;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace ru.EmlSoft.WMS.Data.EF.Extension
+namespace ru.emlsoft.WMS.Data.EF.Extension
 {
     internal static class DbQueryExtension
     {

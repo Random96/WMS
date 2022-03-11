@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
-using ru.EmlSoft.WMS.Localization.Resources;
+using ru.emlsoft.WMS.Localization.Resources;
 using System;
 using System.Linq;
 using System.Security.Claims;

@@ -3,8 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.Abstract.Storage;
-using ru.EmlSoft.WMS.Data.Dto;
-using ru.EmlSoft.WMS.Data.Dto.Storage;
+using ru.emlsoft.WMS.Data.Dto;
+using ru.emlsoft.WMS.Data.Dto.Storage;
 
 namespace ru.emlsoft.WMS.Controllers
 {

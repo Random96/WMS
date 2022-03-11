@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace ru.EmlSoft.WMS.Data.Dto
+namespace ru.emlsoft.WMS.Data.Dto
 {
     public class PageDto<T> where T : class
     {

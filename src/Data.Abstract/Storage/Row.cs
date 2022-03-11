@@ -1,5 +1,5 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Access;
-using ru.EmlSoft.WMS.Localization.Resources;
+using ru.emlsoft.WMS.Localization.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
