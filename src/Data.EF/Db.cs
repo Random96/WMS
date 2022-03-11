@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Abstract.Database;
@@ -37,7 +36,7 @@ namespace ru.emlsoft.WMS.Data.EF
             {
                 _inited = false;
                 _error = ex.Message;
-                _logger.LogError(ex, _connectionString);
+                _logger.LogError(ex, "connectionString string= {_connectionString}", new[] { _connectionString });
             }
         }
 
@@ -55,7 +54,7 @@ namespace ru.emlsoft.WMS.Data.EF
             modelBuilder.Entity<Entity>().ToTable(nameof(Entity).ToUpper());
             modelBuilder.Entity<Entity>().HasMany(x => x.Entities).WithOne(x => x.ParentEntity).HasForeignKey(x => x.ParentId).IsRequired(false);
             modelBuilder.Entity<Entity>().Property(x => x.EntityType).IsRequired();
-            
+
             /* modelBuilder.Entity<Entity>()
                 .HasDiscriminator<int>("ENTITY_TYPE")
                 .HasValue<Entity>(0)
@@ -113,7 +112,7 @@ namespace ru.emlsoft.WMS.Data.EF
             modelBuilder.Entity<ScanCode>().ToTable(nameof(ScanCode).ToUpper());
             modelBuilder.Entity<ScanCode>().HasMany(x => x.Packs).WithOne(x => x.Code).HasForeignKey(x => x.CodeId);
             modelBuilder.Entity<ScanCode>().HasMany(x => x.Goods).WithOne(x => x.Code).HasForeignKey(x => x.CodeId);
-            modelBuilder.Entity<ScanCode>().HasOne(x => x.Pallet).WithOne(x => x.Code).HasForeignKey<Pallet>(x=>x.CodeId);
+            modelBuilder.Entity<ScanCode>().HasOne(x => x.Pallet).WithOne(x => x.Code).HasForeignKey<Pallet>(x => x.CodeId);
 
             modelBuilder.Entity<Storage>().ToTable(nameof(Storage).ToUpper());
             modelBuilder.Entity<Storage>().Property(x => x.Name).HasMaxLength(30).IsRequired();
@@ -121,11 +120,11 @@ namespace ru.emlsoft.WMS.Data.EF
 
             modelBuilder.Entity<Row>().ToTable(nameof(Row).ToUpper());
             modelBuilder.Entity<Row>().Property(x => x.Code).IsRequired().HasMaxLength(8);
-            modelBuilder.Entity<Row>().HasMany(x => x.Tiers).WithOne(x => x.Row).HasForeignKey(x=>x.RowId);
+            modelBuilder.Entity<Row>().HasMany(x => x.Tiers).WithOne(x => x.Row).HasForeignKey(x => x.RowId);
 
             modelBuilder.Entity<Tier>().ToTable(nameof(Tier).ToUpper());
             modelBuilder.Entity<Tier>().Property(x => x.Code).IsRequired().HasMaxLength(8);
-            modelBuilder.Entity<Tier>().HasMany(x=>x.Cells).WithOne(x=>x.Tier).HasForeignKey(x => x.TierId);
+            modelBuilder.Entity<Tier>().HasMany(x => x.Cells).WithOne(x => x.Tier).HasForeignKey(x => x.TierId);
 
             modelBuilder.Entity<Cell>().ToTable(nameof(Cell).ToUpper());
             modelBuilder.Entity<ScanCode>().HasOne(x => x.Cell).WithOne(x => x.Code).HasForeignKey<Cell>(x => x.CodeId);
@@ -136,12 +135,14 @@ namespace ru.emlsoft.WMS.Data.EF
             modelBuilder.Entity<Person>().Property(x => x.LastName).HasMaxLength(200);
             modelBuilder.Entity<Person>().HasOne(x => x.Company).WithMany(x => x.Persons).HasForeignKey(x => x.CompanyId);
 
-            var arr = modelBuilder.Model.GetEntityTypes().Select(x => new EntityList()
-            {
-                Name = x.GetTableName(),
-                Label = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Description,
-                GroupLabel = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Name
-            }).
+            var arr = modelBuilder.Model.GetEntityTypes().Select(x =>
+                    new EntityList()
+                    {
+                        Name = x.GetTableName() ?? String.Empty,
+                        Label = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Description ?? String.Empty,
+                        GroupLabel = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Name ?? String.Empty
+                    }
+                ).
                 Where(x => !string.IsNullOrWhiteSpace(x.Label)).ToArray();
 
             for (int i = 0; i < arr.Length; ++i)

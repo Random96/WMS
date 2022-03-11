@@ -24,6 +24,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Access
         public bool IsDel { get; set; }
         public DateTime LastUpdated { get; set; }
         public int UserId { get; set; }
+        
         public virtual Company? Company { get; set; }
     }
 }

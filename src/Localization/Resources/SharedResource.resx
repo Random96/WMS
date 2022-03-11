@@ -129,6 +129,9 @@
   <data name="ERROR_DB_NOT_INIT" xml:space="preserve">
     <value>The database was not be initialized</value>
   </data>
+  <data name="ERROR_FIND_BY_NAME_ASYNC" xml:space="preserve">
+    <value>ERROR_FIND_BY_NAME_ASYNC</value>
+  </data>
   <data name="ERROR_USER_ALREDY_EXIST" xml:space="preserve">
     <value>ERROR_USER_ALREDY_EXIST</value>
   </data>

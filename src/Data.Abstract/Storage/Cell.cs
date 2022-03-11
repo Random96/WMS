@@ -11,7 +11,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Storage
         public Cell() : base(EntityType.Cell) { }
 
         public int CodeId { get; set; }
-        public virtual ScanCode Code { get; set; }
+        public virtual ScanCode ? Code { get; set; }
         public int TierId { get; set; }
         public virtual Tier? Tier { get; set; }
     }

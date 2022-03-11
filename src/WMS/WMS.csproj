@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>aspnet-ru.emlsoft.WMS-3DFE4F9C-9269-477D-9D87-DD4440322AFE</UserSecretsId>
     <ApplicationInsightsResourceId>/subscriptions/09877b03-e059-4388-9f3d-73ddfe3ce5a0/resourceGroups/emlwms_group/providers/microsoft.insights/components/emlwms</ApplicationInsightsResourceId>
+    <SignAssembly>False</SignAssembly>
   </PropertyGroup>
 
   <ItemGroup>

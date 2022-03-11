@@ -11,22 +11,13 @@ namespace ru.emlsoft.WMS.Controllers
     public class StorageController : BaseController
     {
         readonly IRepository<Storage> _repoStorage;
-        // readonly IRepository<Row> _repoRow;
-        //readonly IRepository<Tier> _repoTier;
-        //readonly IRepository<ScanCode> _repoCode;
-        //readonly IRepository<Cell> _repoCell;
 
 
-        public StorageController(IRepository<Storage> repoStorage, IRepository<Row> repoRow, IRepository<Tier> repoTier,
-            IRepository<ScanCode> repoCode, IRepository<Cell> repoCell, IUserStore userStore, SignInManager<User> signInManager, 
+        public StorageController(IRepository<Storage> repoStorage, IUserStore userStore, SignInManager<User> signInManager, 
             ILogger<BaseController> logger)
             : base(userStore, signInManager, logger)
         {
             _repoStorage = repoStorage;
-            // _repoRow = repoRow;
-            // _repoTier = repoTier;
-            // _repoCode = repoCode;
-            // _repoCell = repoCell;
         }
 
         // GET: StorageController
@@ -43,7 +34,14 @@ namespace ru.emlsoft.WMS.Controllers
 
             var items = await _repoStorage.GetPageAsync(pageNum, pageSize, filters, null, cancellationToken, true);
 
-            var storages = items.Select(x => new StorageDto() { Id = x.Id, StorageName = x.Name, Rows = x.Rows.Count, Tiers =  x.Rows.Any(y=>y.Tiers.Any())  ? x.Rows.Select(y => y.Tiers.Count).Max() : 0 }).ToArray();
+            var qq = items.First().Rows.Select(y => y.Tiers.Count).ToArray();
+
+            var storages = items.Select(x => new StorageDto()
+            {
+                Id = x.Id,
+                StorageName = x.Name,
+                Rows = x.Rows.Count
+            }).ToArray();
 
             var page = new PageDto<StorageDto>()
             {
@@ -57,7 +55,7 @@ namespace ru.emlsoft.WMS.Controllers
         }
 
         // GET: StorageController/Details/5
-        public ActionResult Details(int id)
+        public ActionResult Details(int _)
         {
             return View();
         }
@@ -137,7 +135,7 @@ namespace ru.emlsoft.WMS.Controllers
         }
 
         // GET: StorageController/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int _)
         {
             return View();
         }
@@ -158,7 +156,7 @@ namespace ru.emlsoft.WMS.Controllers
         }
 
         // GET: StorageController/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int _)
         {
             return View();
         }

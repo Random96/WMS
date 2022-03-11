@@ -40,7 +40,6 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 });
 
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 Register.RegisterBase(builder.Services, builder.Configuration);
 
 
@@ -90,7 +89,8 @@ app.UseExceptionHandler("/Home/Error");
 app.UseHsts();
 
 
-app.UseHttpsRedirection();
+// app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();

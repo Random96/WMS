@@ -1,8 +1,6 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Access
 {
@@ -15,10 +13,10 @@ namespace ru.emlsoft.WMS.Data.Abstract.Access
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
-        public string ? Name { get; set; }
+        public string Name { get; set; } = String.Empty;
         public bool IsAdmin { get; set; }
-        public virtual ICollection<AccessRight> ? Rights { get; set; }
-        public virtual ICollection<Appointment> ? Appointments { get; set; }
-        public virtual Company ? Company { get; set; }
+        public virtual ICollection<AccessRight> Rights { get; set; } = new List<AccessRight>();
+        public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
+        public virtual Company? Company { get; set; }
     }
 }

@@ -2,12 +2,10 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
+using ru.EmlSoft.WMS.Localization.Resources;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ru.emlsoft.WMS.Data.EF.Identity
 {
@@ -15,7 +13,7 @@ namespace ru.emlsoft.WMS.Data.EF.Identity
     {
         private Db? _db;
         private readonly ILogger<UserStore> _logger;
-        private readonly static AutoMapper.MapperConfiguration _mapper_config = new (cfg => { });
+        private readonly static AutoMapper.MapperConfiguration _mapper_config = new(cfg => { });
 
         public UserStore(ILogger<UserStore> logger, Db db)
         {
@@ -79,7 +77,7 @@ namespace ru.emlsoft.WMS.Data.EF.Identity
             try
             {
                 // get exist user
-                var existedUsers = _db.Users.Where(x => x.LoginName != null && x.LoginName.ToUpper() == normalizedUserName );
+                var existedUsers = _db.Users.Where(x => x.LoginName != null && x.LoginName.ToUpper() == normalizedUserName);
 
                 var exists = await existedUsers.AnyAsync(cancellationToken);
 
@@ -88,7 +86,8 @@ namespace ru.emlsoft.WMS.Data.EF.Identity
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "ERROR_FIND_BY_NAME_ASYNC");
+                string errMsg = SharedResource.ERROR_FIND_BY_NAME_ASYNC;
+                _logger.LogError(ex, "{errMsg} {normalizedUserName}", new { errMsg, normalizedUserName });
                 throw;
             }
 
@@ -97,7 +96,7 @@ namespace ru.emlsoft.WMS.Data.EF.Identity
 
         public async Task<string> GetNormalizedUserNameAsync(User user, CancellationToken cancellationToken = default)
         {
-            if(user.LoginName != null)
+            if (user.LoginName != null)
                 return await Task.FromResult(user.LoginName.ToUpper());
 
             return String.Empty;
@@ -313,7 +312,7 @@ namespace ru.emlsoft.WMS.Data.EF.Identity
 
                 ret = await _db.Appointments.Where(x => x.PersonId == userDb.PersonId &&
                             x.FromDate >= DateTime.UtcNow && (x.ToDate == null || x.ToDate <= DateTime.UtcNow))
-                    .Select(x => x.Position.Name).Where(x=>x!= null).Distinct().ToListAsync(cancellationToken);
+                    .Select(x => x.Position.Name).Where(x => x!= null).Distinct().ToListAsync(cancellationToken);
 
                 return ret;
             }
@@ -351,7 +350,7 @@ namespace ru.emlsoft.WMS.Data.EF.Identity
             {
                 var userDb = await GetUserByIdAsync(user.Id, cancellationToken);
 
-                if( userDb == null || userDb.LoginName == null)
+                if (userDb == null || userDb.LoginName == null)
                     return Array.Empty<Claim>();
 
                 var ret = new List<Claim>()

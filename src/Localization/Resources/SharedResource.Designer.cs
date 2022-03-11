@@ -97,6 +97,15 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_FIND_BY_NAME_ASYNC.
+        /// </summary>
+        public static string ERROR_FIND_BY_NAME_ASYNC {
+            get {
+                return ResourceManager.GetString("ERROR_FIND_BY_NAME_ASYNC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ERROR_USER_ALREDY_EXIST.
         /// </summary>
         public static string ERROR_USER_ALREDY_EXIST {

@@ -2,8 +2,6 @@
 using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.Abstract.Personnel;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Access
 {
@@ -15,12 +13,12 @@ namespace ru.emlsoft.WMS.Data.Abstract.Access
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
-        public virtual Company ? Company { get; set; }
+        public virtual Company? Company { get; set; }
         public int PersonId { get; set; }
-        public virtual Person ? Person { get; set; }
+        public virtual Person? Person { get; set; }
         public int PositionId { get; set; }
-        public virtual Position ? Position { get; set; }
+        public virtual Position Position { get; set; } = new Position();
         public DateTime FromDate { get; set; }
-        public DateTime ? ToDate { get; set; }
+        public DateTime? ToDate { get; set; }
     }
 }
