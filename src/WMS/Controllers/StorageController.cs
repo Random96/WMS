@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
@@ -11,13 +12,14 @@ namespace ru.emlsoft.WMS.Controllers
     public class StorageController : BaseController
     {
         readonly IRepository<Storage> _repoStorage;
+        private readonly IMapper _mapper;
 
-
-        public StorageController(IRepository<Storage> repoStorage, IUserStore userStore, SignInManager<User> signInManager, 
+        public StorageController(IRepository<Storage> repoStorage, IUserStore userStore, SignInManager<User> signInManager, IMapper mapper,
             ILogger<BaseController> logger)
             : base(userStore, signInManager, logger)
         {
             _repoStorage = repoStorage;
+            _mapper = mapper;
         }
 
         // GET: StorageController
@@ -29,17 +31,10 @@ namespace ru.emlsoft.WMS.Controllers
             var companyId = await GetUserIdAsync(cancellationToken);
 
             _repoStorage.UserId = companyId;
-            // _repoRow.CompanyId = companyId;
-            // _repoTier.CompanyId = companyId;
 
             var items = await _repoStorage.GetPageAsync(pageNum, pageSize, filters, null, cancellationToken, true);
 
-            var storages = items.Select(x => new StorageDto()
-            {
-                Id = x.Id,
-                StorageName = x.Name,
-                Rows = x.Rows.Count
-            }).ToArray();
+            var storages = items.Select(x => _mapper.Map<Storage,StorageDto>(x)).ToArray();
 
             var page = new PageDto<StorageDto>()
             {
@@ -133,9 +128,17 @@ namespace ru.emlsoft.WMS.Controllers
         }
 
         // GET: StorageController/Edit/5
-        public ActionResult Edit(int _)
+        public async Task<ActionResult> Edit(int Id, CancellationToken cancellationToken = default)
         {
-            return View();
+            var companyId = await GetUserIdAsync(cancellationToken);
+
+            _repoStorage.UserId = companyId;
+
+            var item = await _repoStorage.GetByIdAsync(Id, cancellationToken);
+
+            var ret = _mapper.Map<Storage, StorageDto>(item);
+
+            return View(ret);
         }
 
         // POST: StorageController/Edit/5

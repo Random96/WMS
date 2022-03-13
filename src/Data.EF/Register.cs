@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -25,6 +26,12 @@ namespace ru.emlsoft.WMS.Data.EF
 
         public static void RegisterBase(IServiceCollection services, ConfigurationManager configuration, ServiceLifetime injection = ServiceLifetime.Scoped)
         {
+
+            services.AddAutoMapper(option =>
+            {
+                option.AddProfile(new DomainProfile());
+            });
+
             services.AddIdentity<User, Position>().AddUserStore<UserStore>().AddRoleStore<RoleStore>()
                 .AddUserManager<UserManager<User>>();
 
