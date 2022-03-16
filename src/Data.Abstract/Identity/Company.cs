@@ -8,6 +8,8 @@ namespace ru.emlsoft.WMS.Data.Abstract.Identity
     {
         public int Id { get; set; }
         public string? Name { get; set; }
+        public bool CanNegativeStocks { get; set; } = false;
+        public bool NeedSampleData { get; set; } = false;
         public virtual ICollection<User>? Users { get; set; }
         public virtual ICollection<Entity>? Entities { get; set; }
         public virtual ICollection<Appointment>? Appointments { get; set; }

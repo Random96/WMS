@@ -120,8 +120,14 @@
   <data name="COMPANY" xml:space="preserve">
     <value>COMPANY</value>
   </data>
+  <data name="COMPANYCANNEGATIVE" xml:space="preserve">
+    <value>COMPANYCANNEGATIVE</value>
+  </data>
   <data name="COMPANYNAME" xml:space="preserve">
     <value>COMPANYNAME</value>
+  </data>
+  <data name="COMPANYNEEDSAMPLEDATA" xml:space="preserve">
+    <value>COMPANYNEEDSAMPLEDATA</value>
   </data>
   <data name="EMAIL" xml:space="preserve">
     <value>EMAIL</value>

@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Localization\ru.EmlSoft.WMS.Localization.csproj" />
+    <ProjectReference Include="..\Localization\ru.emlsoft.WMS.Localization.csproj" />
   </ItemGroup>
 
 </Project>

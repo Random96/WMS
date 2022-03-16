@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Text;
 
-namespace ru.EmlSoft.WMS.Localization
+namespace ru.emlsoft.WMS.Localization
 {
     [Serializable]
     public class LocalizableDescriptionAttribute : DescriptionAttribute

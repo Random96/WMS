@@ -1,4 +1,4 @@
-﻿using ru.EmlSoft.WMS.Localization.Resources;
+﻿using ru.emlsoft.WMS.Localization.Resources;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

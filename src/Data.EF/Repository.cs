@@ -3,10 +3,9 @@ using Microsoft.Extensions.Logging;
 using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
-using ru.EmlSoft.WMS.Data.EF.Exceptions;
-using ru.EmlSoft.WMS.Data.EF.Extension;
+using ru.emlsoft.WMS.Data.EF.Exceptions;
+using ru.emlsoft.WMS.Data.EF.Extension;
 using System;
-using System.Collections;
 using System.Linq;
 
 namespace ru.emlsoft.WMS.Data.EF
@@ -58,7 +57,6 @@ namespace ru.emlsoft.WMS.Data.EF
 
             if (item is Entity entity)
             {
-                entity.LastUpdated = lastUpdate;
                 entity.UserId = UserId;
             }
 
@@ -86,7 +84,7 @@ namespace ru.emlsoft.WMS.Data.EF
         }
 
 
-        protected bool CheckVersion(object ? newValue, object ? oldValue, Stack<object>? stack = null)
+        protected bool CheckVersion(object? newValue, object? oldValue, Stack<object>? stack = null)
         {
             if (oldValue == null && newValue == null)
                 return true;
@@ -396,6 +394,66 @@ namespace ru.emlsoft.WMS.Data.EF
             finally
             {
                 _logger.LogTrace("Method 'UpdateAsync' finished");
+            }
+        }
+
+        public void Delete(int Id)
+        {
+        }
+
+        public async Task DeleteAsync(int id, CancellationToken cancellationToken)
+        {
+            if (_db == null || disposedValue)
+                throw new Exception("Is disposed");
+
+            _logger.LogTrace("Method 'DeleteAsync' called...");
+            try
+            {
+                if (id == 0)
+                {
+                    _logger.LogTrace("Id is  0 - return");
+                    return;
+                }
+
+                var item = await _db.Set<T>().FindAsync(new object[] { id }, cancellationToken);
+
+                if (item == null)
+                {
+                    _logger.LogTrace("Item with {id} not found", id);
+                    return;
+                }
+
+                if (item is ICompany company)
+                {
+                    if (company.CompanyId != CompanyId)
+                    {
+                        _logger.LogTrace("Item with {id} is not in {CompanyId} company", new object[id, CompanyId]);
+                        return;
+                    }
+                }
+
+                if (item is Entity entity)
+                {
+                    entity.IsDel = true;
+                    _logger.LogTrace("Flag 'Deleted' in item with Id={id} was set to true", id);
+                }
+                else
+                {
+                    _db.Set<T>().Remove(item);
+                    _logger.LogTrace("Item with Id={id} was deleted", id);
+                }
+
+                await _db.SaveChangesAsync(cancellationToken);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Method 'DeleteAsync' failed");
+                throw;
+            }
+            finally
+            {
+                _logger.LogTrace("Method 'DeleteAsync' finished");
             }
         }
 

@@ -17,7 +17,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Access
         public int PersonId { get; set; }
         public virtual Person? Person { get; set; }
         public int PositionId { get; set; }
-        public virtual Position Position { get; set; } = new Position();
+        public virtual Position ? Position { get; set; }
         public DateTime FromDate { get; set; }
         public DateTime? ToDate { get; set; }
     }

@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ru.EmlSoft.WMS.Localization.Resources {
+namespace ru.emlsoft.WMS.Localization.Resources {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ru.EmlSoft.WMS.Localization.Resources.SharedResource", typeof(SharedResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ru.emlsoft.WMS.Localization.Resources.SharedResource", typeof(SharedResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -70,11 +70,29 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANYCANNEGATIVE.
+        /// </summary>
+        public static string COMPANYCANNEGATIVE {
+            get {
+                return ResourceManager.GetString("COMPANYCANNEGATIVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на COMPANYNAME.
         /// </summary>
         public static string COMPANYNAME {
             get {
                 return ResourceManager.GetString("COMPANYNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANYNEEDSAMPLEDATA.
+        /// </summary>
+        public static string COMPANYNEEDSAMPLEDATA {
+            get {
+                return ResourceManager.GetString("COMPANYNEEDSAMPLEDATA", resourceCulture);
             }
         }
         

@@ -66,7 +66,7 @@ namespace ru.emlsoft.WMS.Controllers
                 var user = await _userStore.GetUserAsync(_signInManager, cancellationToken);
 
                 if (model.Name != null)
-                    await _db.CreateCompanyAsync(user.Id, model.Name, cancellationToken);
+                    await _db.CreateCompanyAsync(user.Id, model, cancellationToken);
             }
             catch (Exception ex)
             {
@@ -251,14 +251,6 @@ namespace ru.emlsoft.WMS.Controllers
                         ModelState.AddModelError(string.Empty, _localizer[err.Description].Value);
                 }
 
-                if (model.Company != null)
-                {
-                    var userName = await _userStore.GetNormalizedUserNameAsync(user, cancellationToken);
-
-                    user = await _userStore.FindByNameAsync(userName, cancellationToken);
-
-                    await _db.CreateCompanyAsync(user.Id, model.Company, cancellationToken);
-                }
                 return RedirectToAction("Index", "Home");
 
             }

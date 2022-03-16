@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.ComponentModel.DataAnnotations;
-using ru.EmlSoft.WMS.Localization.Resources;
+using ru.emlsoft.WMS.Localization.Resources;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
