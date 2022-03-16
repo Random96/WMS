@@ -151,7 +151,7 @@ namespace ru.emlsoft.WMS.Controllers
         // POST: StorageController/Edit/5
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
+        public ActionResult Edit(int id, StorageDto model, CancellationToken cancellationToken = default)
         {
             try
             {
