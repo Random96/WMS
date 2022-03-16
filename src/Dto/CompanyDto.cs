@@ -11,5 +11,13 @@ namespace ru.emlsoft.WMS.Data.Dto
         [StringLength(60, MinimumLength = 3)]
         [Required]
         public string? Name { get; set; }
+        
+        [Display(Name = "COMPANYCANNEGATIVE", ResourceType = typeof(SharedResource))]
+        [Required]
+        public bool CanNegativeStocks { get; set; }
+        
+        [Display(Name = "COMPANYNEEDSAMPLEDATA", ResourceType = typeof(SharedResource))]
+        [Required]
+        public bool NeedSampleData { get; set; }
     }
 }

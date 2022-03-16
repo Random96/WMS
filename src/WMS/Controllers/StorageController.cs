@@ -48,9 +48,17 @@ namespace ru.emlsoft.WMS.Controllers
         }
 
         // GET: StorageController/Details/5
-        public ActionResult Details(int _)
+        public async Task<ActionResult> Details(int Id, CancellationToken cancellationToken = default)
         {
-            return View();
+            var companyId = await GetUserIdAsync(cancellationToken);
+
+            _repoStorage.UserId = companyId;
+
+            var item = await _repoStorage.GetByIdAsync(Id, cancellationToken);
+
+            var ret = _mapper.Map<Storage, StorageDto>(item);
+
+            return View(ret);
         }
 
         // GET: StorageController/Create
@@ -71,7 +79,6 @@ namespace ru.emlsoft.WMS.Controllers
 
             try
             {
-                // _repoCell.CompanyId = _repoCode.CompanyId = _repoTier.CompanyId = _repoRow.CompanyId = 
                 _repoStorage.UserId = await GetUserIdAsync(cancellationToken);
 
                 if( model.StorageName == null)

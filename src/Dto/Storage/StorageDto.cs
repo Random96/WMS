@@ -28,5 +28,7 @@ namespace ru.emlsoft.WMS.Data.Dto.Storage
         [Range(1, int.MaxValue)]
         [Required]
         public int Cells { get; set; }
+
+        public DateTime LastUpdated { get; set; }
     }
 }

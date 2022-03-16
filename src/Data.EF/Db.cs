@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Doc;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.Abstract.Personnel;
 using ru.emlsoft.WMS.Data.Abstract.Storage;
@@ -52,8 +53,8 @@ namespace ru.emlsoft.WMS.Data.EF
             modelBuilder.Entity<Appointment>().HasOne(x => x.Person).WithMany(x => x.Appointments).HasForeignKey(x => x.PersonId).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Entity>().ToTable(nameof(Entity).ToUpper());
-            modelBuilder.Entity<Entity>().HasMany(x => x.Entities).WithOne(x => x.ParentEntity).HasForeignKey(x => x.ParentId).IsRequired(false);
             modelBuilder.Entity<Entity>().Property(x => x.EntityType).IsRequired();
+            modelBuilder.Entity<Entity>().Property(x => x.LastUpdated).ValueGeneratedOnAddOrUpdate();
 
             /* modelBuilder.Entity<Entity>()
                 .HasDiscriminator<int>("ENTITY_TYPE")
@@ -74,6 +75,7 @@ namespace ru.emlsoft.WMS.Data.EF
 
             modelBuilder.Entity<Position>().ToTable(nameof(Position).ToUpper());
             modelBuilder.Entity<Position>().Property(x => x.Name).HasMaxLength(30);
+
 
             //Identity
             modelBuilder.Entity<Company>().ToTable(nameof(Company).ToUpper());
@@ -135,6 +137,47 @@ namespace ru.emlsoft.WMS.Data.EF
             modelBuilder.Entity<Person>().Property(x => x.LastName).HasMaxLength(200);
             modelBuilder.Entity<Person>().HasOne(x => x.Company).WithMany(x => x.Persons).HasForeignKey(x => x.CompanyId);
 
+            // partner
+            modelBuilder.Entity<Partner>().ToTable(nameof(Partner).ToUpper());
+            modelBuilder.Entity<Partner>().Property(x => x.FullName).HasMaxLength(200);
+            modelBuilder.Entity<Partner>().Property(x => x.Name).HasMaxLength(80);
+            modelBuilder.Entity<Partner>().Property(x => x.OGRN).HasMaxLength(20);
+            modelBuilder.Entity<Partner>().Property(x => x.INN).HasMaxLength(13);
+            modelBuilder.Entity<Partner>().Property(x => x.KPP).HasMaxLength(13);
+            modelBuilder.Entity<Partner>().HasIndex(x => new { x.CompanyId, x.Name });
+            modelBuilder.Entity<Partner>().HasMany(x => x.Docs).WithOne(x => x.Partner).HasForeignKey(x => x.PartnerId);
+
+            // documents
+            modelBuilder.Entity<Doc>().ToTable(nameof(Doc).ToUpper());
+            modelBuilder.Entity<Doc>().Property(x => x.DocNumber).HasMaxLength(80);
+            modelBuilder.Entity<Doc>().HasMany(x => x.DocSpecs).WithOne(x => x.Doc).HasForeignKey(x => x.DocId);
+            modelBuilder.Entity<Doc>().HasOne(x => x.Input).WithOne().HasForeignKey<Input>(x => x.Id);
+            modelBuilder.Entity<Doc>().HasOne(x => x.Accept).WithOne().HasForeignKey<Accept>(x => x.Id);
+
+            modelBuilder.Entity<Input>().ToTable(nameof(Input).ToUpper());
+            // modelBuilder.Entity<Input>().HasKey(x => x.DocId);
+
+            modelBuilder.Entity<Accept>().ToTable(nameof(Accept).ToUpper());
+            // modelBuilder.Entity<Accept>().HasKey(x => x.DocId);
+
+            modelBuilder.Entity<DocSpec>().ToTable(nameof(DocSpec).ToUpper());
+            modelBuilder.Entity<DocSpec>().HasOne(x => x.Good).WithMany().HasForeignKey(x => x.GoodId);
+            modelBuilder.Entity<DocSpec>().HasOne(x => x.Pallet).WithMany().HasForeignKey(x => x.PalletId);
+            modelBuilder.Entity<DocSpec>().HasOne(x => x.ToCell).WithMany().HasForeignKey(x => x.ToCellId);
+            modelBuilder.Entity<DocSpec>().HasOne(x => x.FromCell).WithMany().HasForeignKey(x => x.FromCellId);
+
+            modelBuilder.Entity<Remains>().ToTable(nameof(Remains).ToUpper());
+            modelBuilder.Entity<Remains>().HasOne(x => x.Good).WithMany().HasForeignKey(x => x.GoodId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Remains>().HasOne(x => x.Pallet).WithMany().HasForeignKey(x => x.PalletId);
+            modelBuilder.Entity<Remains>().HasOne(x => x.Cell).WithMany().HasForeignKey(x => x.CellId);
+            modelBuilder.Entity<Remains>().HasOne(x => x.StoreOrd).WithMany().HasForeignKey(x => x.StoreOrdId).OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<StoreOrd>().ToTable(nameof(StoreOrd).ToUpper());
+            modelBuilder.Entity<StoreOrd>().HasOne(x => x.Good).WithMany().HasForeignKey(x => x.GoodId).OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<StoreOrd>().HasOne(x => x.Pallet).WithMany().HasForeignKey(x => x.PalletId);
+            modelBuilder.Entity<StoreOrd>().HasOne(x => x.Cell).WithMany().HasForeignKey(x => x.CellId);
+            modelBuilder.Entity<StoreOrd>().HasOne(x => x.DocSpec).WithMany().HasForeignKey(x => x.DocSpecId).OnDelete(DeleteBehavior.NoAction);
+
             var arr = modelBuilder.Model.GetEntityTypes().Select(x =>
                     new EntityList()
                     {
@@ -153,7 +196,70 @@ namespace ru.emlsoft.WMS.Data.EF
             base.OnModelCreating(modelBuilder);
         }
 
-        public async Task<User> CreateCompanyAsync(int sid, string companyName, CancellationToken cancellationToken)
+        public async Task ApplyDocAsync(int userId, IEnumerable<StoreOrd> storeOrd, CancellationToken cancellationToken)
+        {
+            DateTime now = DateTime.UtcNow;
+
+            var user = Users.Find(userId);
+
+            if (user == null)
+                throw new Exception();
+
+            if (user.CompanyId == null)
+                throw new Exception();
+
+            var company = Companies.Find(user.CompanyId);
+            if (company == null)
+                throw new Exception();
+            bool cantNegative = !company.CanNegativeStocks;
+
+            if (user == null)
+                throw new Exception();
+
+            if (user.CompanyId == null)
+                throw new Exception();
+
+            int companyId = user.CompanyId.Value;
+
+            foreach (var item in storeOrd)
+            {
+                item.UserId = userId;
+                item.CompanyId = companyId;
+
+                var curentRemains = Remains.Where(x => x.Current && x.CompanyId == companyId && x.GoodId == item.GoodId && x.CellId == item.CellId && ((x.PalletId == null && item.PalletId == null) || (x.PalletId == item.PalletId)))
+                    .SingleOrDefault();
+
+                int curentQty = 0;
+                if (curentRemains != null)
+                {
+                    curentRemains.Current = false;
+                    curentRemains.UserId = userId;
+                    curentQty = curentRemains.Qty;
+                }
+
+                var newRemains = new Remains()
+                {
+                    CompanyId = companyId,
+                    GoodId = item.GoodId,
+                    CellId = item.CellId,
+                    Current = true,
+                    Qty = curentQty + item.Qty,
+                    PrevRemainsId = curentRemains?.Id,
+                    UserId = userId,
+                    PalletId = item.PalletId,
+                    StoreOrd = item
+                };
+
+                if (cantNegative && newRemains.Qty < 0)
+                    throw new Exception();
+
+                Remains.Add(newRemains);
+            }
+
+            await SaveChangesAsync(cancellationToken);
+        }
+
+        public async Task<User> CreateCompanyAsync(int sid, CompanyDto company, CancellationToken cancellationToken)
         {
             var user = Users.Find(sid);
 
@@ -163,12 +269,12 @@ namespace ru.emlsoft.WMS.Data.EF
             if (user.CompanyId != null)
                 throw new Exception("ERROR_USER_ASSIGNED_TO_COMPANY");
 
-            var isExists = await Companies.AnyAsync(x => x.Name == companyName, cancellationToken);
+            var isExists = await Companies.AnyAsync(x => x.Name == company.Name, cancellationToken);
 
             if (isExists)
                 throw new Exception("ERROR_COMPANY_ALREDY_EXIST");
 
-            var newCompany = new Company() { Name = companyName };
+            var newCompany = new Company() { Name = company.Name, CanNegativeStocks = company.CanNegativeStocks };
 
             await Companies.AddAsync(newCompany, cancellationToken);
 
@@ -208,7 +314,39 @@ namespace ru.emlsoft.WMS.Data.EF
                 await SaveChangesAsync(cancellationToken);
             }
 
+            if(company.NeedSampleData)
+            {
+                // create store
+                // create good
+                // create input document
+            }
+
             return Users.AsNoTracking().Single(x => x.Id == sid);
+        }
+
+        public async Task<Doc> GetDocByIdAsync(int id, int userId, CancellationToken cancellationToken)
+        {
+            var user = Users.Find(userId);
+
+            if (user == null)
+                throw new Exception();
+
+            if (user.CompanyId == null)
+                throw new Exception();
+
+
+            var doc = await Docs.Include(x => x.DocSpecs).ThenInclude(x => x.Good)
+                .Include(x => x.Input)
+                .FirstOrDefaultAsync(x => x.CompanyId == user.CompanyId && x.Id == id, cancellationToken);
+            if (doc == null)
+                throw new Exception();
+
+            return doc;
+        }
+
+        public Task<DocType> GetDocTypeAsync(int id, CancellationToken cancellationToken)
+        {
+            throw new NotImplementedException();
         }
         public async Task<IEnumerable<MenuDto>> GetEntityListAsync(int sid, CancellationToken cancellationToken)
         {
@@ -236,6 +374,9 @@ namespace ru.emlsoft.WMS.Data.EF
 
         // identity
         public DbSet<Company> Companies => _inited ? Set<Company>() : throw new DatabaseNotInitException(Error);
+
+
+        public DbSet<Doc> Docs => _inited ? Set<Doc>() : throw new DatabaseNotInitException(Error);
         public DbSet<Abstract.Access.Entity> Entities => _inited ? Set<Abstract.Access.Entity>() : throw new DatabaseNotInitException(Error);
         public DbSet<EntityList> EntityLists => _inited ? Set<EntityList>() : throw new DatabaseNotInitException(Error);
 
@@ -245,6 +386,7 @@ namespace ru.emlsoft.WMS.Data.EF
         public DbSet<Pack> Packs => _inited ? Set<Pack>() : throw new DatabaseNotInitException(Error);
         public DbSet<Pallet> Pallets => _inited ? Set<Pallet>() : throw new DatabaseNotInitException(Error);
         public DbSet<Position> Positions => _inited ? Set<Position>() : throw new DatabaseNotInitException(Error);
+        public DbSet<Remains> Remains => _inited ? Set<Remains>() : throw new DatabaseNotInitException(Error);
         public DbSet<ScanCode> ScanCodes => _inited ? Set<ScanCode>() : throw new DatabaseNotInitException(Error);
         public DbSet<Storage> Storages => _inited ? Set<Storage>() : throw new DatabaseNotInitException(Error);
         public DbSet<User> Users => _inited ? Set<User>() : throw new DatabaseNotInitException(Error);

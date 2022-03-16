@@ -70,11 +70,29 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANYCANNEGATIVE.
+        /// </summary>
+        public static string COMPANYCANNEGATIVE {
+            get {
+                return ResourceManager.GetString("COMPANYCANNEGATIVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на COMPANYNAME.
         /// </summary>
         public static string COMPANYNAME {
             get {
                 return ResourceManager.GetString("COMPANYNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANYNEEDSAMPLEDATA.
+        /// </summary>
+        public static string COMPANYNEEDSAMPLEDATA {
+            get {
+                return ResourceManager.GetString("COMPANYNEEDSAMPLEDATA", resourceCulture);
             }
         }
         
