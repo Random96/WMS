@@ -45,5 +45,15 @@ namespace ru.emlsoft.WMS.Controllers
 
             return user.Id;
         }
+        internal int GetUserId()
+        {
+            // get current user 
+            var user = _userStore.GetUser(_signInManager);
+
+            if (user == null || user.Id == 0)
+                throw new Exception("Bad user");
+
+            return user.Id;
+        }
     }
 }

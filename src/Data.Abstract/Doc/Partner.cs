@@ -14,9 +14,9 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
         public string FullName { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
 
-        public string OGRN { get; set; } = string.Empty;
-        public string INN { get; set; } = string.Empty;
-        public string KPP { get; set; } = string.Empty;
+        public string ? OGRN { get; set; } = string.Empty;
+        public string ? INN { get; set; } = string.Empty;
+        public string ? KPP { get; set; } = string.Empty;
 
         public virtual ICollection<Doc> Docs { get; set; } = new List<Doc>();
     }

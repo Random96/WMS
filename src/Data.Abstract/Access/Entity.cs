@@ -17,14 +17,10 @@ namespace ru.emlsoft.WMS.Data.Abstract.Access
 
         public int Id { get; set; }
         public EntityType EntityType { get; }
-        // public int? ParentId { get; set; }
         public int CompanyId { get; set; }
-        // public virtual Entity? ParentEntity { get; set; }
-        // public virtual ICollection<Entity>? Entities { get; set; }
         public bool IsDel { get; set; }
-        public DateTime LastUpdated { get; set; }
+        public DateTime LastUpdated { get; set; } = DateTime.MinValue;
         public int UserId { get; set; }
-        
         public virtual Company? Company { get; set; }
     }
 }

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Identity
 {
@@ -16,5 +12,6 @@ namespace ru.emlsoft.WMS.Data.Abstract.Identity
         Microsoft.AspNetCore.Identity.IUserClaimStore<User>
     {
         Task<User> GetUserByIdAsync(int sid, CancellationToken cancellationToken);
+        User GetUserById(int sid);
     }
 }

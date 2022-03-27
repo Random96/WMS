@@ -262,5 +262,21 @@ namespace ru.emlsoft.WMS.Controllers
 
             return View(model);
         }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ClearDb()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ClearDb(IFormCollection collection)
+        {
+            _db.ClearDb();
+
+            return View();
+        }
     }
 }

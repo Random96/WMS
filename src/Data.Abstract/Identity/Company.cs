@@ -1,5 +1,6 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Storage;
 using System;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Identity
@@ -16,5 +17,6 @@ namespace ru.emlsoft.WMS.Data.Abstract.Identity
         public virtual ICollection<AccessRight>? Rights { get; set; }
         public virtual ICollection<Position>? Positions { get; set; }
         public virtual ICollection<Personnel.Person>? Persons { get; set; }
+        public virtual ICollection<ScanCode> Codes { get; set; } = new List<ScanCode>();
     }
 }

@@ -7,6 +7,7 @@ using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.Abstract.Personnel;
 using ru.emlsoft.WMS.Data.Abstract.Storage;
 using ru.emlsoft.WMS.Data.Dto;
+using ru.emlsoft.WMS.Data.Dto.Doc;
 using ru.emlsoft.WMS.Data.EF.Exceptions;
 using System;
 using System.ComponentModel.DataAnnotations;
@@ -28,7 +29,7 @@ namespace ru.emlsoft.WMS.Data.EF
 
             try
             {
-                // Database.EnsureDeleted();
+                //Database.EnsureDeleted();
                 Database.EnsureCreated();
 
                 _inited = true;
@@ -54,7 +55,7 @@ namespace ru.emlsoft.WMS.Data.EF
 
             modelBuilder.Entity<Entity>().ToTable(nameof(Entity).ToUpper());
             modelBuilder.Entity<Entity>().Property(x => x.EntityType).IsRequired();
-            modelBuilder.Entity<Entity>().Property(x => x.LastUpdated).ValueGeneratedOnAddOrUpdate();
+            modelBuilder.Entity<Entity>().Property(x => x.LastUpdated);
 
             /* modelBuilder.Entity<Entity>()
                 .HasDiscriminator<int>("ENTITY_TYPE")
@@ -107,6 +108,7 @@ namespace ru.emlsoft.WMS.Data.EF
 
             modelBuilder.Entity<Good>().ToTable(nameof(Good).ToUpper());
             modelBuilder.Entity<Good>().Property(x => x.Article).HasMaxLength(20);
+            modelBuilder.Entity<Good>().Property(x => x.Name).HasMaxLength(200);
 
             modelBuilder.Entity<Pack>().ToTable(nameof(Pack).ToUpper());
             modelBuilder.Entity<Pallet>().ToTable(nameof(Pallet).ToUpper());
@@ -115,6 +117,7 @@ namespace ru.emlsoft.WMS.Data.EF
             modelBuilder.Entity<ScanCode>().HasMany(x => x.Packs).WithOne(x => x.Code).HasForeignKey(x => x.CodeId);
             modelBuilder.Entity<ScanCode>().HasMany(x => x.Goods).WithOne(x => x.Code).HasForeignKey(x => x.CodeId);
             modelBuilder.Entity<ScanCode>().HasOne(x => x.Pallet).WithOne(x => x.Code).HasForeignKey<Pallet>(x => x.CodeId);
+            modelBuilder.Entity<ScanCode>().HasOne(x => x.Company).WithMany(x => x.Codes).HasForeignKey(x => x.CompanyId);
 
             modelBuilder.Entity<Storage>().ToTable(nameof(Storage).ToUpper());
             modelBuilder.Entity<Storage>().Property(x => x.Name).HasMaxLength(30).IsRequired();
@@ -149,13 +152,14 @@ namespace ru.emlsoft.WMS.Data.EF
 
             // documents
             modelBuilder.Entity<Doc>().ToTable(nameof(Doc).ToUpper());
+            modelBuilder.Entity<Doc>().HasOne(x => x.Storage).WithMany().HasForeignKey(x => x.StorageId);
             modelBuilder.Entity<Doc>().Property(x => x.DocNumber).HasMaxLength(80);
             modelBuilder.Entity<Doc>().HasMany(x => x.DocSpecs).WithOne(x => x.Doc).HasForeignKey(x => x.DocId);
             modelBuilder.Entity<Doc>().HasOne(x => x.Input).WithOne().HasForeignKey<Input>(x => x.Id);
             modelBuilder.Entity<Doc>().HasOne(x => x.Accept).WithOne().HasForeignKey<Accept>(x => x.Id);
 
             modelBuilder.Entity<Input>().ToTable(nameof(Input).ToUpper());
-            // modelBuilder.Entity<Input>().HasKey(x => x.DocId);
+            modelBuilder.Entity<Input>().HasOne(x => x.InputCell).WithMany().HasForeignKey(x => x.InputCellId);
 
             modelBuilder.Entity<Accept>().ToTable(nameof(Accept).ToUpper());
             // modelBuilder.Entity<Accept>().HasKey(x => x.DocId);
@@ -181,7 +185,7 @@ namespace ru.emlsoft.WMS.Data.EF
             var arr = modelBuilder.Model.GetEntityTypes().Select(x =>
                     new EntityList()
                     {
-                        Name = x.GetTableName() ?? String.Empty,
+                        Name = FirstUpperConvert(x.GetTableName()),
                         Label = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Description ?? String.Empty,
                         GroupLabel = x.ClrType.GetCustomAttributes(false).Select(c => c as DisplayAttribute).FirstOrDefault(x => x != null)?.Name ?? String.Empty
                     }
@@ -196,7 +200,14 @@ namespace ru.emlsoft.WMS.Data.EF
             base.OnModelCreating(modelBuilder);
         }
 
-        public async Task ApplyDocAsync(int userId, IEnumerable<StoreOrd> storeOrd, CancellationToken cancellationToken)
+        private static string FirstUpperConvert(string? source)
+        {
+            if (string.IsNullOrWhiteSpace(source))
+                return string.Empty;
+
+            return source.Substring(0, 1).ToUpper() + source.Substring(1).ToLower();
+        }
+        public async Task ApplyDocAsync(int docId, int userId, IEnumerable<StoreOrd> storeOrd, CancellationToken cancellationToken)
         {
             DateTime now = DateTime.UtcNow;
 
@@ -220,6 +231,14 @@ namespace ru.emlsoft.WMS.Data.EF
                 throw new Exception();
 
             int companyId = user.CompanyId.Value;
+
+            var doc = await Docs.FindAsync(new object[] { docId }, cancellationToken);
+
+            if (doc == null || doc.CompanyId != companyId)
+                throw new Exception("DocNotFound");
+
+            if( doc.Accepted)
+                throw new Exception("Doc alredy accepted");
 
             foreach (var item in storeOrd)
             {
@@ -256,6 +275,12 @@ namespace ru.emlsoft.WMS.Data.EF
                 Remains.Add(newRemains);
             }
 
+            if (doc != null)
+            {
+                doc.UserId = userId;
+                doc.LastUpdated = now;
+                doc.Accepted = true;
+            }
             await SaveChangesAsync(cancellationToken);
         }
 
@@ -314,7 +339,7 @@ namespace ru.emlsoft.WMS.Data.EF
                 await SaveChangesAsync(cancellationToken);
             }
 
-            if(company.NeedSampleData)
+            if (company.NeedSampleData)
             {
                 // create store
                 // create good
@@ -363,6 +388,12 @@ namespace ru.emlsoft.WMS.Data.EF
 
             return ret;
 
+        }
+
+        public void ClearDb()
+        {
+            Database.EnsureDeleted();
+            Database.EnsureCreated();
         }
 
         // Access

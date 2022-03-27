@@ -23,7 +23,7 @@
                 <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu">
                     @foreach (var item in menu.Items)
                     {
-                        <li ref="@item.Description"><a href="@item.Name"><i class="fa fa-circle-o"></i>@item.Description</a></li>
+                        <li ref="@item.Description"><a asp-area="" asp-controller="@item.Name" asp-action="Index"><i class="fa fa-circle-o"></i>@item.Description</a></li>
                     }
                 </ul>
             </li>

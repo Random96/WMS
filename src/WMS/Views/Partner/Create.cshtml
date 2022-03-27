@@ -1,0 +1,86 @@
+﻿@using ru.emlsoft.WMS.Data.Dto.Doc;
+
+@{
+    ViewData["Title"] = "Создание парнтнера";
+}
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    @model PartnerDto;
+}
+
+
+<div id="app">
+    <form class="form-horizontal" method="Post" >
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=PartnerName></label>
+                            <div class="col-sm-10">
+                                <input asp-for=PartnerName type="text" class="form-control" />
+                                <span asp-validation-for=PartnerName class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=FullName></label>
+                            <div class="col-sm-10">
+                                <input asp-for=FullName type="text" class="form-control" />
+                                <span asp-validation-for=FullName class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=INN></label>
+                            <div class="col-sm-10">
+                                <input asp-for=INN type="text" class="form-control" />
+                                <span asp-validation-for=INN class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=KPP></label>
+                            <div class="col-sm-10">
+                                <input asp-for=KPP type="text" class="form-control" />
+                                <span asp-validation-for=KPP class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=OGRN></label>
+                            <div class="col-sm-10">
+                                <input asp-for=OGRN type="text" class="form-control" />
+                                <span asp-validation-for=OGRN class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="box-footer">
+                <div class="pull-right box-tools">
+                    <input class="btn btn-primary" type="submit">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts{ 
+<script src="~/lib/jquery-validate/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

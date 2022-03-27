@@ -44,5 +44,22 @@ namespace ru.emlsoft.WMS.Tools
 
             return new User();
         }
+
+        public static User GetUser(this IUserStore userStore, SignInManager<User> signInManager)
+        {
+            var user = signInManager.Context.User;
+            if (user != null)
+            {
+                // get current db user
+                if (int.TryParse(user.FindFirst(ClaimTypes.Sid)?.Value, out int sid))
+                {
+                    var dbUser = userStore.GetUserById(sid);
+
+                    return dbUser;
+                }
+            }
+
+            return new User();
+        }
     }
 }

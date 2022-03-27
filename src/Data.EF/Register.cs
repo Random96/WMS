@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Doc;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.EF.Identity;
 using System;
@@ -29,7 +30,7 @@ namespace ru.emlsoft.WMS.Data.EF
 
             services.AddAutoMapper(option =>
             {
-                option.AddProfile(new DomainProfile());
+                option.AddProfile<DomainProfile>();
             });
 
             services.AddIdentity<User, Position>().AddUserStore<UserStore>().AddRoleStore<RoleStore>()
@@ -78,6 +79,7 @@ namespace ru.emlsoft.WMS.Data.EF
                     services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
                     services.AddScoped(typeof(IWMSDataProvider), factory);
                     services.AddScoped(typeof(Db), factory);
+                    services.AddScoped(typeof(DocStorage), typeof(DocStorage));
                     break;
 
                 case ServiceLifetime.Singleton:
@@ -85,7 +87,7 @@ namespace ru.emlsoft.WMS.Data.EF
                     services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
                     services.AddSingleton(typeof(IWMSDataProvider), factory);
                     services.AddSingleton(typeof(Db), factoryDb);
-
+                    services.AddSingleton(typeof(DocStorage), typeof(DocStorage));
                     break;
 
                 case ServiceLifetime.Transient:
@@ -93,6 +95,7 @@ namespace ru.emlsoft.WMS.Data.EF
                     services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
                     services.AddTransient(typeof(IWMSDataProvider), factory);
                     services.AddTransient(typeof(Db), factoryDb);
+                    services.AddTransient(typeof(DocStorage), typeof(DocStorage));
                     break;
             }
         }

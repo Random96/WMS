@@ -251,10 +251,12 @@ namespace ru.emlsoft.WMS.Data.EF.Identity
 
                 if (userDb == null || userDb.PersonId == null)
                     return ret;
-
-                ret = await _db.Appointments.Where(x => x.PersonId == userDb.PersonId &&
+                
+                var query = _db.Appointments.Where(x => x.PersonId == userDb.PersonId &&
                             x.FromDate >= DateTime.UtcNow && (x.ToDate == null || x.ToDate <= DateTime.UtcNow))
-                    .Select(x => x.Position.Name).Where(x => x!= null).Distinct().ToListAsync(cancellationToken);
+                    .Select(x => x.Position == null ? string.Empty : x.Position.Name).Where(x => x!= null).Distinct();
+
+                ret = await query.ToListAsync(cancellationToken);
 
                 return ret;
             }
@@ -265,7 +267,7 @@ namespace ru.emlsoft.WMS.Data.EF.Identity
             }
         }
 
-        public async Task<User> GetUserByIdAsync(int sid, CancellationToken cancellationToken = default)
+        public async Task<User> GetUserByIdAsync(int sid, CancellationToken cancellationToken)
         {
             if (_db == null || disposedValue)
                 throw new ObjectDisposedException(nameof(UserStore));
@@ -273,6 +275,24 @@ namespace ru.emlsoft.WMS.Data.EF.Identity
             try
             {
                 var ret = await _db.Users.FindAsync(new object?[] { sid }, cancellationToken);
+
+                return ret ?? new User();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "ERROR_FIND_BY_ID_ASYNC");
+                throw;
+            }
+        }
+
+        public User GetUserById(int sid)
+        {
+            if (_db == null || disposedValue)
+                throw new ObjectDisposedException(nameof(UserStore));
+
+            try
+            {
+                var ret = _db.Users.Find(sid);
 
                 return ret ?? new User();
             }

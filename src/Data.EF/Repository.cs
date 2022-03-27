@@ -58,6 +58,7 @@ namespace ru.emlsoft.WMS.Data.EF
             if (item is Entity entity)
             {
                 entity.UserId = UserId;
+                entity.LastUpdated = lastUpdate;
             }
 
             foreach (var prop in item.GetType().GetProperties())
@@ -138,7 +139,19 @@ namespace ru.emlsoft.WMS.Data.EF
 
         public T Add(T item)
         {
-            throw new NotImplementedException();
+            _logger.LogTrace("Add async of item");
+            if (_db == null || disposedValue)
+                throw new Exception("Is disposed");
+
+            SetLastUpdate(item, DateTime.UtcNow);
+
+            _db.Set<T>().Add(item);
+            _logger.LogTrace("Item was added");
+
+            _db.SaveChanges();
+            _logger.LogTrace("Added was commited");
+
+            return item;
         }
 
         public async Task<T> AddAsync(T item, CancellationToken cancellationToken = default)

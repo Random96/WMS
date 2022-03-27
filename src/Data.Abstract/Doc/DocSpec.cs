@@ -1,10 +1,11 @@
-﻿using ru.emlsoft.WMS.Data.Abstract.Storage;
+﻿using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Storage;
 using System;
 using System.Linq;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Doc
 {
-    public class DocSpec
+    public class DocSpec : IHaveId
     {
         public int Id { get; set; }
         public int DocId { get; set; }
@@ -16,8 +17,10 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
         public DateTime ? Manufactured { get; set; }
         public DateTime ? Expired { get; set; }
         public bool Approved { get; set; }
+#pragma warning disable CS8618
         public virtual Doc Doc { get; set; }
         public virtual Good Good { get; set; }
+#pragma warning restore CS8618
         public virtual Cell ? FromCell { get; set; }
         public virtual Cell? ToCell { get; set; }
         public virtual Pallet? Pallet { get; set; }

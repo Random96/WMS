@@ -1,6 +1,8 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Database;
 using System;
 using System.Linq;
+using ru.emlsoft.WMS.Data.Dto.Doc;
+
 
 namespace ru.emlsoft.WMS.Data.Abstract.Doc
 {
@@ -15,7 +17,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
 
         public int UserId { get; set; }
 
-        public async Task ApproveDoc(int id, CancellationToken cancellationToken)
+        public async Task ApplyDoc(int id, CancellationToken cancellationToken)
         {
             var doc = await _db.GetDocByIdAsync(id, UserId, cancellationToken);
 
@@ -28,17 +30,17 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
             switch (doc.DocType)
             {
                 case DocType.Input:
-                    await ApproveInputAsync(doc, cancellationToken);
+                    await ApplyInputAsync(doc, cancellationToken);
                     break;
             }
         }
 
 
-        private async Task ApproveInputAsync(Doc doc, CancellationToken cancellationToken)
+        private async Task ApplyInputAsync(Doc doc, CancellationToken cancellationToken)
         {
-            var storeords = doc.DocSpecs.Where(x=>x.ToCellId != null).Select(x=> new StoreOrd() { CellId = x.ToCellId ?? 0, GoodId = x.GoodId, PalletId = x.PalletId, Qty = x.Qty, DocSpecId = x.Id }).ToArray();
+            var storeords = doc.DocSpecs.Select(x=> new StoreOrd() { CellId = doc.Input.InputCellId, GoodId = x.GoodId, PalletId = x.PalletId, Qty = x.Qty, DocSpecId = x.Id }).ToArray();
 
-            await _db.ApplyDocAsync(UserId, storeords, cancellationToken);
+            await _db.ApplyDocAsync(doc.Id, UserId, storeords, cancellationToken);
         }
     }
 }

@@ -61,6 +61,33 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на CELL_NOT_FOUND.
+        /// </summary>
+        public static string CELL_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("CELL_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на CELLFROM.
+        /// </summary>
+        public static string CELLFROM {
+            get {
+                return ResourceManager.GetString("CELLFROM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на CELLTO.
+        /// </summary>
+        public static string CELLTO {
+            get {
+                return ResourceManager.GetString("CELLTO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на COMPANY.
         /// </summary>
         public static string COMPANY {
@@ -93,6 +120,42 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         public static string COMPANYNEEDSAMPLEDATA {
             get {
                 return ResourceManager.GetString("COMPANYNEEDSAMPLEDATA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOCDATE.
+        /// </summary>
+        public static string DOCDATE {
+            get {
+                return ResourceManager.GetString("DOCDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOCINPUTqqqqqq.
+        /// </summary>
+        public static string DOCINPUT {
+            get {
+                return ResourceManager.GetString("DOCINPUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOCNUMBER.
+        /// </summary>
+        public static string DOCNUMBER {
+            get {
+                return ResourceManager.GetString("DOCNUMBER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOCTYPE.
+        /// </summary>
+        public static string DOCTYPE {
+            get {
+                return ResourceManager.GetString("DOCTYPE", resourceCulture);
             }
         }
         
@@ -133,11 +196,101 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_ARTICLE.
+        /// </summary>
+        public static string GOOD_ARTICLE {
+            get {
+                return ResourceManager.GetString("GOOD_ARTICLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_CODE.
+        /// </summary>
+        public static string GOOD_CODE {
+            get {
+                return ResourceManager.GetString("GOOD_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_DEPTH.
+        /// </summary>
+        public static string GOOD_DEPTH {
+            get {
+                return ResourceManager.GetString("GOOD_DEPTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_HEIGHT.
+        /// </summary>
+        public static string GOOD_HEIGHT {
+            get {
+                return ResourceManager.GetString("GOOD_HEIGHT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_NAME.
+        /// </summary>
+        public static string GOOD_NAME {
+            get {
+                return ResourceManager.GetString("GOOD_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_WEIGHT.
+        /// </summary>
+        public static string GOOD_WEIGHT {
+            get {
+                return ResourceManager.GetString("GOOD_WEIGHT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_WIDTH.
+        /// </summary>
+        public static string GOOD_WIDTH {
+            get {
+                return ResourceManager.GetString("GOOD_WIDTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOODNAME.
+        /// </summary>
+        public static string GOODNAME {
+            get {
+                return ResourceManager.GetString("GOODNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на HELLO.
         /// </summary>
         public static string HELLO {
             get {
                 return ResourceManager.GetString("HELLO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на INPUTCELL.
+        /// </summary>
+        public static string INPUTCELL {
+            get {
+                return ResourceManager.GetString("INPUTCELL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на INPUTDATE.
+        /// </summary>
+        public static string INPUTDATE {
+            get {
+                return ResourceManager.GetString("INPUTDATE", resourceCulture);
             }
         }
         
@@ -156,6 +309,69 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         public static string LOGOUT {
             get {
                 return ResourceManager.GetString("LOGOUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_FULL_NAME.
+        /// </summary>
+        public static string PARTNER_FULL_NAME {
+            get {
+                return ResourceManager.GetString("PARTNER_FULL_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_INN.
+        /// </summary>
+        public static string PARTNER_INN {
+            get {
+                return ResourceManager.GetString("PARTNER_INN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_KPP.
+        /// </summary>
+        public static string PARTNER_KPP {
+            get {
+                return ResourceManager.GetString("PARTNER_KPP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_NAME.
+        /// </summary>
+        public static string PARTNER_NAME {
+            get {
+                return ResourceManager.GetString("PARTNER_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_NOT_FOUND.
+        /// </summary>
+        public static string PARTNER_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("PARTNER_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_OGRN.
+        /// </summary>
+        public static string PARTNER_OGRN {
+            get {
+                return ResourceManager.GetString("PARTNER_OGRN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNERNAME.
+        /// </summary>
+        public static string PARTNERNAME {
+            get {
+                return ResourceManager.GetString("PARTNERNAME", resourceCulture);
             }
         }
         
@@ -183,6 +399,15 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         public static string PHONE {
             get {
                 return ResourceManager.GetString("PHONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на QUANTITY.
+        /// </summary>
+        public static string QUANTITY {
+            get {
+                return ResourceManager.GetString("QUANTITY", resourceCulture);
             }
         }
         
@@ -232,11 +457,38 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на STORE_NOT_FOUND.
+        /// </summary>
+        public static string STORE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("STORE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на STORENAME.
         /// </summary>
         public static string STORENAME {
             get {
                 return ResourceManager.GetString("STORENAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на TOO_MANY_CELLS.
+        /// </summary>
+        public static string TOO_MANY_CELLS {
+            get {
+                return ResourceManager.GetString("TOO_MANY_CELLS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на TOO_MANY_STORAGES.
+        /// </summary>
+        public static string TOO_MANY_STORAGES {
+            get {
+                return ResourceManager.GetString("TOO_MANY_STORAGES", resourceCulture);
             }
         }
         
