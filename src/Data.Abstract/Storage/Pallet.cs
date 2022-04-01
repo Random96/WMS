@@ -1,20 +1,17 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Access;
-using ru.emlsoft.WMS.Data.Abstract.Database;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.ComponentModel.DataAnnotations;
-using ru.emlsoft.WMS.Localization.Resources;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
-    public enum PalletType {
+    public enum PalletType
+    {
         Euro,
         Custom
     }
 
 
-    [Display(Name = "Хранение", Description = "Палеты", ResourceType=typeof(SharedResource))]
+    [Display(Name = "GOOD", Description = "PALLET")]
     public class Pallet : Entity
     {
         public Pallet() : base(EntityType.Pallet) { }
@@ -24,7 +21,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Storage
         public int Width { get; set; }
         public int Depth { get; set; }
 
-        public int ? CodeId { get; set; }
-        public virtual ScanCode ? Code {get; set; }
+        public int? CodeId { get; set; }
+        public virtual ScanCode? Code { get; set; }
     }
 }

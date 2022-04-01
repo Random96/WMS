@@ -1,6 +1,5 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Dto.Doc;
-using ru.emlsoft.WMS.Localization.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,7 +7,7 @@ using System.Linq;
 namespace ru.emlsoft.WMS.Data.Abstract.Doc
 {
 
-    [Display(Name = "Документы", Description = "Документы", ResourceType = typeof(SharedResource))]
+    [Display(Name = "DOC", Description = "DOC")]
     public class Doc : Entity
     {
 #pragma warning disable CS8618

@@ -1,13 +1,12 @@
-﻿using ru.emlsoft.WMS.Localization.Resources;
-using ru.emlsoft.WMS.Data.Abstract.Access;
+﻿using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Abstract.Storage;
 using System;
-using System.Linq;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Doc
 {
-    [Display(Name = "Остатки", Description = "Отстатки товара", ResourceType = typeof(SharedResource))]
+    [Display(Name = "REMAINS", Description = "STOREREMAINS")]
     public class Remains : Entity
     {
         public Remains() : base(EntityType.Remains) { }

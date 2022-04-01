@@ -26,16 +26,11 @@ builder.Services.AddLocalization
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    CultureInfo[] supportedCultures = new[]
-    {
-                    new CultureInfo("en"),
-                    new CultureInfo("cn"),
-                    new CultureInfo("ru")
-                };
-
-    options.DefaultRequestCulture = new RequestCulture("en");
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
+    var supportedCultures = new[]{ "en-US", "cn", "ru-RU" };
+    var localizationOptions = new RequestLocalizationOptions()
+        .SetDefaultCulture(supportedCultures[0])
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
 });
 
 // Add services to the container.

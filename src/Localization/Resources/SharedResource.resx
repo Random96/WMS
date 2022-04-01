@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CELL" xml:space="preserve">
+    <value>CELL</value>
+  </data>
   <data name="CELLFROM" xml:space="preserve">
     <value>CELLFROM</value>
   </data>
@@ -128,6 +131,12 @@
   </data>
   <data name="CELL_NOT_FOUND" xml:space="preserve">
     <value>CELL_NOT_FOUND</value>
+  </data>
+  <data name="COAGENT" xml:space="preserve">
+    <value>COAGENT</value>
+  </data>
+  <data name="COAGENTS" xml:space="preserve">
+    <value>COAGENTS</value>
   </data>
   <data name="COMPANY" xml:space="preserve">
     <value>COMPANY</value>
@@ -141,6 +150,9 @@
   <data name="COMPANYNEEDSAMPLEDATA" xml:space="preserve">
     <value>COMPANYNEEDSAMPLEDATA</value>
   </data>
+  <data name="DOC" xml:space="preserve">
+    <value>DOC</value>
+  </data>
   <data name="DOCDATE" xml:space="preserve">
     <value>DOCDATE</value>
   </data>
@@ -149,6 +161,9 @@
   </data>
   <data name="DOCNUMBER" xml:space="preserve">
     <value>DOCNUMBER</value>
+  </data>
+  <data name="DOCS" xml:space="preserve">
+    <value>DOCS</value>
   </data>
   <data name="DOCTYPE" xml:space="preserve">
     <value>DOCTYPE</value>
@@ -164,6 +179,9 @@
   </data>
   <data name="ERROR_USER_ALREDY_EXIST" xml:space="preserve">
     <value>ERROR_USER_ALREDY_EXIST</value>
+  </data>
+  <data name="GOOD" xml:space="preserve">
+    <value>GOOD</value>
   </data>
   <data name="GOODNAME" xml:space="preserve">
     <value>GOODNAME</value>
@@ -204,6 +222,12 @@
   <data name="LOGOUT" xml:space="preserve">
     <value>LOGOUT</value>
   </data>
+  <data name="PACK" xml:space="preserve">
+    <value>PACK</value>
+  </data>
+  <data name="PALLET" xml:space="preserve">
+    <value>PALLET</value>
+  </data>
   <data name="PALLET_CODE" xml:space="preserve">
     <value>PALLET_CODE</value>
   </data>
@@ -243,6 +267,21 @@
   <data name="REGISTER" xml:space="preserve">
     <value>REGISTER</value>
   </data>
+  <data name="REMAINS" xml:space="preserve">
+    <value>REMAINS</value>
+  </data>
+  <data name="ROW" xml:space="preserve">
+    <value>ROW</value>
+  </data>
+  <data name="SCAN" xml:space="preserve">
+    <value>SCAN</value>
+  </data>
+  <data name="SCANCODE" xml:space="preserve">
+    <value>SCANCODE</value>
+  </data>
+  <data name="STORAGE" xml:space="preserve">
+    <value>STORAGE</value>
+  </data>
   <data name="STORAGECELLS" xml:space="preserve">
     <value>STORAGECELLS</value>
   </data>
@@ -255,8 +294,17 @@
   <data name="STORAGETIERS" xml:space="preserve">
     <value>STORAGETIERS</value>
   </data>
+  <data name="STOREORD" xml:space="preserve">
+    <value>STOREORD</value>
+  </data>
+  <data name="STOREREMAINS" xml:space="preserve">
+    <value>STOREREMAINS</value>
+  </data>
   <data name="STORE_NOT_FOUND" xml:space="preserve">
     <value>STORE_NOT_FOUND</value>
+  </data>
+  <data name="TIER" xml:space="preserve">
+    <value>TIER</value>
   </data>
   <data name="TOO_MANY_CELLS" xml:space="preserve">
     <value>TOO_MANY_CELLS</value>
@@ -275,5 +323,8 @@
   </data>
   <data name="VALIDATE_PHONE" xml:space="preserve">
     <value>VALIDATE_PHONE</value>
+  </data>
+  <data name="WAREHOUSE" xml:space="preserve">
+    <value>WAREHOUSE</value>
   </data>
 </root>

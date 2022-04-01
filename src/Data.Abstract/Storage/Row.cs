@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
-    [Display(Name = "Хранение", Description = "Ряд стелажа", ResourceType = typeof(SharedResource))]
+    [Display(Name = "STORAGE", Description = "ROW")]
     public class Row : Entity
     {
         public Row() : base (EntityType.Row)

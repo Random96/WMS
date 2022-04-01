@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
-    [Display(Name = "Товары", Description = "Упаковки", ResourceType = typeof(SharedResource))]
+    [Display(Name = "GOOD", Description = "PACK")]
     public class Pack : Entity
     {
         public Pack() : base(EntityType.Pack) { }

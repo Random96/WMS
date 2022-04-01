@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
-    [Display(Name = "Хранение", Description = "Ярус", ResourceType = typeof(SharedResource))]
+    [Display(Name = "STORAGE", Description = "TIER")]
     public class Tier : Entity
     {
         public Tier() : base(EntityType.Tier)

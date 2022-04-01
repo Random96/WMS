@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.Dto;
 using ru.emlsoft.WMS.Tools;
+using ru.emlsoft.WMS.Localization;
 
 namespace WMS.Components
 {
@@ -14,13 +16,15 @@ namespace WMS.Components
         private readonly SignInManager<User> _signInManager;
         private readonly IUserStore _userStore;
         private readonly IWMSDataProvider _db;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public MenuViewComponent(IWMSDataProvider db, IUserStore userStore, SignInManager<User> signInManager, ILogger<MenuViewComponent> logger)
+        public MenuViewComponent(IWMSDataProvider db, IUserStore userStore, SignInManager<User> signInManager, IStringLocalizer<SharedResource> localizer, ILogger<MenuViewComponent> logger)
         {
             _logger = logger;
             _signInManager = signInManager;
             _userStore = userStore;
             _db = db;
+            _localizer = localizer;
         }
 
     public async Task<IViewComponentResult> InvokeAsync(CancellationToken cancellationToken)
@@ -40,8 +44,16 @@ namespace WMS.Components
             // get current roles
             var menus = await _db.GetEntityListAsync(user.Id, cancellationToken);
 
-            // GetMemoryCache.Set("menu_" + UserDtoCache?.UserId, menus);
-            return View(menus);
+            foreach( var menu in menus)
+            {
+                menu.Name = _localizer[menu.Name];
+                foreach ( var item in menu.Items)
+                    item.Description = _localizer[item.Description];
+
+                menu.Items = menu.Items.OrderBy(x=>x.Description).ToArray();
+            }
+
+            return View(menus.OrderBy(x=>x.Name).ToArray());
 
         }
     }

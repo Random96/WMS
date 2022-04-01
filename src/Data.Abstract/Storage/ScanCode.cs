@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
-    [Display(Name = "Сканирование", Description = "Коды сканирования", ResourceType = typeof(SharedResource))]
+    [Display(Name = "SCAN", Description = "SCANCODE")]
     public class ScanCode : IHaveId, ICompany
     {
         public int Id { get; set; }
