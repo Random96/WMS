@@ -1,17 +1,15 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.Abstract.Storage;
-using ru.emlsoft.WMS.Data.Dto;
 using ru.emlsoft.WMS.Data.Dto.Storage;
 
 namespace ru.emlsoft.WMS.Controllers
 {
     public class StorageController : CrudController<StorageDto, Storage>
     {
-        public StorageController(IRepository<Storage> repoStorage, IMapper mapper, IUserStore userStore, SignInManager<User> signInManager, 
+        public StorageController(IRepository<Storage> repoStorage, IMapper mapper, IUserStore userStore, SignInManager<User> signInManager,
             ILogger<BaseController> logger)
             : base(repoStorage, mapper, userStore, signInManager, logger)
         {

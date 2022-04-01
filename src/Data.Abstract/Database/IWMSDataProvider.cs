@@ -1,11 +1,7 @@
-﻿using ru.emlsoft.WMS.Data.Dto;
+﻿using ru.emlsoft.WMS.Data.Abstract.Doc;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
+using ru.emlsoft.WMS.Data.Dto;
 using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
-using ru.emlsoft.WMS.Data.Abstract.Doc;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Database
 {
@@ -17,5 +13,8 @@ namespace ru.emlsoft.WMS.Data.Abstract.Database
         Task ApplyDocAsync(int docId, int userId, IEnumerable<StoreOrd> storeOrd, CancellationToken cancellationToken);
         Task<Doc.Doc> GetDocByIdAsync(int id, int userId, CancellationToken cancellationToken);
         void ClearDb();
+
+        string GetGoodName(int goodId);
+        string GetCellCode(int cellId);
     }
 }

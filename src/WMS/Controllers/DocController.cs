@@ -8,7 +8,6 @@ using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.Abstract.Storage;
 using ru.emlsoft.WMS.Data.Dto;
 using ru.emlsoft.WMS.Data.Dto.Doc;
-using ru.emlsoft.WMS.Data.Dto.Storage;
 using ru.emlsoft.WMS.Localization;
 
 namespace ru.emlsoft.WMS.Controllers
@@ -76,7 +75,7 @@ namespace ru.emlsoft.WMS.Controllers
         // GET: DocController/CreateInput
         public ActionResult CreateInput()
         {
-            return View( new InputDto());
+            return View(new InputDto());
         }
 
         // POST: DocController/Create
@@ -84,7 +83,7 @@ namespace ru.emlsoft.WMS.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> CreateInput(InputDto item, CancellationToken cancellationToken)
         {
-            if( string.IsNullOrWhiteSpace(item.PartnerName) )
+            if (string.IsNullOrWhiteSpace(item.PartnerName))
             {
                 ModelState.AddModelError(string.Empty, "PARTNER_IS_EMPTY");
                 return View(item);
@@ -148,8 +147,8 @@ namespace ru.emlsoft.WMS.Controllers
                 {
                     if (scans.Count() == 1)
                     {
-                        var cells = await _repoCell.GetListAsync(new FilterObject[] 
-                            { 
+                        var cells = await _repoCell.GetListAsync(new FilterObject[]
+                            {
                                 new FilterObject(nameof(Cell.CodeId), FilterOption.Equals, scans.First().Id)
                             }, null, cancellationToken);
                         if (cells.Any())
@@ -197,7 +196,7 @@ namespace ru.emlsoft.WMS.Controllers
 
         public ActionResult CreateGood(int DocId)
         {
-            return View(new DocSpecDto { DocId = DocId});
+            return View(new DocSpecDto { DocId = DocId });
         }
 
         [HttpPost]
@@ -228,7 +227,7 @@ namespace ru.emlsoft.WMS.Controllers
                     return View();
                 }
 
-                var doc = await _repoDoc.GetByIdAsync( docId);
+                var doc = await _repoDoc.GetByIdAsync(docId);
 
                 _repoDocSpec.Add(docSpec);
             }
@@ -309,7 +308,7 @@ namespace ru.emlsoft.WMS.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error on Apply doc");
                 ModelState.AddModelError(string.Empty, ex.Message);

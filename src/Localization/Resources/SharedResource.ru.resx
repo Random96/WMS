@@ -171,9 +171,6 @@
   <data name="STORAGETIERS" xml:space="preserve">
     <value>Количество ярусов в ряду</value>
   </data>
-  <data name="STORENAME" xml:space="preserve">
-    <value>Наименование склада</value>
-  </data>
   <data name="USER" xml:space="preserve">
     <value>Пользователь</value>
   </data>

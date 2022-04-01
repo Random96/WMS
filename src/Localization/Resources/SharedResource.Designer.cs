@@ -61,6 +61,15 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на CELL_CODE.
+        /// </summary>
+        public static string CELL_CODE {
+            get {
+                return ResourceManager.GetString("CELL_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на CELL_NOT_FOUND.
         /// </summary>
         public static string CELL_NOT_FOUND {
@@ -133,7 +142,7 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на DOCINPUTqqqqqq.
+        ///   Ищет локализованную строку, похожую на DOCINPUT.
         /// </summary>
         public static string DOCINPUT {
             get {
@@ -313,6 +322,15 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на PALLET_CODE.
+        /// </summary>
+        public static string PALLET_CODE {
+            get {
+                return ResourceManager.GetString("PALLET_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на PARTNER_FULL_NAME.
         /// </summary>
         public static string PARTNER_FULL_NAME {
@@ -462,15 +480,6 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         public static string STORE_NOT_FOUND {
             get {
                 return ResourceManager.GetString("STORE_NOT_FOUND", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на STORENAME.
-        /// </summary>
-        public static string STORENAME {
-            get {
-                return ResourceManager.GetString("STORENAME", resourceCulture);
             }
         }
         

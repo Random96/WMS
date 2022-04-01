@@ -1,10 +1,8 @@
-using AutoMapper;
 using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
 using ru.emlsoft.WMS.Data.EF;
 using ru.emlsoft.WMS.Localization;
 using System;

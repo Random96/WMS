@@ -117,6 +117,7 @@ namespace ru.emlsoft.WMS.Data.EF
             modelBuilder.Entity<ScanCode>().HasMany(x => x.Packs).WithOne(x => x.Code).HasForeignKey(x => x.CodeId);
             modelBuilder.Entity<ScanCode>().HasMany(x => x.Goods).WithOne(x => x.Code).HasForeignKey(x => x.CodeId);
             modelBuilder.Entity<ScanCode>().HasOne(x => x.Pallet).WithOne(x => x.Code).HasForeignKey<Pallet>(x => x.CodeId);
+            modelBuilder.Entity<ScanCode>().HasOne(x => x.Cell).WithOne(x => x.Code).HasForeignKey<Cell>(x => x.CodeId);
             modelBuilder.Entity<ScanCode>().HasOne(x => x.Company).WithMany(x => x.Codes).HasForeignKey(x => x.CompanyId);
 
             modelBuilder.Entity<Storage>().ToTable(nameof(Storage).ToUpper());
@@ -244,6 +245,8 @@ namespace ru.emlsoft.WMS.Data.EF
             {
                 item.UserId = userId;
                 item.CompanyId = companyId;
+                item.LastUpdated = now;
+                item.DateTime = now;
 
                 var curentRemains = Remains.Where(x => x.Current && x.CompanyId == companyId && x.GoodId == item.GoodId && x.CellId == item.CellId && ((x.PalletId == null && item.PalletId == null) || (x.PalletId == item.PalletId)))
                     .SingleOrDefault();
@@ -258,6 +261,7 @@ namespace ru.emlsoft.WMS.Data.EF
 
                 var newRemains = new Remains()
                 {
+                    Date = now,
                     CompanyId = companyId,
                     GoodId = item.GoodId,
                     CellId = item.CellId,
@@ -266,7 +270,8 @@ namespace ru.emlsoft.WMS.Data.EF
                     PrevRemainsId = curentRemains?.Id,
                     UserId = userId,
                     PalletId = item.PalletId,
-                    StoreOrd = item
+                    StoreOrd = item,
+                    LastUpdated = now
                 };
 
                 if (cantNegative && newRemains.Qty < 0)
@@ -394,6 +399,17 @@ namespace ru.emlsoft.WMS.Data.EF
         {
             Database.EnsureDeleted();
             Database.EnsureCreated();
+        }
+
+        public string GetGoodName(int goodId)
+        {
+            return Goods?.Find(goodId)?.Name ?? String.Empty;
+        }
+
+        public string GetCellCode(int cellId)
+        {
+            var cellCodeId = Cells?.Find(cellId)?.CodeId ?? 0;
+            return ScanCodes.Find(cellCodeId)?.Code ?? String.Empty;
         }
 
         // Access

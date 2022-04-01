@@ -1,10 +1,9 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Access;
+using ru.emlsoft.WMS.Data.Dto.Doc;
 using ru.emlsoft.WMS.Localization.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using ru.emlsoft.WMS.Data.Dto.Doc;
-using ru.emlsoft.WMS.Data.Abstract.Storage;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Doc
 {
@@ -24,8 +23,8 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
         }
         public DocType DocType { get; }
         public string DocNumber { get; set; } = string.Empty;
-        public DateTime ? StartProcess { get; set; }
-        public DateTime ? EndProcess { get; set; }
+        public DateTime? StartProcess { get; set; }
+        public DateTime? EndProcess { get; set; }
         public DateTime DocDate { get; set; }
         public bool Accepted { get; set; }
         public int PartnerId { get; set; }

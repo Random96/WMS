@@ -1,10 +1,7 @@
-﻿using ru.emlsoft.WMS.Data.Abstract.Access;
-using ru.emlsoft.WMS.Localization.Resources;
+﻿using ru.emlsoft.WMS.Data.Abstract.Storage;
+using ru.emlsoft.WMS.Data.Dto.Doc;
 using System;
 using System.Linq;
-using System.ComponentModel.DataAnnotations;
-using ru.emlsoft.WMS.Data.Dto.Doc;
-using ru.emlsoft.WMS.Data.Abstract.Storage;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Doc
 {

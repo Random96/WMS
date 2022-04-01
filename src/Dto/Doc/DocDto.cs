@@ -1,10 +1,7 @@
 ﻿using ru.emlsoft.WMS.Localization.Resources;
 using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 
 namespace ru.emlsoft.WMS.Data.Dto.Doc
@@ -26,16 +23,16 @@ namespace ru.emlsoft.WMS.Data.Dto.Doc
     {
         private int _id;
 
-        public int Id 
-        { 
-            get => _id; 
+        public int Id
+        {
+            get => _id;
 
             set
             {
                 _id = value;
             }
         }
-        
+
         [Display(Name = "DOCDATE", ResourceType = typeof(SharedResource))]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:d}")]
         [Required]
@@ -51,7 +48,7 @@ namespace ru.emlsoft.WMS.Data.Dto.Doc
         [Required]
         public DocType DocType { get; set; }
 
-        public DateTime ? StartProcess { get; set; }
+        public DateTime? StartProcess { get; set; }
 
         public DateTime? EndProcess { get; set; }
 

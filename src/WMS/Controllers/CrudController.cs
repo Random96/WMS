@@ -1,27 +1,20 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
-using ru.emlsoft.WMS.Data.Dto;
 
 namespace ru.emlsoft.WMS.Controllers
 {
-    public abstract class CrudController<Dto, T> : BaseController
+    public abstract class CrudController<Dto, T> : ReadController<Dto, T>
         where T : Entity
         where Dto : class
     {
-        private readonly IMapper _mapper;
 
-        protected readonly IRepository<T> _repo;
-
-
-        public CrudController(IRepository<T> repo, IMapper mapper, IUserStore userStore, SignInManager<User> signInManager, ILogger<BaseController> logger) : base(userStore, signInManager, logger)
+        public CrudController(IRepository<T> repo, IMapper mapper, IUserStore userStore, SignInManager<User> signInManager, ILogger<BaseController> logger)
+            : base(repo, mapper, userStore, signInManager, logger)
         {
-            _repo = repo;
-            _mapper = mapper;
         }
 
         protected abstract string CheckModel(Dto model);
@@ -64,7 +57,7 @@ namespace ru.emlsoft.WMS.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _logger.LogError(ex, "Error on create");
                 ModelState.AddModelError(string.Empty, ex.Message);
@@ -139,33 +132,11 @@ namespace ru.emlsoft.WMS.Controllers
 
                 return RedirectToAction(nameof(Index));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 ModelState.AddModelError(string.Empty, ex.Message);
                 return View(model);
             }
-        }
-
-        // GET: CrusController
-        public async Task<ActionResult> Index(int pageNum, int pageSize, IEnumerable<FilterObject> filters, CancellationToken cancellationToken)
-        {
-            if (pageSize == 0)
-                pageSize = 3;
-
-            _repo.UserId = await GetUserIdAsync(cancellationToken);
-
-            var items = await _repo.GetPageAsync(pageNum, pageSize, filters, null, cancellationToken, true);
-
-            var storages = items.Select(x => _mapper.Map<T, Dto>(x)).ToArray();
-
-            var page = new PageDto<Dto>()
-            {
-                PageSize = pageSize,
-                PageNumber = pageNum,
-                Items = storages,
-                TotalRows  = 10
-            };
-            return View(page);
         }
     }
 }

@@ -11,7 +11,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
     public class Remains : Entity
     {
         public Remains() : base(EntityType.Remains) { }
-
+        public DateTime Date { get; set; }
         public int GoodId { get; set; }
         public int CellId { get; set; }
         public int? PalletId { get; set; }

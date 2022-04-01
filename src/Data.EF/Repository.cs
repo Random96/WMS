@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using ru.emlsoft.WMS.Data.Abstract.Access;
 using ru.emlsoft.WMS.Data.Abstract.Database;
@@ -12,17 +13,21 @@ namespace ru.emlsoft.WMS.Data.EF
 {
     internal class Repository<T> : IRepository<T> where T : class, IHaveId, new()
     {
-        static readonly AutoMapper.MapperConfiguration _mapper_config = new(cfg => { });
+        private readonly IMapper _mapper;
         private Db? _db;
         private readonly ILogger<Repository<T>> _logger;
         private bool disposedValue;
 
-        public Repository(ILogger<Repository<T>> logger, Db db)
+        public Repository(ILogger<Repository<T>> logger, Db db, IMapper mapper)
         {
             _logger = logger;
 
             _db = db ?? throw new ArgumentNullException(nameof(db));
+            
+            _mapper = mapper;
         }
+
+        public IWMSDataProvider DataProvider => _db ?? throw new Exception();
 
         private int CompanyId
         {
@@ -387,7 +392,7 @@ namespace ru.emlsoft.WMS.Data.EF
                     if (!CheckVersion(item, oldItem))
                         throw new Exception("Data was changed");
 
-                    oldItem = _mapper_config.CreateMapper().Map<T, T>(item, oldItem);
+                    oldItem = _mapper.Map(item, oldItem);
 
                     item = oldItem;
 

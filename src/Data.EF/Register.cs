@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -15,6 +14,8 @@ namespace ru.emlsoft.WMS.Data.EF
 {
     public static class Register
     {
+        internal static Func<IServiceProvider, Db> ? factoryDb;
+
         private static Db OracleDbFactory(IServiceProvider serviceProvider, string connectionString)
         {
             return new OracleDb(connectionString, serviceProvider.GetRequiredService<ILogger<OracleDb>>());
@@ -33,12 +34,12 @@ namespace ru.emlsoft.WMS.Data.EF
                 option.AddProfile<DomainProfile>();
             });
 
-            services.AddIdentity<User, Position>().AddUserStore<UserStore>().AddRoleStore<RoleStore>()
+            services.AddIdentity<User, Position>()
+                .AddUserStore<UserStore>()
+                .AddRoleStore<RoleStore>()
                 .AddUserManager<UserManager<User>>();
 
             var dbConnect = configuration["Database"];
-
-            Func<IServiceProvider, Db> factoryDb;
 
             switch (dbConnect)
             {
@@ -78,7 +79,7 @@ namespace ru.emlsoft.WMS.Data.EF
                     services.AddScoped(typeof(IUserStore), typeof(UserStore));
                     services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
                     services.AddScoped(typeof(IWMSDataProvider), factory);
-                    services.AddScoped(typeof(Db), factory);
+                    services.AddScoped(typeof(Db), factoryDb);
                     services.AddScoped(typeof(DocStorage), typeof(DocStorage));
                     break;
 

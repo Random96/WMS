@@ -17,5 +17,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Database
         Task<ICollection<T>> GetPageAsync(int pageNum, int pageSize, IEnumerable<FilterObject> filters, IEnumerable<OrderElement>? orderByField, CancellationToken cancellationToken, bool includeProperties = false);
         Task DeleteAsync(int Id, CancellationToken cancellationToken);
         int UserId { get; set; }
+
+        IWMSDataProvider DataProvider { get; }
     }
 }

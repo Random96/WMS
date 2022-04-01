@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
-using ru.emlsoft.WMS.Data.Dto;
 using ru.emlsoft.WMS.Tools;
 
 namespace ru.emlsoft.WMS.Controllers
@@ -21,7 +19,7 @@ namespace ru.emlsoft.WMS.Controllers
             _signInManager = signInManager;
         }
 
-        internal async Task<IActionResult ?> CheckUserAsync(CancellationToken cancellationToken)
+        internal async Task<IActionResult?> CheckUserAsync(CancellationToken cancellationToken)
         {
             // get current user 
             var user = await _userStore.GetUserAsync(_signInManager, cancellationToken);

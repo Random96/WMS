@@ -1,13 +1,9 @@
 ﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
 using ru.emlsoft.WMS.Data.Abstract.Storage;
 using ru.emlsoft.WMS.Data.Dto.Storage;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
-using ru.emlsoft.WMS.Data.Abstract.Access;
-using ru.emlsoft.WMS.Data.Abstract.Identity;
-using ru.emlsoft.WMS.Data.Dto;
 
 
 namespace ru.emlsoft.WMS.Controllers
@@ -15,7 +11,7 @@ namespace ru.emlsoft.WMS.Controllers
     public class GoodController : CrudController<GoodDto, Good>
     {
         private readonly IRepository<ScanCode> _repoCode;
-        public GoodController(IRepository<ScanCode> repoCode, IRepository<Good> repo, IMapper mapper, IUserStore userStore, SignInManager<User> signInManager, ILogger<BaseController> logger) 
+        public GoodController(IRepository<ScanCode> repoCode, IRepository<Good> repo, IMapper mapper, IUserStore userStore, SignInManager<User> signInManager, ILogger<BaseController> logger)
             : base(repo, mapper, userStore, signInManager, logger)
         {
             _repoCode = repoCode;
@@ -31,9 +27,9 @@ namespace ru.emlsoft.WMS.Controllers
             {
                 var codes = _repoCode.GetList(new FilterObject[] { new FilterObject(nameof(ScanCode.Code), FilterOption.Equals, model.Code) }, null, false);
 
-                if(codes.Any())
+                if (codes.Any())
                 {
-                    if( codes.Count() == 1)
+                    if (codes.Count() == 1)
                     {
                         ret.CodeId = codes.First().Id;
                     }

@@ -1,10 +1,8 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Database;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.ComponentModel.DataAnnotations;
-using ru.emlsoft.WMS.Localization.Resources;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
+using ru.emlsoft.WMS.Localization.Resources;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Storage
 {
@@ -13,11 +11,11 @@ namespace ru.emlsoft.WMS.Data.Abstract.Storage
     {
         public int Id { get; set; }
         public int CompanyId { get; set; }
-        public string ? Code { get; set; }
-        public virtual ICollection<Good> ? Goods { get; set; }
-        public virtual ICollection<Pack> ? Packs { get; set; }
-        public virtual Pallet ? Pallet { get; set; }
-        public virtual Cell ? Cell { get; set; }
+        public string? Code { get; set; }
+        public virtual ICollection<Good>? Goods { get; set; }
+        public virtual ICollection<Pack>? Packs { get; set; }
+        public virtual Pallet Pallet { get; set; }
+        public virtual Cell Cell { get; set; }
 
         public virtual Company Company { get; set; }
     }
