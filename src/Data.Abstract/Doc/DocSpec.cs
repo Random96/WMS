@@ -17,10 +17,10 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
         public DateTime ? Manufactured { get; set; }
         public DateTime ? Expired { get; set; }
         public bool Approved { get; set; }
-#pragma warning disable CS8618
-        public virtual Doc Doc { get; set; }
-        public virtual Good Good { get; set; }
-#pragma warning restore CS8618
+
+        public virtual Doc Doc { get; set; } = null!;
+        public virtual Good Good { get; set; } = null!;
+
         public virtual Cell ? FromCell { get; set; }
         public virtual Cell? ToCell { get; set; }
         public virtual Pallet? Pallet { get; set; }

@@ -79,15 +79,6 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на CELL_NOT_FOUND.
-        /// </summary>
-        public static string CELL_NOT_FOUND {
-            get {
-                return ResourceManager.GetString("CELL_NOT_FOUND", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на CELLFROM.
         /// </summary>
         public static string CELLFROM {
@@ -223,6 +214,24 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_CELL_NOT_FOUND.
+        /// </summary>
+        public static string ERROR_CELL_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("ERROR_CELL_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_CELL_NOT_SET.
+        /// </summary>
+        public static string ERROR_CELL_NOT_SET {
+            get {
+                return ResourceManager.GetString("ERROR_CELL_NOT_SET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на The database was not be initialized.
         /// </summary>
         public static string ERROR_DB_NOT_INIT {
@@ -237,6 +246,60 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         public static string ERROR_FIND_BY_NAME_ASYNC {
             get {
                 return ResourceManager.GetString("ERROR_FIND_BY_NAME_ASYNC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_PARTNER_IS_EMPTY.
+        /// </summary>
+        public static string ERROR_PARTNER_IS_EMPTY {
+            get {
+                return ResourceManager.GetString("ERROR_PARTNER_IS_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_STORAGE_NOT_SET.
+        /// </summary>
+        public static string ERROR_STORAGE_NOT_SET {
+            get {
+                return ResourceManager.GetString("ERROR_STORAGE_NOT_SET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_STORE_NOT_FOUND.
+        /// </summary>
+        public static string ERROR_STORE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("ERROR_STORE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_TOO_MANY_CELLS.
+        /// </summary>
+        public static string ERROR_TOO_MANY_CELLS {
+            get {
+                return ResourceManager.GetString("ERROR_TOO_MANY_CELLS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_TOO_MANY_PARTNERS.
+        /// </summary>
+        public static string ERROR_TOO_MANY_PARTNERS {
+            get {
+                return ResourceManager.GetString("ERROR_TOO_MANY_PARTNERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_TOO_MANY_STORAGES.
+        /// </summary>
+        public static string ERROR_TOO_MANY_STORAGES {
+            get {
+                return ResourceManager.GetString("ERROR_TOO_MANY_STORAGES", resourceCulture);
             }
         }
         
@@ -592,15 +655,6 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         }
         
         /// <summary>
-        ///   Ищет локализованную строку, похожую на STORE_NOT_FOUND.
-        /// </summary>
-        public static string STORE_NOT_FOUND {
-            get {
-                return ResourceManager.GetString("STORE_NOT_FOUND", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Ищет локализованную строку, похожую на STOREORD.
         /// </summary>
         public static string STOREORD {
@@ -624,24 +678,6 @@ namespace ru.emlsoft.WMS.Localization.Resources {
         public static string TIER {
             get {
                 return ResourceManager.GetString("TIER", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на TOO_MANY_CELLS.
-        /// </summary>
-        public static string TOO_MANY_CELLS {
-            get {
-                return ResourceManager.GetString("TOO_MANY_CELLS", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Ищет локализованную строку, похожую на TOO_MANY_STORAGES.
-        /// </summary>
-        public static string TOO_MANY_STORAGES {
-            get {
-                return ResourceManager.GetString("TOO_MANY_STORAGES", resourceCulture);
             }
         }
         

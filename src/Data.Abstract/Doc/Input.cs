@@ -12,6 +12,6 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
         public int InputCellId { get; set; }
 
 
-        public virtual Cell InputCell { get; set; }
+        public virtual Cell InputCell { get; set; } = null!;
     }
 }

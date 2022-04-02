@@ -17,6 +17,6 @@ namespace ru.emlsoft.WMS.Data.Abstract.Access
         public bool IsAdmin { get; set; }
         public virtual ICollection<AccessRight> Rights { get; set; } = new List<AccessRight>();
         public virtual ICollection<Appointment> Appointments { get; set; } = new List<Appointment>();
-        public virtual Company? Company { get; set; }
+        public virtual Company Company { get; set; } = null!;
     }
 }

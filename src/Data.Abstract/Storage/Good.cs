@@ -8,7 +8,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Storage
     public class Good : Entity
     {
         public Good() : base(EntityType.Good) { }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public int? CodeId { get; set; }
         public virtual ScanCode? Code { get; set; }
         public string? Article { get; set; }

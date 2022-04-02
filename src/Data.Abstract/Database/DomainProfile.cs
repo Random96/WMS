@@ -59,6 +59,9 @@ namespace ru.emlsoft.WMS.Data.Abstract.Database
 
         public static StoreOrdDto StoreOrdToDto(IMapper mapper, IWMSDataProvider db, StoreOrd src)
         {
+            if (src == null)
+                throw new ArgumentNullException(nameof(src));
+
             var ret = mapper.Map<StoreOrdDto>(src);
 
             if (src.GoodId != 0)
@@ -69,7 +72,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Database
 
             if (src.CellId != 0)
             {
-                if (src?.Cell?.Code?.Code == null)
+                if (src.Cell?.Code?.Code == null)
                     ret.Cell = db.GetCellCode(src.CellId);
             }
             return ret;
@@ -95,7 +98,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Database
 
             if (src.CellId != 0)
             {
-                if (src?.Cell?.Code?.Code == null)
+                if (src.Cell?.Code?.Code == null)
                 {
                     if (DataProvider == null)
                         dst.Cell = $"The cell Id={src.CellId} was not resoved";
@@ -122,7 +125,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Database
 
             if (src.CellId != 0)
             {
-                if (src?.Cell?.Code?.Code == null)
+                if (src.Cell?.Code?.Code == null)
                     ret.Cell = db.GetCellCode(src.CellId);
             }
             return ret;
@@ -148,7 +151,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Database
 
             if (src.CellId != 0)
             {
-                if (src?.Cell?.Code?.Code == null)
+                if (src.Cell?.Code?.Code == null)
                 {
                     if (DataProvider == null)
                         dst.Cell = $"The cell Id={src.CellId} was not resoved";

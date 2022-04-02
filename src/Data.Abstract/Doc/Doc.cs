@@ -10,7 +10,6 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
     [Display(Name = "DOC", Description = "DOC")]
     public class Doc : Entity
     {
-#pragma warning disable CS8618
         public Doc() : base(EntityType.Doc)
         {
             DocType = DocType.none;
@@ -31,12 +30,11 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
         public bool RowLevelApprove { get; set; }
 
         public virtual ICollection<DocSpec> DocSpecs { get; set; } = new List<DocSpec>();
-        public virtual Partner Partner { get; set; }
-        public virtual Storage.Storage Storage { get; set; }
+        public virtual Partner Partner { get; set; } = null!;
+        public virtual Storage.Storage Storage { get; set; } = null!;
 
 
-        public virtual Input Input { get; set; }
-        public virtual Accept Accept { get; set; }
+        public virtual Input Input { get; set; } = null!;
+        public virtual Accept Accept { get; set; } = null!;
     }
-#pragma warning restore CS8618
 }

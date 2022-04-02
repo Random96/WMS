@@ -1,8 +1,6 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
 using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace ru.emlsoft.WMS.Data.Abstract.Personnel
 {
@@ -19,8 +17,8 @@ namespace ru.emlsoft.WMS.Data.Abstract.Personnel
         public int Id { get; set; }
         public int CompanyId { get; set; }
         public DocumentType DocumentType { get; set; }
-        public string ? Number { get; set; }
+        public string? Number { get; set; }
         public DateTime Date { get; set; }
-        public Company ? Company { get; set; }
+        public Company Company { get; set; } = null!;
     }
 }

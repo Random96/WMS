@@ -28,9 +28,12 @@ namespace ru.emlsoft.WMS.Controllers
 
         protected override Storage PrepareItem(StorageDto model)
         {
+            if (model == null)
+                throw new Exception();
+
             var storage = new Storage()
             {
-                Name = model.StorageName
+                Name = model.StorageName ?? string.Empty
             };
 
             for (int i = 1; i <= model.Rows; i++)

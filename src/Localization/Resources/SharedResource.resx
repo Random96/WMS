@@ -129,9 +129,6 @@
   <data name="CELL_CODE" xml:space="preserve">
     <value>CELL_CODE</value>
   </data>
-  <data name="CELL_NOT_FOUND" xml:space="preserve">
-    <value>CELL_NOT_FOUND</value>
-  </data>
   <data name="COAGENT" xml:space="preserve">
     <value>COAGENT</value>
   </data>
@@ -171,11 +168,35 @@
   <data name="EMAIL" xml:space="preserve">
     <value>EMAIL</value>
   </data>
+  <data name="ERROR_CELL_NOT_FOUND" xml:space="preserve">
+    <value>ERROR_CELL_NOT_FOUND</value>
+  </data>
+  <data name="ERROR_CELL_NOT_SET" xml:space="preserve">
+    <value>ERROR_CELL_NOT_SET</value>
+  </data>
   <data name="ERROR_DB_NOT_INIT" xml:space="preserve">
     <value>The database was not be initialized</value>
   </data>
   <data name="ERROR_FIND_BY_NAME_ASYNC" xml:space="preserve">
     <value>ERROR_FIND_BY_NAME_ASYNC</value>
+  </data>
+  <data name="ERROR_PARTNER_IS_EMPTY" xml:space="preserve">
+    <value>ERROR_PARTNER_IS_EMPTY</value>
+  </data>
+  <data name="ERROR_STORAGE_NOT_SET" xml:space="preserve">
+    <value>ERROR_STORAGE_NOT_SET</value>
+  </data>
+  <data name="ERROR_STORE_NOT_FOUND" xml:space="preserve">
+    <value>ERROR_STORE_NOT_FOUND</value>
+  </data>
+  <data name="ERROR_TOO_MANY_CELLS" xml:space="preserve">
+    <value>ERROR_TOO_MANY_CELLS</value>
+  </data>
+  <data name="ERROR_TOO_MANY_PARTNERS" xml:space="preserve">
+    <value>ERROR_TOO_MANY_PARTNERS</value>
+  </data>
+  <data name="ERROR_TOO_MANY_STORAGES" xml:space="preserve">
+    <value>ERROR_TOO_MANY_STORAGES</value>
   </data>
   <data name="ERROR_USER_ALREDY_EXIST" xml:space="preserve">
     <value>ERROR_USER_ALREDY_EXIST</value>
@@ -300,17 +321,8 @@
   <data name="STOREREMAINS" xml:space="preserve">
     <value>STOREREMAINS</value>
   </data>
-  <data name="STORE_NOT_FOUND" xml:space="preserve">
-    <value>STORE_NOT_FOUND</value>
-  </data>
   <data name="TIER" xml:space="preserve">
     <value>TIER</value>
-  </data>
-  <data name="TOO_MANY_CELLS" xml:space="preserve">
-    <value>TOO_MANY_CELLS</value>
-  </data>
-  <data name="TOO_MANY_STORAGES" xml:space="preserve">
-    <value>TOO_MANY_STORAGES</value>
   </data>
   <data name="USER" xml:space="preserve">
     <value>USER</value>

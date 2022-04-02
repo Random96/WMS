@@ -14,8 +14,6 @@ namespace ru.emlsoft.WMS.Data.EF
 {
     public static class Register
     {
-        internal static Func<IServiceProvider, Db> ? factoryDb;
-
         private static Db OracleDbFactory(IServiceProvider serviceProvider, string connectionString)
         {
             return new OracleDb(connectionString, serviceProvider.GetRequiredService<ILogger<OracleDb>>());
@@ -40,6 +38,8 @@ namespace ru.emlsoft.WMS.Data.EF
                 .AddUserManager<UserManager<User>>();
 
             var dbConnect = configuration["Database"];
+
+            Func<IServiceProvider, Db> factoryDb = null!;
 
             switch (dbConnect)
             {
@@ -71,7 +71,7 @@ namespace ru.emlsoft.WMS.Data.EF
                     throw new Exception("Illegal configuration");
             }
 
-            object factory(IServiceProvider serviceProvider) => factoryDb(serviceProvider);
+            object factory(IServiceProvider x) => factoryDb(x);
 
             switch (injection)
             {

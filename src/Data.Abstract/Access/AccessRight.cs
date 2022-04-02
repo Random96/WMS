@@ -9,12 +9,12 @@ namespace ru.emlsoft.WMS.Data.Abstract.Access
         public int Id { get; set; }
         public int CompanyId { get; set; }
         public int EntityListId { get; set; }
-        public virtual EntityList ? Entity { get; set; }
         public int PositionId { get; set; }
         public virtual Position? Position { get; set; }
         public bool CanRead { get; set; }
         public bool CanWrite { get; set; }
         public bool CanDelete { get; set; }
-        public virtual Company? Company { get; set; }
+        public virtual Company Company { get; set; } = null!;
+        public virtual EntityList Entity { get; set; } = null!;
     }
 }

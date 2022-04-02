@@ -20,10 +20,10 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
         public int? PrevRemainsId { get; set; }
         public int StoreOrdId { get; set; }
 
-        public virtual Good Good { get; set; }
+        public virtual Good Good { get; set; } = null!;
         public virtual Cell? Cell { get; set; }
         public virtual Pallet? Pallet { get; set; }
 
-        public virtual StoreOrd StoreOrd { get; set; }
+        public virtual StoreOrd StoreOrd { get; set; } = null!;
     }
 }

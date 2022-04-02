@@ -13,9 +13,9 @@ namespace ru.emlsoft.WMS.Data.Abstract.Storage
         public string? Code { get; set; }
         public virtual ICollection<Good>? Goods { get; set; }
         public virtual ICollection<Pack>? Packs { get; set; }
-        public virtual Pallet Pallet { get; set; }
-        public virtual Cell Cell { get; set; }
+        public virtual Pallet Pallet { get; set; } = null!;
+        public virtual Cell Cell { get; set; } = null!;
 
-        public virtual Company Company { get; set; }
+        public virtual Company Company { get; set; } = null!;
     }
 }

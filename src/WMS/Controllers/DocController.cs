@@ -85,7 +85,18 @@ namespace ru.emlsoft.WMS.Controllers
         {
             if (string.IsNullOrWhiteSpace(item.PartnerName))
             {
-                ModelState.AddModelError(string.Empty, "PARTNER_IS_EMPTY");
+                ModelState.AddModelError(string.Empty, "ERROR_PARTNER_IS_EMPTY");
+                return View(item);
+            }
+
+            if(string.IsNullOrWhiteSpace(item.StorageName))
+            {
+                ModelState.AddModelError(string.Empty, "ERROR_STORAGE_NOT_SET");
+                return View(item);
+            }
+            if (string.IsNullOrWhiteSpace(item.InputCell))
+            {
+                ModelState.AddModelError(string.Empty, "ERROR_CELL_NOT_SET");
                 return View(item);
             }
 
@@ -111,7 +122,7 @@ namespace ru.emlsoft.WMS.Controllers
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "TOO_MANY_PARTNERS");
+                        ModelState.AddModelError(string.Empty, "ERROR_TOO_MANY_PARTNERS");
                         return View(item);
                     }
                 }
@@ -159,28 +170,28 @@ namespace ru.emlsoft.WMS.Controllers
                             }
                             else
                             {
-                                ModelState.AddModelError(string.Empty, "TOO_MANY_STORAGES");
+                                ModelState.AddModelError(string.Empty, "ERROR_TOO_MANY_STORAGES");
                                 return View(item);
                             }
                         }
                         else
                         {
                             _logger.LogTrace("Store not found");
-                            ModelState.AddModelError(string.Empty, _localizer["STORE_NOT_FOUND"].Value);
+                            ModelState.AddModelError(string.Empty, _localizer["ERROR_STORE_NOT_FOUND"].Value);
                             return View();
                         }
 
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "TOO_MANY_CELLS");
+                        ModelState.AddModelError(string.Empty, "ERROR_TOO_MANY_CELLS");
                         return View(item);
                     }
                 }
                 else
                 {
                     _logger.LogTrace("Scan of cell not found");
-                    ModelState.AddModelError(string.Empty, _localizer["CELL_NOT_FOUND"].Value);
+                    ModelState.AddModelError(string.Empty, _localizer["ERROR_CELL_NOT_FOUND"].Value);
                     return View();
                 }
 

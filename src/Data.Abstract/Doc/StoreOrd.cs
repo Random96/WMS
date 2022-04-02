@@ -21,10 +21,10 @@ namespace ru.emlsoft.WMS.Data.Abstract.Doc
         // ссылка на документы
         public int DocSpecId { get; set; }
 
-        public virtual Good Good { get; set; }
+        public virtual Good Good { get; set; } = null!;
         public virtual Cell? Cell { get; set; }
         public virtual Pallet? Pallet { get; set; }
 
-        public virtual DocSpec DocSpec { get; set; }
+        public virtual DocSpec DocSpec { get; set; } = null!;
     }
 }

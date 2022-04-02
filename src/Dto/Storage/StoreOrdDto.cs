@@ -14,17 +14,17 @@ namespace ru.emlsoft.WMS.Data.Dto.Storage
         [Display(Name = "GOOD_NAME", ResourceType = typeof(SharedResource))]
         [StringLength(200, MinimumLength = 3)]
         [Required]
-        public string Good { get; set; }
+        public string Good { get; set; } = String.Empty;
 
         [Display(Name = "CELL_CODE", ResourceType = typeof(SharedResource))]
         [StringLength(200, MinimumLength = 3)]
         [Required]
-        public string Cell { get; set; }
+        public string Cell { get; set; } = String.Empty;
 
         [Display(Name = "PALLET_CODE", ResourceType = typeof(SharedResource))]
         [StringLength(200, MinimumLength = 3)]
         [Required]
-        public string Pallet { get; set; }
+        public string Pallet { get; set; } = null!;
 
         [Display(Name = "QUANTITY", ResourceType = typeof(SharedResource))]
         public int Qty { get; set; }
