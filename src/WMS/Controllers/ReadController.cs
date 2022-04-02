@@ -22,7 +22,7 @@ namespace ru.emlsoft.WMS.Controllers
             _mapper = mapper;
         }
 
-        protected virtual IEnumerable<Dto> GetDtoEnum(IEnumerable<T> items)
+        protected virtual IEnumerable<Dto> GetDtoEnumerable(IEnumerable<T> items)
         {
             return items.Select(x => _mapper.Map<T, Dto>(x)).ToArray();
         }
@@ -37,7 +37,7 @@ namespace ru.emlsoft.WMS.Controllers
 
             var items = await _repo.GetPageAsync(pageNum, pageSize, filters, null, cancellationToken, true);
 
-            var dtoObjects = GetDtoEnum(items);
+            var dtoObjects = GetDtoEnumerable(items);
 
             var page = new PageDto<Dto>()
             {

@@ -23,6 +23,12 @@ namespace ru.emlsoft.WMS.Data.Abstract.Database
                 .ForMember(x => x.Good, x => x.Ignore())
                 .AfterMap((src, dst) => StoreOrdToDto(src, dst));
 
+            CreateMap<Remains, RemainsDto>()
+                .ForMember(x => x.Pallet, x => x.Ignore())
+                .ForMember(x => x.Cell, x => x.Ignore())
+                .ForMember(x => x.Good, x => x.Ignore())
+                .AfterMap((src, dst) => RemainsToDto(src, dst));
+
 
             CreateMap<Good, GoodDto>()
                 .ForMember(x => x.Code, x => x.Ignore())
@@ -70,6 +76,59 @@ namespace ru.emlsoft.WMS.Data.Abstract.Database
         }
 
         private void StoreOrdToDto(StoreOrd src, StoreOrdDto dst)
+        {
+            if (src == null)
+                return;
+
+            if (src.GoodId != 0)
+            {
+                if (src.Good == null)
+                {
+                    if (DataProvider == null)
+                        dst.Good = $"The good Id={src.GoodId} was not resoved";
+                }
+                else
+                {
+                    dst.Good = src.Good.Name;
+                }
+            }
+
+            if (src.CellId != 0)
+            {
+                if (src?.Cell?.Code?.Code == null)
+                {
+                    if (DataProvider == null)
+                        dst.Cell = $"The cell Id={src.CellId} was not resoved";
+
+                }
+                else
+                {
+                    dst.Cell = src.Cell.Code.Code;
+                }
+            }
+
+            if (src?.Pallet?.Code?.Code != null)
+                dst.Pallet = src.Pallet.Code.Code;
+        }
+        public static RemainsDto RemainToDto(IMapper mapper, IWMSDataProvider db, Remains src)
+        {
+            var ret = mapper.Map<RemainsDto>(src);
+
+            if (src.GoodId != 0)
+            {
+                if (src.Good == null)
+                    ret.Good = db.GetGoodName(src.GoodId);
+            }
+
+            if (src.CellId != 0)
+            {
+                if (src?.Cell?.Code?.Code == null)
+                    ret.Cell = db.GetCellCode(src.CellId);
+            }
+            return ret;
+        }
+
+        private void RemainsToDto(Remains src, RemainsDto dst)
         {
             if (src == null)
                 return;

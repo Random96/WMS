@@ -14,7 +14,7 @@ namespace ru.emlsoft.WMS.Controllers
         {
         }
 
-        protected override IEnumerable<StoreOrdDto> GetDtoEnum(IEnumerable<StoreOrd> items)
+        protected override IEnumerable<StoreOrdDto> GetDtoEnumerable(IEnumerable<StoreOrd> items)
         {
             return items.Select(x => DomainProfile.StoreOrdToDto(_mapper, _repo.DataProvider, x )).ToArray();
         }
