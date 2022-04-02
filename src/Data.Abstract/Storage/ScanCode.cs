@@ -1,6 +1,5 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Database;
 using ru.emlsoft.WMS.Data.Abstract.Identity;
-using ru.emlsoft.WMS.Localization.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 

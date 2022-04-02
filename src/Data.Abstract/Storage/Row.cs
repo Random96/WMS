@@ -1,5 +1,4 @@
 ﻿using ru.emlsoft.WMS.Data.Abstract.Access;
-using ru.emlsoft.WMS.Localization.Resources;
 using System;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -9,7 +8,7 @@ namespace ru.emlsoft.WMS.Data.Abstract.Storage
     [Display(Name = "STORAGE", Description = "ROW")]
     public class Row : Entity
     {
-        public Row() : base (EntityType.Row)
+        public Row() : base(EntityType.Row)
         {
             Code = String.Empty;
             Tiers = new List<Tier>();
