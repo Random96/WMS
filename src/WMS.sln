@@ -7,21 +7,19 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WMS", "WMS\WMS.csproj", "{F
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Data", "Data", "{1C7D9310-54FF-4EA7-AD3A-B8398A7CBD0D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.EmlSoft.WMS.Entity", "Entity\ru.EmlSoft.WMS.Entity.csproj", "{2EC769FE-7DB1-4D61-A30A-C2CB6BB7686F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.emlsoft.WMS.Data.Abstract", "Data.Abstract\ru.emlsoft.WMS.Data.Abstract.csproj", "{8EED32C9-8E2D-4189-8873-3B347247666B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.EmlSoft.WMS.Data.Abstract", "Data.Abstract\ru.EmlSoft.WMS.Data.Abstract.csproj", "{8EED32C9-8E2D-4189-8873-3B347247666B}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.EmlSoft.WMS.Data.EF", "Data.EF\ru.EmlSoft.WMS.Data.EF.csproj", "{B2E8192B-AF58-42C4-AEC3-BA6ACF1D5DC5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.emlsoft.WMS.Data.EF", "Data.EF\ru.emlsoft.WMS.Data.EF.csproj", "{B2E8192B-AF58-42C4-AEC3-BA6ACF1D5DC5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Dto", "Dto", "{FA8773A0-CC9F-4F26-8DD6-0F14CF92B495}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.EmlSoft.WMS.Data.Dto", "Dto\ru.EmlSoft.WMS.Data.Dto.csproj", "{F16D3E07-86A1-4202-BB4C-A20937088630}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.emlsoft.WMS.Data.Dto", "Dto\ru.emlsoft.WMS.Data.Dto.csproj", "{F16D3E07-86A1-4202-BB4C-A20937088630}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{E42BD273-49B2-43F7-9A26-319EB2C7C346}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.EmlSoft.WMS.Localization", "Localization\ru.EmlSoft.WMS.Localization.csproj", "{675ACF8D-3854-43EA-ADC4-7B3AFC2372C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.emlsoft.WMS.Localization", "Localization\ru.emlsoft.WMS.Localization.csproj", "{675ACF8D-3854-43EA-ADC4-7B3AFC2372C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ru.EmlSoft.Utilities", "Utilities\ru.EmlSoft.Utilities.csproj", "{B9755889-E24E-4A4D-967C-3EE84A11EC4A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ru.emlsoft.Utilities", "Utilities\ru.emlsoft.Utilities.csproj", "{B9755889-E24E-4A4D-967C-3EE84A11EC4A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +31,6 @@ Global
 		{F6254C8C-8024-41CE-8287-B51AB21A06DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6254C8C-8024-41CE-8287-B51AB21A06DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6254C8C-8024-41CE-8287-B51AB21A06DB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2EC769FE-7DB1-4D61-A30A-C2CB6BB7686F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2EC769FE-7DB1-4D61-A30A-C2CB6BB7686F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2EC769FE-7DB1-4D61-A30A-C2CB6BB7686F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2EC769FE-7DB1-4D61-A30A-C2CB6BB7686F}.Release|Any CPU.Build.0 = Release|Any CPU
 		{8EED32C9-8E2D-4189-8873-3B347247666B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{8EED32C9-8E2D-4189-8873-3B347247666B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8EED32C9-8E2D-4189-8873-3B347247666B}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -62,7 +56,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{2EC769FE-7DB1-4D61-A30A-C2CB6BB7686F} = {1C7D9310-54FF-4EA7-AD3A-B8398A7CBD0D}
 		{8EED32C9-8E2D-4189-8873-3B347247666B} = {1C7D9310-54FF-4EA7-AD3A-B8398A7CBD0D}
 		{B2E8192B-AF58-42C4-AEC3-BA6ACF1D5DC5} = {1C7D9310-54FF-4EA7-AD3A-B8398A7CBD0D}
 		{F16D3E07-86A1-4202-BB4C-A20937088630} = {FA8773A0-CC9F-4F26-8DD6-0F14CF92B495}

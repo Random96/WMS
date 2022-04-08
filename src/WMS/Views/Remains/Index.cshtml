@@ -1,0 +1,55 @@
+﻿@using ru.emlsoft.WMS.Data.Dto.Storage;
+
+@model ru.emlsoft.WMS.Data.Dto.PageDto<RemainsDto>;
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+<section class="content-header">
+    <h1>Остатки</h1>
+</section>
+
+@if (Model?.Items?.Any() ?? false)
+{
+    <table class="table">
+        <tr>
+            <td>
+                 @Html.DisplayNameFor(model => model.Items.First().Cell)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Date)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Good)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Pallet)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Qty)
+            </td>
+        </tr>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Cell)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Date)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Good)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Pallet)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Qty)
+                </td>
+            </tr>
+        }
+    </table>
+}
+

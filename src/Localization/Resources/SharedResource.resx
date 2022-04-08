@@ -117,20 +117,161 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CELL" xml:space="preserve">
+    <value>CELL</value>
+  </data>
+  <data name="CELLFROM" xml:space="preserve">
+    <value>CELLFROM</value>
+  </data>
+  <data name="CELLTO" xml:space="preserve">
+    <value>CELLTO</value>
+  </data>
+  <data name="CELL_CODE" xml:space="preserve">
+    <value>CELL_CODE</value>
+  </data>
+  <data name="COAGENT" xml:space="preserve">
+    <value>COAGENT</value>
+  </data>
+  <data name="COAGENTS" xml:space="preserve">
+    <value>COAGENTS</value>
+  </data>
+  <data name="COMPANY" xml:space="preserve">
+    <value>COMPANY</value>
+  </data>
+  <data name="COMPANYCANNEGATIVE" xml:space="preserve">
+    <value>COMPANYCANNEGATIVE</value>
+  </data>
+  <data name="COMPANYNAME" xml:space="preserve">
+    <value>COMPANYNAME</value>
+  </data>
+  <data name="COMPANYNEEDSAMPLEDATA" xml:space="preserve">
+    <value>COMPANYNEEDSAMPLEDATA</value>
+  </data>
+  <data name="DOC" xml:space="preserve">
+    <value>DOC</value>
+  </data>
+  <data name="DOCDATE" xml:space="preserve">
+    <value>DOCDATE</value>
+  </data>
+  <data name="DOCINPUT" xml:space="preserve">
+    <value>DOCINPUT</value>
+  </data>
+  <data name="DOCNUMBER" xml:space="preserve">
+    <value>DOCNUMBER</value>
+  </data>
+  <data name="DOCS" xml:space="preserve">
+    <value>DOCS</value>
+  </data>
+  <data name="DOCTYPE" xml:space="preserve">
+    <value>DOCTYPE</value>
+  </data>
   <data name="EMAIL" xml:space="preserve">
     <value>EMAIL</value>
+  </data>
+  <data name="ERROR_CELL_NOT_FOUND" xml:space="preserve">
+    <value>ERROR_CELL_NOT_FOUND</value>
+  </data>
+  <data name="ERROR_CELL_NOT_SET" xml:space="preserve">
+    <value>ERROR_CELL_NOT_SET</value>
+  </data>
+  <data name="ERROR_DB_NOT_INIT" xml:space="preserve">
+    <value>The database was not be initialized</value>
+  </data>
+  <data name="ERROR_FIND_BY_NAME_ASYNC" xml:space="preserve">
+    <value>ERROR_FIND_BY_NAME_ASYNC</value>
+  </data>
+  <data name="ERROR_PARTNER_IS_EMPTY" xml:space="preserve">
+    <value>ERROR_PARTNER_IS_EMPTY</value>
+  </data>
+  <data name="ERROR_STORAGE_NOT_SET" xml:space="preserve">
+    <value>ERROR_STORAGE_NOT_SET</value>
+  </data>
+  <data name="ERROR_STORE_NOT_FOUND" xml:space="preserve">
+    <value>ERROR_STORE_NOT_FOUND</value>
+  </data>
+  <data name="ERROR_TOO_MANY_CELLS" xml:space="preserve">
+    <value>ERROR_TOO_MANY_CELLS</value>
+  </data>
+  <data name="ERROR_TOO_MANY_PARTNERS" xml:space="preserve">
+    <value>ERROR_TOO_MANY_PARTNERS</value>
+  </data>
+  <data name="ERROR_TOO_MANY_STORAGES" xml:space="preserve">
+    <value>ERROR_TOO_MANY_STORAGES</value>
   </data>
   <data name="ERROR_USER_ALREDY_EXIST" xml:space="preserve">
     <value>ERROR_USER_ALREDY_EXIST</value>
   </data>
+  <data name="GOOD" xml:space="preserve">
+    <value>GOOD</value>
+  </data>
+  <data name="GOODNAME" xml:space="preserve">
+    <value>GOODNAME</value>
+  </data>
+  <data name="GOOD_ARTICLE" xml:space="preserve">
+    <value>GOOD_ARTICLE</value>
+  </data>
+  <data name="GOOD_CODE" xml:space="preserve">
+    <value>GOOD_CODE</value>
+  </data>
+  <data name="GOOD_DEPTH" xml:space="preserve">
+    <value>GOOD_DEPTH</value>
+  </data>
+  <data name="GOOD_HEIGHT" xml:space="preserve">
+    <value>GOOD_HEIGHT</value>
+  </data>
+  <data name="GOOD_NAME" xml:space="preserve">
+    <value>GOOD_NAME</value>
+  </data>
+  <data name="GOOD_WEIGHT" xml:space="preserve">
+    <value>GOOD_WEIGHT</value>
+  </data>
+  <data name="GOOD_WIDTH" xml:space="preserve">
+    <value>GOOD_WIDTH</value>
+  </data>
   <data name="HELLO" xml:space="preserve">
     <value>HELLO</value>
+  </data>
+  <data name="INPUTCELL" xml:space="preserve">
+    <value>INPUTCELL</value>
+  </data>
+  <data name="INPUTDATE" xml:space="preserve">
+    <value>INPUTDATE</value>
   </data>
   <data name="LOGIN" xml:space="preserve">
     <value>LOGIN</value>
   </data>
   <data name="LOGOUT" xml:space="preserve">
     <value>LOGOUT</value>
+  </data>
+  <data name="PACK" xml:space="preserve">
+    <value>PACK</value>
+  </data>
+  <data name="PALLET" xml:space="preserve">
+    <value>PALLET</value>
+  </data>
+  <data name="PALLET_CODE" xml:space="preserve">
+    <value>PALLET_CODE</value>
+  </data>
+  <data name="PARTNERNAME" xml:space="preserve">
+    <value>PARTNERNAME</value>
+  </data>
+  <data name="PARTNER_FULL_NAME" xml:space="preserve">
+    <value>PARTNER_FULL_NAME</value>
+  </data>
+  <data name="PARTNER_INN" xml:space="preserve">
+    <value>PARTNER_INN</value>
+  </data>
+  <data name="PARTNER_KPP" xml:space="preserve">
+    <value>PARTNER_KPP</value>
+  </data>
+  <data name="PARTNER_NAME" xml:space="preserve">
+    <value>PARTNER_NAME</value>
+  </data>
+  <data name="PARTNER_NOT_FOUND" xml:space="preserve">
+    <value>PARTNER_NOT_FOUND</value>
+  </data>
+  <data name="PARTNER_OGRN" xml:space="preserve">
+    <value>PARTNER_OGRN</value>
   </data>
   <data name="PASSWORD" xml:space="preserve">
     <value>PASSWORD</value>
@@ -141,8 +282,47 @@
   <data name="PHONE" xml:space="preserve">
     <value>PHONE</value>
   </data>
+  <data name="QUANTITY" xml:space="preserve">
+    <value>QUANTITY</value>
+  </data>
   <data name="REGISTER" xml:space="preserve">
     <value>REGISTER</value>
+  </data>
+  <data name="REMAINS" xml:space="preserve">
+    <value>REMAINS</value>
+  </data>
+  <data name="ROW" xml:space="preserve">
+    <value>ROW</value>
+  </data>
+  <data name="SCAN" xml:space="preserve">
+    <value>SCAN</value>
+  </data>
+  <data name="SCANCODE" xml:space="preserve">
+    <value>SCANCODE</value>
+  </data>
+  <data name="STORAGE" xml:space="preserve">
+    <value>STORAGE</value>
+  </data>
+  <data name="STORAGECELLS" xml:space="preserve">
+    <value>STORAGECELLS</value>
+  </data>
+  <data name="STORAGENAME" xml:space="preserve">
+    <value>STORAGENAME</value>
+  </data>
+  <data name="STORAGEROWS" xml:space="preserve">
+    <value>STORAGEROWS</value>
+  </data>
+  <data name="STORAGETIERS" xml:space="preserve">
+    <value>STORAGETIERS</value>
+  </data>
+  <data name="STOREORD" xml:space="preserve">
+    <value>STOREORD</value>
+  </data>
+  <data name="STOREREMAINS" xml:space="preserve">
+    <value>STOREREMAINS</value>
+  </data>
+  <data name="TIER" xml:space="preserve">
+    <value>TIER</value>
   </data>
   <data name="USER" xml:space="preserve">
     <value>USER</value>
@@ -155,5 +335,8 @@
   </data>
   <data name="VALIDATE_PHONE" xml:space="preserve">
     <value>VALIDATE_PHONE</value>
+  </data>
+  <data name="WAREHOUSE" xml:space="preserve">
+    <value>WAREHOUSE</value>
   </data>
 </root>

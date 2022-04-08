@@ -1,0 +1,108 @@
+﻿@using ru.emlsoft.WMS.Data.Dto.Storage;
+
+@{
+    ViewData["Title"] = "Создание товара";
+}
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    @model GoodDto;
+
+}
+
+
+<div id="app">
+    <form class="form-horizontal" method="Post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=GoodName></label>
+                            <div class="col-sm-10">
+                                <input asp-for=GoodName type="text" class="form-control" />
+                                <span asp-validation-for=GoodName class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Article></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Article type="text" class="form-control" />
+                                <span asp-validation-for=Article class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Code></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Code type="text" class="form-control" />
+                                <span asp-validation-for=Code class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Heigh></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Heigh type="text" class="form-control" />
+                                <span asp-validation-for=Heigh class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Width></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Width type="text" class="form-control" />
+                                <span asp-validation-for=Width class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Depth></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Depth type="text" class="form-control" />
+                                <span asp-validation-for=Depth class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Weight></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Weight type="text" class="form-control" />
+                                <span asp-validation-for=Weight class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="box-footer">
+                <div class="pull-right box-tools">
+                    <input class="btn btn-primary" type="submit">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts{
+<script src="~/lib/jquery-validate/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

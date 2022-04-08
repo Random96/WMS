@@ -362,3 +362,7 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /src/.cr/personal
+/src/WMS/truststore.jks
+/src/WMS/keystore.jks
+/src/WMS/ewallet.p12
+/src/WMS/cwallet.sso

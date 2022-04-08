@@ -1,0 +1,78 @@
+﻿@using ru.emlsoft.WMS.Data.Dto.Doc;
+
+@model ru.emlsoft.WMS.Data.Dto.PageDto<DocDto>;
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+<section class="content-header">
+    <h1>Документы прихода</h1>
+</section>
+
+<p>
+    <a asp-action="CreateInput">Create New Input</a>
+    <a asp-action="CreateAccept">Create New Accept</a>
+    <a asp-action="CreatePicking">Create New Piking</a>
+    <a asp-action="CreateOutput">Create New Output</a>
+    <a asp-action="CreateSort">Create New Sort</a>
+    <a asp-action="CreateInventory ">Create New Inventory</a>
+</p>
+
+@if (Model?.Items?.Any() ?? false)
+{
+    <table class="table">
+        <tr>
+            <td >
+                @Html.DisplayNameFor(model => model.Items.First().DocDate)
+            </td>
+            <td >
+                @Html.DisplayNameFor(model => model.Items.First().DocType)
+            </td>
+            <td >
+                @Html.DisplayNameFor(model => model.Items.First().DocNumber)
+            </td>
+            <td >
+                @Html.DisplayNameFor(model => model.Items.First().PartnerName)
+            </td>
+            <td >
+                @Html.DisplayNameFor(model => model.Items.First().Accepted)
+            </td>
+            <td>
+            </td>
+        </tr>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td >
+                    @Html.DisplayFor(model => item.DocDate)
+                </td>
+                <td >
+                    @Html.DisplayFor(model => item.DocType)
+                </td>
+                <td >
+                    @Html.DisplayFor(model => item.DocNumber)
+                </td>
+                <td >
+                    @Html.DisplayFor(model => item.PartnerName)
+                </td>
+                <td >
+                    @Html.DisplayFor(model => item.Accepted)
+                </td>
+                <td>
+                    @if (!item.Accepted)
+                    {
+                        <a asp-action="Apply" asp-route-id="@item.Id">Apply</a>
+                    }
+                    else
+                    {
+                        <label>Apply</label>
+                    }
+                    | <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+}

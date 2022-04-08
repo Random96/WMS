@@ -1,30 +1,80 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
-using System.Security.Claims;
-using ru.EmlSoft.Utilities;
-using ru.EmlSoft.WMS.Localization;
-using Microsoft.AspNetCore.Mvc.Localization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
+using ru.emlsoft.Utilities;
+using ru.emlsoft.WMS.Data.Abstract.Database;
+using ru.emlsoft.WMS.Data.Abstract.Identity;
+using ru.emlsoft.WMS.Localization;
+using ru.emlsoft.WMS.Tools;
 
-namespace ru.EmlSoft.WMS.Controllers
+namespace ru.emlsoft.WMS.Controllers
 {
     public class AccountController : Controller
     {
+        private readonly IWMSDataProvider _db;
+        private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly ILogger<AccountController> _logger;
-        private readonly IUserStore _userStore;
-        private readonly IHtmlLocalizer<SharedResource> _localizer;
         private readonly SignInManager<User> _signInManager;
+        private readonly IUserStore _userStore;
 
-        public AccountController(SignInManager<User> signInManager, IHtmlLocalizer<SharedResource> localizer, ILogger<AccountController> logger, IUserStore userStore)
+        public AccountController(IWMSDataProvider db, SignInManager<User> signInManager, IStringLocalizer<SharedResource> localizer, ILogger<AccountController> logger, IUserStore userStore)
         {
             _logger = logger;
             _userStore = userStore;
             _localizer = localizer;
             _signInManager = signInManager;
+            _db = db;
+        }
+
+        private static User GetUser(Data.Dto.UserDto model)
+        {
+            if (model == null)
+                return new User();
+
+            return new User()
+            {
+                LoginName = model.UserName,
+                PasswordHash = model.Password1?.ToMd5(),
+                Email = model.Email,
+                Phone = model.Phone
+            };
+        }
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult CreateCompany()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<IActionResult> CreateCompany(Data.Dto.CompanyDto model, CancellationToken cancellationToken = default)
+        {
+            _logger.LogTrace("Create Company begin");
+
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            try
+            {
+                var user = await _userStore.GetUserAsync(_signInManager, cancellationToken);
+
+                if (model.Name != null)
+                    await _db.CreateCompanyAsync(user.Id, model, cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error in register user");
+                ModelState.AddModelError(string.Empty, ex.Message);
+            }
+
+            return RedirectToAction("Index", "Home");
         }
 
         //string returnUrl = null
@@ -45,69 +95,68 @@ namespace ru.EmlSoft.WMS.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Login(Data.Dto.UserDto model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Login(Data.Dto.UserDto model, CancellationToken cancellationToken = default)
         {
             _logger.LogTrace("Login start");
 
-            if(model == null)
+            if (model == null)
                 return View();
 
             try
             {
                 // get user by name
                 var userName = await _userStore.GetNormalizedUserNameAsync(GetUser(model), cancellationToken);
-                var dbUser =  await _userStore.FindByNameAsync(userName, cancellationToken);
+                var dbUser = await _userStore.FindByNameAsync(userName, cancellationToken);
 
-                if (dbUser == null)
+                if (dbUser == null || dbUser.Id == 0)
                 {
-                    _logger.LogTrace( "User not found");
+                    _logger.LogTrace("User not found");
                     ModelState.AddModelError(string.Empty, _localizer["ERROR_USER_NOT_FOUND"].Value);
                     return View(model);
                 }
 
-                if( dbUser.IsLocked)
+                if (dbUser.IsLocked)
                 {
                     ModelState.AddModelError(string.Empty, _localizer["ERROR_USER_IS_LOCKED"].Value);
                     return View(model);
                 }
 
-                if (dbUser.Expired > DateTime.Now)
+                if (dbUser.Expired > DateTime.UtcNow)
                 {
                     ModelState.AddModelError(string.Empty, _localizer["ERROR_USER_IS_EXPRIRED"].Value);
                     return View(model);
                 }
 
-                if (dbUser.LockedTo < DateTime.Now)
+                if (dbUser.LockedTo < DateTime.UtcNow)
                 {
                     ModelState.AddModelError(string.Empty, _localizer["ERROR_USER_IS_TEMPORARY_LOCKED"].Value);
                     return View(model);
                 }
 
-                if( dbUser.PasswordHash != model?.Passwd1?.ToMd5())
+                if (dbUser.PasswordHash != model?.Password1?.ToMd5())
                 {
                     if (dbUser.Logins != null)
                     {
                         // check to lock
-                        var lastLogins = dbUser.Logins.Where(x => x.Date >= DateTime.Now.AddMinutes(-15) 
+                        var lastLogins = dbUser.Logins.Where(x => x.Date >= DateTime.UtcNow.AddMinutes(-15)
                             && x.PasswordHash == dbUser.PasswordHash);
 
-                        if(lastLogins.Count() > 10 )
+                        if (lastLogins.Count() > 10)
                         {
                             lastLogins = lastLogins.OrderByDescending(x => x.Date).Take(10);
                         }
 
-                        if(!lastLogins.Any(x=>x.Result == 0))
+                        if (!lastLogins.Any(x => x.Result == 0))
                         {
-                            dbUser.LockedTo = DateTime.Now.AddHours(1);
+                            dbUser.LockedTo = DateTime.UtcNow.AddHours(1);
                         }
                     }
-                    else
-                    {
+
+                    if (dbUser.Logins == null)
                         dbUser.Logins = new List<Logins>();
-                    }
 
                     // save false login
-                    dbUser.Logins.Add(new Logins() { PasswordHash = dbUser.PasswordHash, Date = DateTime.Now, Result = 1 });
+                    dbUser.Logins.Add(new Logins() { PasswordHash = dbUser.PasswordHash, Date = DateTime.UtcNow, Result = 1 });
                     await _userStore.UpdateAsync(dbUser, cancellationToken);
                     return View(model);
                 }
@@ -117,7 +166,7 @@ namespace ru.EmlSoft.WMS.Controllers
                 if (dbUser.Logins == null)
                     dbUser.Logins = new List<Logins>();
 
-                dbUser.Logins.Add(new Logins() { PasswordHash = dbUser.PasswordHash, Date = DateTime.Now, Result = 0 });
+                dbUser.Logins.Add(new Logins() { PasswordHash = dbUser.PasswordHash, Date = DateTime.UtcNow, Result = 0 });
                 await _userStore.UpdateAsync(dbUser, cancellationToken);
 
                 await _signInManager.SignOutAsync();
@@ -125,11 +174,12 @@ namespace ru.EmlSoft.WMS.Controllers
 
                 var prop = new AuthenticationProperties
                 {
-                    IssuedUtc = DateTime.Now,
-                    IsPersistent = true, 
-                    ExpiresUtc = DateTime.Now.AddDays(1),
+                    IssuedUtc = DateTime.UtcNow,
+                    IsPersistent = true,
+                    ExpiresUtc = DateTime.UtcNow.AddDays(1),
                 };
                 var claimsPrincipal = await _signInManager.ClaimsFactory.CreateAsync(dbUser);
+                
                 await _signInManager.Context.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, prop);
                 // await _signInManager.SignInAsync(dbUser, prop);
                 /*
@@ -156,9 +206,18 @@ namespace ru.EmlSoft.WMS.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in register user");
-                ModelState.AddModelError(string.Empty, ex.Message);
+                ModelState.AddModelError(string.Empty, $"User Ip:{await UserExtension.GetAddressAsync()}, Message='{ex.Message}'");
                 return View(model);
             }
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            await _signInManager.Context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            return RedirectToAction("Index", "Home");
         }
 
 
@@ -171,11 +230,11 @@ namespace ru.EmlSoft.WMS.Controllers
 
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register(Data.Dto.UserDto model, CancellationToken cancellationToken)
+        public async Task<IActionResult> Register(Data.Dto.UserDto model, CancellationToken cancellationToken = default)
         {
             _logger.LogTrace("Register user begin");
 
-            if(!ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }
@@ -183,42 +242,41 @@ namespace ru.EmlSoft.WMS.Controllers
             // register new user
             try
             {
-                var ret = await _userStore.CreateAsync(user: GetUser(model), cancellationToken: cancellationToken);
+                var user = GetUser(model);
+                var ret = await _userStore.CreateAsync(user: user, cancellationToken: cancellationToken);
 
-                if(ret.Succeeded)
-                    return RedirectToAction("Index", "Home");
+                if (!ret.Succeeded)
+                {
+                    foreach (var err in ret.Errors)
+                        ModelState.AddModelError(string.Empty, _localizer[err.Description].Value);
+                }
 
-                foreach (var err in ret.Errors)
-                    ModelState.AddModelError(string.Empty, _localizer[err.Description].Value );
+                return RedirectToAction("Index", "Home");
+
             }
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error in register user");
-                ModelState.AddModelError(string.Empty, ex.Message);
+                ModelState.AddModelError(string.Empty, $"User Ip:{await UserExtension.GetAddressAsync()}, Message='{ex.Message}'");
             }
 
             return View(model);
         }
 
-
-        [HttpPost]
-        public async Task<IActionResult> Logout()
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult ClearDb()
         {
-            await _signInManager.SignOutAsync();
-            await _signInManager.Context.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-
-            return RedirectToAction("Index", "Home");
+            return View();
         }
 
-        private User GetUser(Data.Dto.UserDto model)
+        [HttpPost]
+        [AllowAnonymous]
+        public IActionResult ClearDb(IFormCollection collection)
         {
-            return new User()
-            {
-                LoginName = model?.UserName,
-                PasswordHash = model?.Passwd1?.ToMd5(),
-                Email = model?.Email,
-                Phone = model?.Phone
-            };
+            _db.ClearDb();
+
+            return View();
         }
     }
 }

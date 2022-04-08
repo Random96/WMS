@@ -1,0 +1,79 @@
+﻿@using ru.emlsoft.WMS.Data.Dto.Storage;
+
+@model ru.emlsoft.WMS.Data.Dto.PageDto<GoodDto>;
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Index";
+}
+<section class="content-header">
+    <h1>Товары</h1>
+</section>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+@if (Model?.Items?.Any() ?? false)
+{
+    <table class="table">
+        <tr>
+            <td>
+                 @Html.DisplayNameFor(model => model.Items.First().GoodName)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Article)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Code)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Weight)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Heigh)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Depth)
+            </td>
+            <td >
+                 @Html.DisplayNameFor(model => model.Items.First().Width)
+            </td>
+            <td>
+            </td>
+        </tr>
+        @foreach (var item in Model.Items)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.GoodName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Article)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Code)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Weight)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Heigh)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Depth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Width)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </table>
+}
+
+

@@ -117,11 +117,44 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="CELL" xml:space="preserve">
+    <value>Ячейка хранения</value>
+  </data>
+  <data name="COAGENT" xml:space="preserve">
+    <value>Контрагент</value>
+  </data>
+  <data name="COAGENTS" xml:space="preserve">
+    <value>Контрагенты</value>
+  </data>
+  <data name="COMPANY" xml:space="preserve">
+    <value>Предприятие</value>
+  </data>
+  <data name="COMPANYNAME" xml:space="preserve">
+    <value>Наименование предприятия</value>
+  </data>
+  <data name="DOC" xml:space="preserve">
+    <value>Документы</value>
+  </data>
+  <data name="DOCINPUT" xml:space="preserve">
+    <value>Приход</value>
+  </data>
+  <data name="DOCS" xml:space="preserve">
+    <value>Документы из шкафа</value>
+  </data>
+  <data name="DOCTYPE" xml:space="preserve">
+    <value>Тип документа</value>
+  </data>
   <data name="EMAIL" xml:space="preserve">
     <value>Электронная почта</value>
   </data>
+  <data name="ERROR_DB_NOT_INIT" xml:space="preserve">
+    <value>база данных не инициализирована</value>
+  </data>
   <data name="ERROR_USER_ALREDY_EXIST" xml:space="preserve">
     <value>Пользователь с таким именем уже существует</value>
+  </data>
+  <data name="GOOD" xml:space="preserve">
+    <value>Товары</value>
   </data>
   <data name="HELLO" xml:space="preserve">
     <value>Привет</value>
@@ -131,6 +164,12 @@
   </data>
   <data name="LOGOUT" xml:space="preserve">
     <value>Выход из системы</value>
+  </data>
+  <data name="PACK" xml:space="preserve">
+    <value>Упаковки</value>
+  </data>
+  <data name="PALLET" xml:space="preserve">
+    <value>Палеты</value>
   </data>
   <data name="PASSWORD" xml:space="preserve">
     <value>Пароль</value>
@@ -144,6 +183,42 @@
   <data name="REGISTER" xml:space="preserve">
     <value>Регистрация</value>
   </data>
+  <data name="REMAINS" xml:space="preserve">
+    <value>Остатки</value>
+  </data>
+  <data name="ROW" xml:space="preserve">
+    <value>Ряд стелажа</value>
+  </data>
+  <data name="SCAN" xml:space="preserve">
+    <value>Сканирование</value>
+  </data>
+  <data name="SCANCODE" xml:space="preserve">
+    <value>Коды сканирования</value>
+  </data>
+  <data name="STORAGE" xml:space="preserve">
+    <value>Хранение</value>
+  </data>
+  <data name="STORAGECELLS" xml:space="preserve">
+    <value>Количество ячеек на ярусе</value>
+  </data>
+  <data name="STORAGENAME" xml:space="preserve">
+    <value>Наименование склада</value>
+  </data>
+  <data name="STORAGEROWS" xml:space="preserve">
+    <value>Количество рядов в складе</value>
+  </data>
+  <data name="STORAGETIERS" xml:space="preserve">
+    <value>Количество ярусов в ряду</value>
+  </data>
+  <data name="STOREORD" xml:space="preserve">
+    <value>Движение товара</value>
+  </data>
+  <data name="STOREREMAINS" xml:space="preserve">
+    <value>Складские остатки</value>
+  </data>
+  <data name="TIER" xml:space="preserve">
+    <value>Ярус</value>
+  </data>
   <data name="USER" xml:space="preserve">
     <value>Пользователь</value>
   </data>
@@ -155,5 +230,8 @@
   </data>
   <data name="VALIDATE_PHONE" xml:space="preserve">
     <value>Введенное значение не соответствует формату номера телефона</value>
+  </data>
+  <data name="WAREHOUSE" xml:space="preserve">
+    <value>Склад</value>
   </data>
 </root>

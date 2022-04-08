@@ -1,12 +1,13 @@
 ﻿@using Microsoft.AspNetCore.Mvc.Localization
-@using ru.EmlSoft.WMS.Localization
-@inject IHtmlLocalizer<SharedResource> _sharedLocalizer
+@using Microsoft.Extensions.Localization;
+@using ru.emlsoft.WMS.Localization.Resources
+
 
 @{
     Layout = "/Views/Shared/_Layout.cshtml";
-    @model ru.EmlSoft.WMS.Data.Dto.UserDto
-
+    @model ru.emlsoft.WMS.Data.Dto.UserDto
 }
+
 <div id="app">
     <div class="login-box">
         <div class="login-logo">
@@ -24,15 +25,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-6" asp-for=Passwd1></label>
+                    <label class="control-label col-sm-6" asp-for=Password1></label>
                     <div class="col-sm-10">
-                        <input asp-for=Passwd1 type="password" class="form-control" autocomplete="off">
-                        <span asp-validation-for="Passwd1" class="text-danger"></span>
+                        <input asp-for=Password1 type="password" class="form-control" autocomplete="off">
+                        <span asp-validation-for="Password1" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="box-footer">
                     <div class="pull-right box-tools">
-                        <button type="submit" class="btn btn-primary btn-block btn-flat">@_sharedLocalizer["LOGIN"]</button>
+                        <button type="submit" class="btn btn-primary btn-block btn-flat">"LOGIN"</button>
                     </div>
                 </div>
             </form>
@@ -41,6 +42,6 @@
 </div>
 
 @section scripts{ 
-<script src="~/lib/lib/jquery-validate/jquery.validate.js"></script>
+<script src="~/lib/jquery-validate/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 }

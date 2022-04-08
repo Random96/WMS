@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace ru.EmlSoft.WMS.Localization.Resources {
+namespace ru.emlsoft.WMS.Localization.Resources {
     using System;
     
     
@@ -22,7 +22,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "17.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    internal class SharedResource {
+    public class SharedResource {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
@@ -36,10 +36,10 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         ///   Возвращает кэшированный экземпляр ResourceManager, использованный этим классом.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Resources.ResourceManager ResourceManager {
+        public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ru.EmlSoft.WMS.Localization.Resources.SharedResource", typeof(SharedResource).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("ru.emlsoft.WMS.Localization.Resources.SharedResource", typeof(SharedResource).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -51,7 +51,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         ///   обращений к ресурсу с помощью этого класса ресурса со строгой типизацией.
         /// </summary>
         [global::System.ComponentModel.EditorBrowsableAttribute(global::System.ComponentModel.EditorBrowsableState.Advanced)]
-        internal static global::System.Globalization.CultureInfo Culture {
+        public static global::System.Globalization.CultureInfo Culture {
             get {
                 return resourceCulture;
             }
@@ -61,36 +61,369 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на CELL.
+        /// </summary>
+        public static string CELL {
+            get {
+                return ResourceManager.GetString("CELL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на CELL_CODE.
+        /// </summary>
+        public static string CELL_CODE {
+            get {
+                return ResourceManager.GetString("CELL_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на CELLFROM.
+        /// </summary>
+        public static string CELLFROM {
+            get {
+                return ResourceManager.GetString("CELLFROM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на CELLTO.
+        /// </summary>
+        public static string CELLTO {
+            get {
+                return ResourceManager.GetString("CELLTO", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на COAGENT.
+        /// </summary>
+        public static string COAGENT {
+            get {
+                return ResourceManager.GetString("COAGENT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на COAGENTS.
+        /// </summary>
+        public static string COAGENTS {
+            get {
+                return ResourceManager.GetString("COAGENTS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANY.
+        /// </summary>
+        public static string COMPANY {
+            get {
+                return ResourceManager.GetString("COMPANY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANYCANNEGATIVE.
+        /// </summary>
+        public static string COMPANYCANNEGATIVE {
+            get {
+                return ResourceManager.GetString("COMPANYCANNEGATIVE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANYNAME.
+        /// </summary>
+        public static string COMPANYNAME {
+            get {
+                return ResourceManager.GetString("COMPANYNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на COMPANYNEEDSAMPLEDATA.
+        /// </summary>
+        public static string COMPANYNEEDSAMPLEDATA {
+            get {
+                return ResourceManager.GetString("COMPANYNEEDSAMPLEDATA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOC.
+        /// </summary>
+        public static string DOC {
+            get {
+                return ResourceManager.GetString("DOC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOCDATE.
+        /// </summary>
+        public static string DOCDATE {
+            get {
+                return ResourceManager.GetString("DOCDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOCINPUT.
+        /// </summary>
+        public static string DOCINPUT {
+            get {
+                return ResourceManager.GetString("DOCINPUT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOCNUMBER.
+        /// </summary>
+        public static string DOCNUMBER {
+            get {
+                return ResourceManager.GetString("DOCNUMBER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOCS.
+        /// </summary>
+        public static string DOCS {
+            get {
+                return ResourceManager.GetString("DOCS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на DOCTYPE.
+        /// </summary>
+        public static string DOCTYPE {
+            get {
+                return ResourceManager.GetString("DOCTYPE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на EMAIL.
         /// </summary>
-        internal static string EMAIL {
+        public static string EMAIL {
             get {
                 return ResourceManager.GetString("EMAIL", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_CELL_NOT_FOUND.
+        /// </summary>
+        public static string ERROR_CELL_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("ERROR_CELL_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_CELL_NOT_SET.
+        /// </summary>
+        public static string ERROR_CELL_NOT_SET {
+            get {
+                return ResourceManager.GetString("ERROR_CELL_NOT_SET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на The database was not be initialized.
+        /// </summary>
+        public static string ERROR_DB_NOT_INIT {
+            get {
+                return ResourceManager.GetString("ERROR_DB_NOT_INIT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_FIND_BY_NAME_ASYNC.
+        /// </summary>
+        public static string ERROR_FIND_BY_NAME_ASYNC {
+            get {
+                return ResourceManager.GetString("ERROR_FIND_BY_NAME_ASYNC", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_PARTNER_IS_EMPTY.
+        /// </summary>
+        public static string ERROR_PARTNER_IS_EMPTY {
+            get {
+                return ResourceManager.GetString("ERROR_PARTNER_IS_EMPTY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_STORAGE_NOT_SET.
+        /// </summary>
+        public static string ERROR_STORAGE_NOT_SET {
+            get {
+                return ResourceManager.GetString("ERROR_STORAGE_NOT_SET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_STORE_NOT_FOUND.
+        /// </summary>
+        public static string ERROR_STORE_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("ERROR_STORE_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_TOO_MANY_CELLS.
+        /// </summary>
+        public static string ERROR_TOO_MANY_CELLS {
+            get {
+                return ResourceManager.GetString("ERROR_TOO_MANY_CELLS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_TOO_MANY_PARTNERS.
+        /// </summary>
+        public static string ERROR_TOO_MANY_PARTNERS {
+            get {
+                return ResourceManager.GetString("ERROR_TOO_MANY_PARTNERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ERROR_TOO_MANY_STORAGES.
+        /// </summary>
+        public static string ERROR_TOO_MANY_STORAGES {
+            get {
+                return ResourceManager.GetString("ERROR_TOO_MANY_STORAGES", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на ERROR_USER_ALREDY_EXIST.
         /// </summary>
-        internal static string ERROR_USER_ALREDY_EXIST {
+        public static string ERROR_USER_ALREDY_EXIST {
             get {
                 return ResourceManager.GetString("ERROR_USER_ALREDY_EXIST", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD.
+        /// </summary>
+        public static string GOOD {
+            get {
+                return ResourceManager.GetString("GOOD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_ARTICLE.
+        /// </summary>
+        public static string GOOD_ARTICLE {
+            get {
+                return ResourceManager.GetString("GOOD_ARTICLE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_CODE.
+        /// </summary>
+        public static string GOOD_CODE {
+            get {
+                return ResourceManager.GetString("GOOD_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_DEPTH.
+        /// </summary>
+        public static string GOOD_DEPTH {
+            get {
+                return ResourceManager.GetString("GOOD_DEPTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_HEIGHT.
+        /// </summary>
+        public static string GOOD_HEIGHT {
+            get {
+                return ResourceManager.GetString("GOOD_HEIGHT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_NAME.
+        /// </summary>
+        public static string GOOD_NAME {
+            get {
+                return ResourceManager.GetString("GOOD_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_WEIGHT.
+        /// </summary>
+        public static string GOOD_WEIGHT {
+            get {
+                return ResourceManager.GetString("GOOD_WEIGHT", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOOD_WIDTH.
+        /// </summary>
+        public static string GOOD_WIDTH {
+            get {
+                return ResourceManager.GetString("GOOD_WIDTH", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на GOODNAME.
+        /// </summary>
+        public static string GOODNAME {
+            get {
+                return ResourceManager.GetString("GOODNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на HELLO.
         /// </summary>
-        internal static string HELLO {
+        public static string HELLO {
             get {
                 return ResourceManager.GetString("HELLO", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на INPUTCELL.
+        /// </summary>
+        public static string INPUTCELL {
+            get {
+                return ResourceManager.GetString("INPUTCELL", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на INPUTDATE.
+        /// </summary>
+        public static string INPUTDATE {
+            get {
+                return ResourceManager.GetString("INPUTDATE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на LOGIN.
         /// </summary>
-        internal static string LOGIN {
+        public static string LOGIN {
             get {
                 return ResourceManager.GetString("LOGIN", resourceCulture);
             }
@@ -99,16 +432,106 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на LOGOUT.
         /// </summary>
-        internal static string LOGOUT {
+        public static string LOGOUT {
             get {
                 return ResourceManager.GetString("LOGOUT", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на PACK.
+        /// </summary>
+        public static string PACK {
+            get {
+                return ResourceManager.GetString("PACK", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PALLET.
+        /// </summary>
+        public static string PALLET {
+            get {
+                return ResourceManager.GetString("PALLET", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PALLET_CODE.
+        /// </summary>
+        public static string PALLET_CODE {
+            get {
+                return ResourceManager.GetString("PALLET_CODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_FULL_NAME.
+        /// </summary>
+        public static string PARTNER_FULL_NAME {
+            get {
+                return ResourceManager.GetString("PARTNER_FULL_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_INN.
+        /// </summary>
+        public static string PARTNER_INN {
+            get {
+                return ResourceManager.GetString("PARTNER_INN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_KPP.
+        /// </summary>
+        public static string PARTNER_KPP {
+            get {
+                return ResourceManager.GetString("PARTNER_KPP", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_NAME.
+        /// </summary>
+        public static string PARTNER_NAME {
+            get {
+                return ResourceManager.GetString("PARTNER_NAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_NOT_FOUND.
+        /// </summary>
+        public static string PARTNER_NOT_FOUND {
+            get {
+                return ResourceManager.GetString("PARTNER_NOT_FOUND", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNER_OGRN.
+        /// </summary>
+        public static string PARTNER_OGRN {
+            get {
+                return ResourceManager.GetString("PARTNER_OGRN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на PARTNERNAME.
+        /// </summary>
+        public static string PARTNERNAME {
+            get {
+                return ResourceManager.GetString("PARTNERNAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на PASSWORD.
         /// </summary>
-        internal static string PASSWORD {
+        public static string PASSWORD {
             get {
                 return ResourceManager.GetString("PASSWORD", resourceCulture);
             }
@@ -117,7 +540,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на PASSWORD_CONFIRM.
         /// </summary>
-        internal static string PASSWORD_CONFIRM {
+        public static string PASSWORD_CONFIRM {
             get {
                 return ResourceManager.GetString("PASSWORD_CONFIRM", resourceCulture);
             }
@@ -126,25 +549,142 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на PHONE.
         /// </summary>
-        internal static string PHONE {
+        public static string PHONE {
             get {
                 return ResourceManager.GetString("PHONE", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на QUANTITY.
+        /// </summary>
+        public static string QUANTITY {
+            get {
+                return ResourceManager.GetString("QUANTITY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на REGISTER.
         /// </summary>
-        internal static string REGISTER {
+        public static string REGISTER {
             get {
                 return ResourceManager.GetString("REGISTER", resourceCulture);
             }
         }
         
         /// <summary>
+        ///   Ищет локализованную строку, похожую на REMAINS.
+        /// </summary>
+        public static string REMAINS {
+            get {
+                return ResourceManager.GetString("REMAINS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на ROW.
+        /// </summary>
+        public static string ROW {
+            get {
+                return ResourceManager.GetString("ROW", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SCAN.
+        /// </summary>
+        public static string SCAN {
+            get {
+                return ResourceManager.GetString("SCAN", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на SCANCODE.
+        /// </summary>
+        public static string SCANCODE {
+            get {
+                return ResourceManager.GetString("SCANCODE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORAGE.
+        /// </summary>
+        public static string STORAGE {
+            get {
+                return ResourceManager.GetString("STORAGE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORAGECELLS.
+        /// </summary>
+        public static string STORAGECELLS {
+            get {
+                return ResourceManager.GetString("STORAGECELLS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORAGENAME.
+        /// </summary>
+        public static string STORAGENAME {
+            get {
+                return ResourceManager.GetString("STORAGENAME", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORAGEROWS.
+        /// </summary>
+        public static string STORAGEROWS {
+            get {
+                return ResourceManager.GetString("STORAGEROWS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STORAGETIERS.
+        /// </summary>
+        public static string STORAGETIERS {
+            get {
+                return ResourceManager.GetString("STORAGETIERS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STOREORD.
+        /// </summary>
+        public static string STOREORD {
+            get {
+                return ResourceManager.GetString("STOREORD", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на STOREREMAINS.
+        /// </summary>
+        public static string STOREREMAINS {
+            get {
+                return ResourceManager.GetString("STOREREMAINS", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на TIER.
+        /// </summary>
+        public static string TIER {
+            get {
+                return ResourceManager.GetString("TIER", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Ищет локализованную строку, похожую на USER.
         /// </summary>
-        internal static string USER {
+        public static string USER {
             get {
                 return ResourceManager.GetString("USER", resourceCulture);
             }
@@ -153,7 +693,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на USERNAME.
         /// </summary>
-        internal static string USERNAME {
+        public static string USERNAME {
             get {
                 return ResourceManager.GetString("USERNAME", resourceCulture);
             }
@@ -162,7 +702,7 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на EMAIL.
         /// </summary>
-        internal static string VALIDATE_EMAIL {
+        public static string VALIDATE_EMAIL {
             get {
                 return ResourceManager.GetString("VALIDATE_EMAIL", resourceCulture);
             }
@@ -171,9 +711,18 @@ namespace ru.EmlSoft.WMS.Localization.Resources {
         /// <summary>
         ///   Ищет локализованную строку, похожую на VALIDATE_PHONE.
         /// </summary>
-        internal static string VALIDATE_PHONE {
+        public static string VALIDATE_PHONE {
             get {
                 return ResourceManager.GetString("VALIDATE_PHONE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Ищет локализованную строку, похожую на WAREHOUSE.
+        /// </summary>
+        public static string WAREHOUSE {
+            get {
+                return ResourceManager.GetString("WAREHOUSE", resourceCulture);
             }
         }
     }

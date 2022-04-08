@@ -1,15 +1,22 @@
+using Azure.Identity;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc.Razor;
-using Microsoft.EntityFrameworkCore;
-using ru.EmlSoft.WMS.Data.Abstract.Database;
-using ru.EmlSoft.WMS.Data.Abstract.Identity;
-using ru.EmlSoft.WMS.Data.EF;
-using ru.EmlSoft.WMS.Entity.Identity;
-using ru.EmlSoft.WMS.Localization;
+using ru.emlsoft.WMS.Data.EF;
+using ru.emlsoft.WMS.Localization;
+using System;
 using System.Globalization;
+using System.Linq;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var VaultUri = Environment.GetEnvironmentVariable("VaultUri");
+if (VaultUri != null)
+{
+    var keyVaultEndpoint = new Uri(VaultUri);
+    builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
+}
 
 builder.Services.AddLocalization
     (options =>
@@ -19,53 +26,20 @@ builder.Services.AddLocalization
 
 builder.Services.Configure<RequestLocalizationOptions>(options =>
 {
-    CultureInfo[] supportedCultures = new[]
-    {
-                    new CultureInfo("en"),
-                    new CultureInfo("cn"),
-                    new CultureInfo("ru")
-                };
-
-    options.DefaultRequestCulture = new RequestCulture("en");
-    options.SupportedCultures = supportedCultures;
-    options.SupportedUICultures = supportedCultures;
+    var supportedCultures = new[]{ "en-US", "cn", "ru-RU" };
+    var localizationOptions = new RequestLocalizationOptions()
+        .SetDefaultCulture(supportedCultures[0])
+        .AddSupportedCultures(supportedCultures)
+        .AddSupportedUICultures(supportedCultures);
 });
 
-RegisterBase(builder.Services);
-
-static void RegisterBase(IServiceCollection services, ServiceLifetime injection = ServiceLifetime.Scoped)
-{
-    switch (injection)
-    {
-        case ServiceLifetime.Scoped:
-            services.AddScoped(typeof(IUserStore), typeof(UserStore));
-            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-            services.AddScoped(typeof(Db));
-            break;
-
-        case ServiceLifetime.Singleton:
-            services.AddSingleton(typeof(IUserStore), typeof(UserStore));
-            services.AddSingleton(typeof(IRepository<>), typeof(Repository<>));
-            services.AddSingleton(typeof(Db));
-            break;
-
-        case ServiceLifetime.Transient:
-            services.AddTransient(typeof(IUserStore), typeof(UserStore));
-            services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
-            services.AddTransient(typeof(Db));
-            break;
-    }
-}
-
-
 // Add services to the container.
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-// builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(connectionString));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+Register.RegisterBase(builder.Services, builder.Configuration);
+
+
+// builder.Services.AddDbContext<db>(options => options.UseSqlServer(connectionString));
 
 // builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true).AddUserStore<UserStore>();
-builder.Services.AddIdentity<User, Role>().AddUserStore<UserStore>().AddRoleStore<RoleStore>()
-    .AddUserManager<Microsoft.AspNetCore.Identity.UserManager<User>>();
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddAuthentication(c =>
@@ -74,10 +48,8 @@ builder.Services.AddAuthentication(c =>
     c.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 }).AddCookie(cfg =>
 {
-    cfg.LoginPath = "/Login/Index";
-    cfg.LogoutPath = "/Login/Logout";
-    //cfg.ExpireTimeSpan = TimeSpan.FromDays(1);
-    //cfg.Cookie.Expiration = TimeSpan.FromDays(1);
+    cfg.LoginPath = "/Account/Login";
+    cfg.LogoutPath = "/Account/Logout";
     cfg.Cookie.Name = CookieAuthenticationDefaults.AuthenticationScheme;
     cfg.Cookie.Path = "/";
     cfg.Cookie.HttpOnly = true;
@@ -86,27 +58,33 @@ builder.Services.AddAuthentication(c =>
 
 builder.Services.AddRazorPages().
     AddViewLocalization(LanguageViewLocationExpanderFormat.Suffix).
-    AddDataAnnotationsLocalization(options => {
-        options.DataAnnotationLocalizerProvider = 
+    AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider =
             (type, factory) => factory.Create(typeof(SharedResource));
     });
+builder.Services.AddApplicationInsightsTelemetry(builder.Configuration["APPINSIGHTS_CONNECTIONSTRING"]);
 
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
-    app.UseMigrationsEndPoint();
-}
-else
-{
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
-}
+    ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto
+});
 
-app.UseHttpsRedirection();
+app.UseRequestLocalization(new RequestLocalizationOptions
+{
+    ApplyCurrentCultureToResponseHeaders = true
+});
+
+app.UseExceptionHandler("/Home/Error");
+// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+app.UseHsts();
+
+
+// app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 
 app.UseRouting();

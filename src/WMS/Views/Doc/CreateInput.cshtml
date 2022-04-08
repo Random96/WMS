@@ -1,0 +1,97 @@
+﻿@using ru.emlsoft.WMS.Data.Dto.Doc;
+
+@{
+    ViewData["Title"] = "Документ поступления";
+}
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    @model InputDto;
+}
+
+
+<div id="app">
+    <form class="form-horizontal" method="Post" >
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=DocDate></label>
+                            <div class="col-sm-10">
+                                <input asp-for="DocDate" type="date" class="form-control" />
+                                <span asp-validation-for=DocDate class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=DocNumber></label>
+                            <div class="col-sm-10">
+                                <input asp-for=DocNumber type="text" class="form-control" />
+                                <span asp-validation-for=DocNumber class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=PartnerName></label>
+                            <div class="col-sm-10">
+                                <input asp-for=PartnerName type="text" class="form-control" />
+                                <span asp-validation-for=PartnerName class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=InputDate></label>
+                            <div class="col-sm-10">
+                                <input asp-for=InputDate type="date" class="form-control" />
+                                <span asp-validation-for=InputDate class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=StorageName></label>
+                            <div class="col-sm-10">
+                                <input asp-for=StorageName type="text" class="form-control" />
+                                <span asp-validation-for=StorageName class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=InputCell></label>
+                            <div class="col-sm-10">
+                                <input asp-for=InputCell type="text" class="form-control" />
+                                <span asp-validation-for=InputCell class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="box-footer">
+                <div class="pull-right box-tools">
+                    <input class="btn btn-primary" type="submit">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts{ 
+<script src="~/lib/jquery-validate/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}

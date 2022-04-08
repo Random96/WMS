@@ -1,0 +1,74 @@
+﻿@using ru.emlsoft.WMS.Data.Dto.Storage;
+
+@{
+    ViewData["Title"] = "Создание склада";
+}
+
+@{
+    Layout = "/Views/Shared/_Layout.cshtml";
+    @model StorageDto;
+}
+
+
+<div id="app">
+    <form class="form-horizontal" method="Post" >
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="box-body">
+            <table class="table table-bordered">
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=StorageName></label>
+                            <div class="col-sm-10">
+                                <input asp-for=StorageName type="text" class="form-control" />
+                                <span asp-validation-for=StorageName class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Rows></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Rows type="text" class="form-control" />
+                                <span asp-validation-for=Rows class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Tiers></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Tiers type="text" class="form-control" />
+                                <span asp-validation-for=Tiers class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="form-group">
+                            <label class="control-label col-sm-6" asp-for=Cells></label>
+                            <div class="col-sm-10">
+                                <input asp-for=Cells type="text" class="form-control" />
+                                <span asp-validation-for=Cells class="text-danger"></span>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="box-footer">
+                <div class="pull-right box-tools">
+                    <input class="btn btn-primary" type="submit">
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+@section scripts{ 
+<script src="~/lib/jquery-validate/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+}
